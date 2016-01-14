@@ -1,0 +1,196 @@
+<html>
+	<head>
+		<style>
+			div.code { margin-bottom: 25px; }
+			div.code_desc { margin: 10px; border: 1px #666 dashed; }
+			div.code_resp { margin: 10px; border: 1px #999 dashed; }
+		</style>
+	</head>
+	<body>
+		<div class="code">
+			<div class="code_desc">
+				Cancel one order<br/>
+			</div>
+			<code>
+				public function cancel( $order_id = 1 );
+			</code>
+			<div class="code_resp">
+				array( 'success' => true )<br>
+				array( 'error' => true )
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Cancel all orders:
+			</div>
+			<code>
+				public function cancel_all();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Make a buy order - TODO accept an array of orders<br/>
+				$type: limit, market, stop, margin, trigger, etc...<br/>
+				merge with sell to make order(...)
+			</div>
+			<code>
+				public function buy( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Make a sell order - TODO accept an array of orders<br/>
+				$type: limit, market, stop, margin, trigger, etc...<br/>
+				merge with buy to make order(...)
+			</div>
+			<code>
+				public function sell( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				An array of every pair BTC-LTC, BTC-USD, etc...
+			</div>
+			<code>
+				public function get_markets();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				An array of every currency BTC, LTC, USD, etc...
+			</div>
+			<code>
+				public function get_currencies();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get all open orders: merge these 3?
+			</div>
+			<code>
+				public function get_open_orders();<br/>
+				public function get_completed_orders();<br/>
+				public function get_order( $order_id );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get a deposit address for a currency: merge?
+			</div>
+			<code>
+				public function deposit_address( $currency="BTC" );<br/>
+				public function deposit_addresses();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get specific market summary: merge and accept an array of markets to get
+			</div>
+			<code>
+				public function get_market_summary( $market="BTC-LTC" );<br/>
+				public function get_market_summaries();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Balances, confirmed, reserved, available & total... for each currency...<br/>
+				merge and accept an array of currencies
+			</div>
+			<code>
+				public function get_balance( $currency="BTC" );<br/>
+				public function get_balances();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Stuff for margin trading...<br/>
+				Stay away for now!!!
+			</div>
+			<code>
+				public function get_lendbook();<br/>
+				public function get_book();<br/>
+				public function get_lends();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Should return worth on exchange in USD/BTC/XML/LTC/ETC...
+			</div>
+			<code>
+				public function get_worth();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				This could have exchange info such as name, url, location, total volume, etc???
+			</div>
+			<code>
+				public function get_info();
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				This will return a link to the graph page on the exchange
+			</div>
+			<code>
+				public function get_market_url( $market = "BTC-LTC" );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				This will return a link to currency info page if available
+			</div>
+			<code>
+				public function get_currency_url( $market = "LTC" );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get trades for a specific $market since $time
+			</div>
+			<code>
+				public function get_trades( $market = "BTC-USD", $time = 0 );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Withdraw funds to $address
+			</div>
+			<code>
+				public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 );
+			</code>
+			<div class="code_resp">
+			</div>
+		</div>
+	</body>
+</html>
