@@ -10,7 +10,7 @@
 
 				$price_precision = $market_summary['price_precision'];
 
-				/*if( $market_summary['bid'] < $market_summary['low'] )
+				if( $market_summary['bid'] < $market_summary['low'] )
 					$buy_price = $market_summary['bid'];
 				else
 					$buy_price = $market_summary['low'];
@@ -18,11 +18,7 @@
 				if( $market_summary['ask'] > $market_summary['high'] )
 					$sell_price = $market_summary['ask'];
 				else
-					$sell_price = $market_summary['high'];*/
-
-
-//delete:     uncomment ^
-$sell_price = $market_summary['bid'] * .6;
+					$sell_price = $market_summary['high'];
 
 				/*
 					TODO make sure the spread leaves room for at least 5% or so...
@@ -40,7 +36,7 @@ $sell_price = $market_summary['bid'] * .6;
 
 				$quote_curs = array( /*"BTC", "LTC", "CNY", "NXT", "USD", "XRP"*/ );
 
-				/*if( $buy_price > 0 && ! in_array( $base_cur, $quote_curs ) ) {
+				if( $buy_price > 0 && ! in_array( $base_cur, $quote_curs ) ) {
 					$order_size = Utilities::surch( array( "currency" => $quote_cur, "type" => "exchange" ), $balances );
 					if( sizeof( $order_size ) > 0 ) {
 						$order_size = bcmul( $order_size[0]['total'], 0.5, 32 );
@@ -54,12 +50,12 @@ $sell_price = $market_summary['bid'] * .6;
 						print_r( $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) ) );
 						echo "\n\n";
 					}
-				}*/
+				}
 
 				if( $sell_price > 0 && ! in_array( $base_cur, $quote_curs ) ) {
 					$order_size = Utilities::surch( array( "currency" => $base_cur, "type" => "exchange" ), $balances );
 					if( sizeof( $order_size ) > 0 ) {
-						$order_size = bcmul( $order_size[0]['available'], 0.9, 32 );
+						$order_size = bcmul( $order_size[0]['available'], 0.9999, 32 );
 						$order_size = number_format( $order_size, $price_precision, '.', '' );
 
 						if( $order_size < $market_summary['minimum_order_size_base'] )

@@ -202,6 +202,7 @@
 			$market_summary['market_id'] = null;
 
 			unset( $market_summary['last'] );
+			unset( $market_summary['open'] );
 			unset( $market_summary['volume'] );
 
 			ksort( $market_summary );

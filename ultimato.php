@@ -65,13 +65,15 @@
 			echo " -> getting worths\n";
 			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
 			*/
+
+			sleep(1);
 		}
 
 		/*****
 			Bots: like an app.
 		 *****/
 
-		make_max_orders( $Adapters );
+		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
