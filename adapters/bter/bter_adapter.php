@@ -31,13 +31,59 @@
 				return $this->trades;
 			$this->trades = [];
 			foreach( $this->get_markets() as $market ) {
-				$trades = $this->get_trades( $market, $time );
-				foreach( $trades as $trade ) {
-					$trade['market'] = "$market";
-					array_push( $this->trades, $trade );
-				}
+				$this->trades = array_merge( $this->trades, $this->get_trades( $market, $time ) );
 			}
 			return $this->trades;
+		}
+
+		public function get_trades( $market = "BTC-USD", $time = 0 ) {
+			$results = [];
+			$curs = explode( "-", $market );
+			$trades = $this->exch->trade_history( $curs[0], $curs[1] );
+
+			if( $trades['result'] ) {
+				foreach( $trades['data'] as $trade ) {
+					$trade['market'] = $market;
+					$trade['timestamp'] = $trade['date'];
+					$trade['exchange'] = null;
+
+					unset( $trade['date'] );
+					array_push( $results, $trade );
+				}
+			}
+			return $results;
+		}
+
+		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
+			$curs = explode( "-", $market );
+			$orderbook = $this->exch->depth( $curs[0], $curs[1] );
+			$results = [];
+			$n_orderbook = [];
+
+			if( $orderbook['result'] ) {
+				foreach( $orderbook['bids'] as $order ) {
+					$order['type'] = 'bid';
+					array_push( $results, $order );
+				}
+				foreach( $orderbook['bids'] as $order ) {
+					$order['type'] = 'ask';
+					array_push( $results, $order );
+				}
+				foreach( $results as $order ) {
+					$order['market'] = $market;
+					$order['price'] = $order[0];
+					$order['amount'] = $order[1];
+					$order['timestamp'] = null;
+					$order['exchange'] = null;
+
+					unset( $order[0] );
+					unset( $order[1] );
+
+					array_push( $n_orderbook, $order );
+				}
+			}
+
+			return $n_orderbook;
 		}
 
 		public function get_orderbooks( $depth = 20 ) {
@@ -46,20 +92,6 @@
 				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
 
 			return $results;
-		}
-
-		public function get_trades( $market = "BTC-USD", $time = 0 ) {
-			$results = [];
-			foreach( $this->get_markets() as $market ) {
-				$curs = explode( "-", $market );
-				array_push( $results, $this->exch->trade_history( $curs[0], $curs[1] ) );
-			}
-			return $results;
-		}
-
-		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
-			$curs = explode( "-", $market );
-			return $this->exch->depth( $curs[0], $curs[1] );
 		}
 
 		public function cancel( $orderid="1", $opts = array() ) {
@@ -94,7 +126,35 @@
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
 			$orderlist = $this->exch->orderlist();
-			$this->open_orders = $orderlist['orders'];
+
+			$results = [];
+			foreach( $orderlist['orders'] as $order ) {
+
+				$order['market'] = $order['pair'];
+				$order['price'] = $order['rate'];
+				$order['timestamp_created'] = $order['time_unix'];
+				$order['exchange'] = "bter";
+				$order['avg_execution_price'] = null;
+				$order['side'] = null;
+				$order['is_live'] = null;
+				$order['is_cancelled'] = null;
+				$order['is_hidden'] = null;
+				$order['was_forced'] = null;
+				$order['original_amount'] = null;
+				$order['remaining_amount'] = null;
+				$order['executed_amount'] = null;
+
+				unset( $order['oid'] );
+				unset( $order['pair'] );
+				unset( $order['time_unix'] );
+				unset( $order['date'] );
+				unset( $order['margin'] );
+
+				array_push( $results, $order );
+
+			}
+
+			$this->open_orders = $results;
 			return $this->open_orders;
 		}
 
@@ -131,15 +191,16 @@
 		}
 		
 		public function deposit_addresses(){
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_balances() {
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
 			$balances = $this->exch->getfunds();
 			$response = [];
-
 			$currencies = $this->get_currencies();
-
 			foreach( $currencies as $currency ) {
 				$balance = [];
 				$balance['type'] = "exchange";
@@ -152,11 +213,15 @@
 				array_push( $response, $balance );
 			}
 
-			return $response;
+			$this->balances = $response;
+			return $this->balances;
 		}
 
-		public function get_balance($currency="BTC") {
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+		public function get_balance( $currency="BTC" ) {
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {

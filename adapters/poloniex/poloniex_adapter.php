@@ -6,6 +6,13 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market ) {
+			$market = explode( "-", $market );
+			$a = $market[1] . "_" . $market[0];
+
+			return $a;
+		}
+
 		public function get_info() {
 			return [];
 		}
@@ -28,12 +35,14 @@
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
 			$results = [];
-			foreach( $this->get_markets() as $market ) {
-				$market = explode( "-", $market );
-				$market = $market[1] . "-" . $market[0];
-				$market = str_replace( "-", "_", $market );
-				array_push( $results, $this->exch->returnPublicTradeHistory( $market ) );
+			$market = $this->get_market_symbol( $market );
+
+			$trades = $this->exch->returnPublicTradeHistory( $market );
+
+			foreach( $trades as $trade ) {
+				array_push( $results, $trade );
 			}
+			
 			return $results;
 		}
 
@@ -43,19 +52,26 @@
 			$this->trades = [];
 			foreach( $this->get_markets() as $market ) {
 				$trades = $this->get_trades( $market, $time );
-				foreach( $trades as $trade ) {
-					$trade['market'] = "$market";
-					array_push( $this->trades, $trade );
-				}
+				$this->trades = array_merge( $this->trades, $trades );
 			}
 			return $this->trades;
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
-			$market = explode( "-", $market );
-			$market = $market[1] . "-" . $market[0];
-			$market = str_replace( "-", "_", $market );
-			return $this->exch->returnOrderBook($market);
+			$market = $this->get_market_symbol( $market );
+			$orderbook = $this->exch->returnOrderBook( $market );
+			$results = [];
+
+			foreach( $orderbook['asks'] as $order ) {
+				$order['market'] = $market;
+				$order['type'] = 'ask';
+			}
+			foreach( $orderbook['bids'] as $order ) {
+				$order['market'] = $market;
+				$order['type'] = 'bid';
+			}
+
+			return $results;
 		}
 
 		public function get_orderbooks( $depth = 20 ) {
@@ -66,21 +82,17 @@
 			return $results;
 		}
 
-		public function buy($market='LTC-BTC',$amount=0,$price=0,$type="LIMIT",$opts=array()) {
-			$market = explode( "-", $market );
-			$market = $market[1] . "-" . $market[0];
-			$market = str_replace( "-", "_", $market );
-			$buy = $this->exch->buy($market,$price,$amount);
+		public function buy( $market = 'LTC-BTC', $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) {
+			$market = $this->get_market_symbol( $market );
+			$buy = $this->exch->buy( $market, $price, $amount );
 			if( isset( $buy['error'] ) )
 				print_r( $buy );
 			return $buy;
 		}
 		
-		public function sell($market='LTC-BTC',$amount=0,$price=0,$type="LIMIT",$opts=array()) {
-			$market = explode( "-", $market );
-			$market = $market[1] . "-" . $market[0];
-			$market = str_replace( "-", "_", $market );
-			$sell = $this->exch->sell($market,$price,$amount);
+		public function sell( $market = 'LTC-BTC', $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) {
+			$market = $this->get_market_symbol( $market );
+			$sell = $this->exch->sell( $market, $price, $amount );
 			if( isset( $sell['error'] ) )
 				print_r( $sell );
 			return $sell;
@@ -89,21 +101,81 @@
 		public function get_open_orders( $market = "BTC-USD" ) {
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
-			$this->open_orders = $this->exch->returnOpenOrders( 'All' );
+
+			$market = $this->get_market_symbol( $market );
+			$open_orders = $this->exch->returnOpenOrders( 'All' /*$market*/ );
+
+			$results = [];
+			foreach( $open_orders as $market => $orders ) {
+				foreach( $orders as $order ) {
+					$order['market'] = $market;
+					$order['id'] = $order['orderNumber'];
+					$order['price'] = $order['rate'];
+					$order['timestamp_created'] = strtotime( $order['date'] . " UTC" );
+					$order['exchange'] = null;
+					$order['avg_execution_price'] = null;
+					$order['side'] = null;
+					$order['is_live'] = null;
+					$order['is_cancelled'] = null;
+					$order['is_hidden'] = null;
+					$order['was_forced'] = null;
+					$order['original_amount'] = null;
+					$order['remaining_amount'] = null;
+					$order['executed_amount'] = null;
+
+					unset( $order['orderNumber'] );
+					unset( $order['rate'] );
+					unset( $order['total'] );
+					unset( $order['date'] );
+					unset( $order['margin'] );
+
+					array_push( $results, $order );
+				}
+			}
+
+			$this->open_orders = $results;
 			return $this->open_orders;
 		}
 
 		public function get_completed_orders( $market = "BTC-USD" ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
-			$this->completed_orders = $this->exch->returnTradeHistory( 'All' );
+
+			$market = $this->get_market_symbol( $market );
+			$completed_orders = $this->exch->returnTradeHistory( 'All' /*$market*/ );
+
+			$results = [];
+			foreach( $completed_orders as $market => $orders ) {
+				foreach( $orders as $order ) {
+					$order['market'] = $market;
+					$order['price'] = $order['rate'];
+					$order['timestamp'] = $order['date'];
+					$order['exchange'] = null;
+					$order['fee_currency'] = null;
+					$order['fee_amount'] = null;
+					$order['tid'] = null;
+					$order['order_id'] = null;
+					$order['id'] = null;
+
+					unset( $order['globalTradeID' ] );
+					unset( $order['tradeID' ] );
+					unset( $order['date' ] );
+					unset( $order['rate' ] );
+					unset( $order['orderNumber' ] );
+					unset( $order['category' ] );
+					
+					array_push( $results, $order );
+				}
+			}
+
+			$this->completed_orders = $results;
 			return $this->completed_orders;
 		}
 
 		//BTC_USD, BTC_LTC, LTC_USD, etc...
 		public function get_markets() {
 			$markets = array_map( 'strtoupper', array_keys( $this->exch->returnTicker() ) );
-			return str_replace('_', '-', $markets );
+			return str_replace( '_', '-', $markets );
 		}
 
 		//BTC, LTC, USD, etc...
@@ -111,7 +183,7 @@
 			return array_map( 'strtoupper', array_keys( $this->exch->returnCurrencies() ) );
 		}
 		
-		public function deposit_address($currency="BTC"){
+		public function deposit_address( $currency = "BTC" ){
 			return [];
 		}
 		
@@ -121,14 +193,26 @@
 			foreach( $currencies as $currency ) {
 				$this->exch->generateNewAddress( $currency );
 			}
+			$results = [];
 			$addresses = $this->exch->returnDepositAddresses();
-			return $addresses;
+			foreach( $addresses as $currency => $address ) {
+				$n_address = [];
+				$n_address['address'] = $address;
+				$n_address['currency'] = $currency;
+				$n_address['method'] = null;
+				$n_address['type'] = null;
+				array_push( $results, $n_address );
+			}
+			
+			return $results;
 		}
 
 		public function get_balances() {
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
 			$balances = $this->exch->returnCompleteBalances();
 			$response = [];
-
 			foreach( $balances as $key => $balance ) {
 				$balance['type'] = 'exchange'; //Or, is it all accounts?
 				$balance['currency'] = $key;
@@ -143,11 +227,15 @@
 				array_push( $response, $balance );
 			}
 
-			return $response;
+			$this->balances = $response;
+			return $this->balances;
 		}
 
-		public function get_balance($currency="BTC") {
-			return [];
+		public function get_balance( $currency="BTC" ) {
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {

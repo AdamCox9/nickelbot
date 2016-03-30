@@ -2,84 +2,76 @@
 
 	error_reporting( E_ALL );
 	ini_set( 'display_errors', 'on' );
+	date_default_timezone_set( "UTC" );
 
 	require_once( "config.php" );
 
 	try{
 		/*****
-			Adapters: facade around wrapper library for native restful API's
+			Adapters are facades around wrapper library for native restful API's
 		 *****/
-		foreach( $Adapters as $Adapter ) {
-			echo "\n\n*******" . get_class( $Adapter ) . "******\n\n";
-
-			echo " -> exchange name\n";
-			$exchanges = array_merge( $exchanges, array( get_class( $Adapter ) ) );
+		/*$currencies = [];
+		$markets = [];
+		$market_summaries = [];
+		foreach( $Adapters as $Adapter ) { //this loop kind of for testing...
+			$exchange_name = get_class( $Adapter );
+			echo "******* $exchange_name ******\n";
+			array_push( $exchanges, $exchange_name );
 			
 			echo " -> getting currencies\n";
-			$currencies = array_unique( array_merge( $currencies, $Adapter->get_currencies() ) );
-			$Tester->test_currencies( $currencies );
-			
+			$currencies[ $exchange_name ] = $Adapter->get_currencies();
+			$Tester->test( 'currencies', $currencies );
+
 			echo " -> getting markets\n";
-			$markets = array_unique( array_merge( $markets, $Adapter->get_markets() ) );
-			$Tester->test_markets( $markets );
+			$markets[ $exchange_name ] = $Adapter->get_markets();
+			$Tester->test( 'markets', $markets );
 
 			echo " -> getting market summaries\n";
-			$market_summaries = array_merge( $market_summaries, $Adapter->get_market_summaries() );
-			$Tester->test_market_summaries( $market_summaries );
+			$market_summaries[ $exchange_name ] = $Adapter->get_market_summaries();
+			$Tester->test( 'market_summaries', $market_summaries );
 
-			/*echo " -> getting balances\n";
-			$balances = array_merge( $balances, $Adapter->get_balances() );
-			$Tester->test_balances( $balances );
+			echo " -> getting balances\n";
+			$Tester->test( 'balances', $Adapter->get_balances() );
 
 			echo " -> generating deposit addresses\n";
-			$deposit_addresses = array_merge( $deposit_addresses, $Adapter->deposit_addresses() );
-			$Tester->test_deposit_addresses( $deposit_addresses );
+			$Tester->test( 'deposit_addresses', $Adapter->deposit_addresses() );
 			
 			echo " -> getting open orders\n";
-			$open_orders = array_merge( $open_orders, $Adapter->get_open_orders() );
-			$Tester->test_open_orders( $open_orders );
+			$Tester->test( 'open_orders', $Adapter->get_open_orders() );
 
 			echo " -> getting completed orders\n";
-			$completed_orders = array_merge( $completed_orders, $Adapter->get_completed_orders() );
-			$Tester->test_completed_orders( $completed_orders );
+			$Tester->test( 'completed_orders', $Adapter->get_completed_orders() );
 
 			echo " -> getting all recent trades\n";
-			$trades = array_merge( $trades, $Adapter->get_all_trades( $time = 0 ) );
-			$Tester->test_trades( $trades );
+			$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );
 
 			echo " -> getting some depth of orderbook\n";
-			$orderbooks = array_merge( $orderbooks, $Adapter->get_orderbooks( $depth = 20 ) );
-			$Tester->test_orderbooks( $orderbooks );*/
+			$Tester->test( 'orderbooks', $Adapter->get_orderbooks( $depth = 20 ) );
 
-			/*echo " -> cancelling all orders\n";
-			$cancel_all = $Adapter->cancel_all();
-			$Tester->test_cancel_all( $cancel_all );*/
+			echo " -> cancelling all orders\n";
+			$Tester->test( 'cancel_all', $Adapter->cancel_all() );
 
-			/*****
-				Utilities: they do not directly access native API libraries where as Adapters must access native API or self
-			 *****/
+			//_____Utilities: they do not directly access native API libraries where as Adapters must access native API or self
 
-			/*echo " -> getting volumes\n";
+			echo " -> getting volumes\n";
 			$volumes[ get_class( $Adapter ) ] = Utilities::get_total_volumes( $Adapter->get_market_summaries() );
 
 			echo " -> getting worths\n";
 			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
-			*/
 
-			sleep(1);
-		}
+		}*/
 
 		/*****
 			Bots: like an app.
 		 *****/
 
 		//make_max_orders( $Adapters );
-		//make_min_orders( $Adapters );
+		make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters );
-		//liquidate_exchange( array( $Adapters['Btce'] ), array( $Adapters['Poloniex'] ) ); //$from_arr, $to_arr
-		human_readable_summary( $currencies, $markets, $worths, $volumes );
+		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );
+		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr
 
 	} catch( Exception $e ){
 		echo $e->getMessage() . "\n";

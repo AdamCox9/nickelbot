@@ -28,8 +28,22 @@
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
 			$results = [];
-			foreach( $this->get_markets() as $market ) {
-				array_push( $results, $this->exch->products_trades( $market ) );
+			$trades = $this->exch->products_trades( $market );
+			foreach( $trades as $trade ) {
+				$trade['market'] = "$market";
+
+				$trade['amount'] = $trade['size'];
+				$trade['timestamp'] = $trade['time'];
+				$trade['exchange'] = null;
+				$trade['tid'] = null;
+				$trade['type'] = $trade['side'];
+
+				unset( $trade['time'] );
+				unset( $trade['trade_id'] );
+				unset( $trade['size'] );
+				unset( $trade['side'] );
+
+				array_push( $results, $trade );
 			}
 			return $results;
 		}
@@ -38,12 +52,9 @@
 			if( isset( $this->trades ) )
 				return $this->trades;
 			$this->trades = [];
+
 			foreach( $this->get_markets() as $market ) {
-				$trades = $this->get_trades( $market, $time );
-				foreach( $trades as $trade ) {
-					$trade['market'] = "$market";
-					array_push( $this->trades, $trade );
-				}
+				$this->trades = array_merge( $this->trades, $this->get_trades( $market, $time ) );
 			}
 			return $this->trades;
 		}
@@ -57,7 +68,33 @@
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
-			return $this->exch->products_book( $market );
+			$orderbook = $this->exch->products_book( $market );
+			$results = [];
+			$n_orderbook = [];
+
+			foreach( $orderbook['bids'] as $order ) {
+				$order['type'] = 'bid';
+				array_push( $results, $order );
+			}
+			foreach( $orderbook['asks'] as $order ) {
+				$order['type'] = 'ask';
+				array_push( $results, $order );
+			}
+			foreach( $results as $order ) {
+
+				$order['market'] = $market;
+				$order['price'] = $order[0];
+				$order['amount'] = $order[1];
+				$order['timestamp'] = null;
+				$order['exchange'] = null;
+				unset( $order[0] );
+				unset( $order[1] );
+				unset( $order[2] );
+
+				array_push( $n_orderbook, $order );
+			}
+
+			return $n_orderbook;
 		}
 
 		public function cancel( $orderid="1", $opts = array() ) {
@@ -74,7 +111,7 @@
 			return array( 'success' => true, 'error' => false, 'message' => $results );
 		}
 
-		public function buy($pair="BTC-LTC",$amount=0,$price=0,$type="LIMIT",$opts=array()) {
+		public function buy( $pair = "BTC-LTC", $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) {
 			$price = number_format( $price, 2, ".", "" );
 			$buy = $this->exch->create_order( array( 'side' => 'buy', 'product_id' => $pair, 'price' => $price, 'size' => $amount ) );
 			if( isset( $buy['message'] ) )
@@ -82,7 +119,7 @@
 			return $buy;
 		}
 		
-		public function sell($pair="BTC-LTC",$amount=0,$price=0,$type="LIMIT",$opts=array()) {
+		public function sell( $pair = "BTC-LTC", $amount = 0, $price = 0, $type = "LIMIT" , $opts = array() ) {
 			$price = number_format( $price, 2, ".", "" );
 			$sell = $this->exch->create_order( array( 'side' => 'sell', 'product_id' => $pair, 'price' => $price, 'size' => $amount ) );
 			if( isset( $sell['message'] ) )
@@ -93,14 +130,67 @@
 		public function get_open_orders( $market = "BTC-USD" ) {
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
-			$this->open_orders = $this->exch->get_orders();
+			$orders = $this->exch->get_orders();
+			
+			$results = [];
+			foreach( $orders as $order ) {
+				$order['market'] = $order['product_id'];
+				$order['timestamp_created'] = strtotime( $order['created_at'] );
+				$order['exchange'] = "bter";
+				$order['avg_execution_price'] = null;
+				$order['side'] = null;
+				$order['is_live'] = null;
+				$order['is_cancelled'] = null;
+				$order['is_hidden'] = null;
+				$order['was_forced'] = null;
+				$order['original_amount'] = null;
+				$order['remaining_amount'] = null;
+				$order['executed_amount'] = null;
+
+				unset( $order['product_id'] );
+				unset( $order['created_at'] );
+
+				array_push( $results, $order );
+			};
+
+			$this->open_orders = $results;
 			return $this->open_orders;
 		}
 
 		public function get_completed_orders( $market = "BTC-USD" ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
-			$this->completed_orders = $this->exch->get_fills();
+			$completed_orders = $this->exch->get_fills();
+			$results = [];
+
+			foreach( $completed_orders as $completed_order ) {
+				$completed_order['market'] = $market;
+
+				$completed_order['amount'] = $completed_order['size'];
+				$completed_order['timestamp'] = $completed_order['created_at'];
+				$completed_order['exchange'] = null;
+				$completed_order['type'] = $completed_order['side'];
+				$completed_order['fee_currency'] = null;
+				$completed_order['fee_amount'] = null;
+				$completed_order['tid'] = null;
+				$completed_order['id'] = null;
+				$completed_order['total'] = null;
+
+				unset( $completed_order['created_at'] );
+				unset( $completed_order['trade_id'] );
+				unset( $completed_order['product_id'] );
+				unset( $completed_order['user_id'] );
+				unset( $completed_order['profile_id'] );
+				unset( $completed_order['liquidity'] );
+				unset( $completed_order['size'] );
+				unset( $completed_order['side'] );
+				unset( $completed_order['settled'] );
+
+				array_push( $results, $completed_order );
+
+			}
+			$this->completed_orders = $results;
+
 			return $this->completed_orders;
 		}
 
@@ -122,43 +212,45 @@
 			return array_map( 'strtoupper', $response );
 		}
 		
-		public function deposit_address($currency="BTC"){
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+		public function deposit_address( $currency = "BTC" ){
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function deposit_addresses(){
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_balances() {
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
 			$balances = $this->exch->accounts();
 			$response = [];
+			foreach( $balances as $balance ) {
+				$balance['type'] = "exchange";
+				$balance['total'] = $balance['balance'];
+				$balance['reserved'] = $balance['hold'];
+				$balance['pending'] = 0;
+				$balance['btc_value'] = 0;
+				$balance['currency'] = strtoupper( $balance['currency'] );
 
-			if( ! isset( $balances['message'] ) ) {
-				foreach( $balances as $balance ) {
-					$balance['type'] = "exchange";
-					$balance['total'] = $balance['balance'];
-					$balance['reserved'] = $balance['hold'];
-					$balance['pending'] = 0;
-					$balance['btc_value'] = 0;
-					$balance['currency'] = strtoupper( $balance['currency'] );
+				unset( $balance['balance'] );
+				unset( $balance['hold'] );
+				unset( $balance['id'] );
+				unset( $balance['profile_id'] );
+				
+				array_push( $response, $balance );
+			} 
 
-					unset( $balance['balance'] );
-					unset( $balance['hold'] );
-					unset( $balance['id'] );
-					unset( $balance['profile_id'] );
-					
-					array_push( $response, $balance );
-				} 
-			} else {
-					error_reporting( $balances['message'] );
-			}
-
-			return $response;
+			$this->balances = $response;
+			return $this->balances;
 		}
 
-		public function get_balance($currency="BTC") {
-			return [];
+		public function get_balance( $currency="BTC" ) {
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {
@@ -206,6 +298,7 @@
 				if( isset( $market_summary['message'] ) )
 					$market_summary['frozen'] = true;
 
+				unset( $market_summary['volume_30day'] );
 				unset( $market_summary['volume'] );
 				unset( $market_summary['message'] );
 				unset( $market_summary['id'] );

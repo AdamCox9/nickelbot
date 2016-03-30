@@ -28,17 +28,12 @@
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
 			$results = [];
-			foreach( $this->get_markets() as $market ) {
-				array_push( $results, $this->exch->market_tradehistory( str_replace( "-", "_", $market ) ) );
-			}
+			array_push( $results, $this->exch->market_tradehistory( str_replace( "-", "_", $market ) ) );
 			return $results;
 		}
 
-		public function get_orderbook( $market = "LTC_BTC", $depth = 0 ) {
-			return $this->exch->market_orderbook( str_replace( "-", "_", $market ) );
-		}
-
 		public function get_all_trades( $time = 0 ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 			if( isset( $this->trades ) )
 				return $this->trades;
 			$this->trades = [];
@@ -52,7 +47,12 @@
 			return $this->trades;
 		}
 
+		public function get_orderbook( $market = "LTC_BTC", $depth = 0 ) {
+			return $this->exch->market_orderbook( str_replace( "-", "_", $market ) );
+		}
+
 		public function get_orderbooks( $depth = 20 ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 			$results = [];
 			foreach( $this->get_markets() as $market )
 				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
@@ -97,6 +97,7 @@
 		}
 
 		public function get_completed_orders( $market = "BTC-USD" ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
 			//TODO get 100 at a time and join them
@@ -138,7 +139,7 @@
 
 			$addresses = $this->exch->addresses();*/
 
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_balances() {

@@ -61,14 +61,17 @@
 				return $this->open_orders;
 			$open_orders = $this->exch->orders();
 			$this->open_orders = [];
-			foreach( $open_orders as $open_order ) {
-				$open_order['exchange'] = "bitfinex";
-				$open_order['market'] = $open_order['symbol'];
-				$open_order['amount'] = null;
 
-				unset( $open_order['symbol'] );
-				array_push( $this->open_orders, $open_order );
-			}
+			if( is_array( $open_orders ) )
+				foreach( $open_orders as $open_order ) {
+					$open_order['exchange'] = "bitfinex";
+					$open_order['market'] = $open_order['symbol'];
+					$open_order['timestamp_created'] = $open_order['timestamp'];
+					$open_order['amount'] = null;
+
+					unset( $open_order['symbol'] );
+					array_push( $this->open_orders, $open_order );
+				}
 			return $this->open_orders;
 		}
 
@@ -110,14 +113,15 @@
 			$wallet_types = array( "exchange", "deposit", "trading" );
 			$addresses = [];
 			foreach( $wallet_types as $wallet ) {
-				$wallet_address = $this->exch->deposit_new( $currency, $wallet, $renew = 0 );
+				$wallet_address = $this->exch->deposit_new( "bitcoin", $wallet, $renew = 0 );
+				print_r( $wallet_address );
 				if( $wallet_address['result'] === "success" ) {
 					$wallet_address['wallet_type'] = $wallet;
 					unset( $wallet_address['result'] );
 					array_push( $addresses, $wallet_address );
 				}
 			}
-			return $addresses;
+			return $addresses[0];
 		}
 		
 		public function deposit_addresses(){
@@ -130,9 +134,11 @@
 		}
 
 		public function get_balances() {
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
 			$balances = $this->exch->balances();
 			$response = [];
-
 			foreach( $balances as $balance ) {
 				$balance['total'] = $balance['amount'];
 				$balance['reserved'] = $balance['total'] - $balance['available'];
@@ -143,11 +149,15 @@
 				array_push( $response, $balance );
 			}
 
-			return $response;
+			$this->balances = $response;
+			return $this->balances;
 		}
 
-		public function get_balance( $currency = "BTC" ) {
-			return [];
+		public function get_balance( $currency="BTC" ) {
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {

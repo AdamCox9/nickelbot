@@ -51,9 +51,9 @@
 			$price = number_format( $price, 2, ".", "" );
 			$amount = number_format( $amount, 4, ".", "" );
 			$sell = $this->exch->sell( $amount, $price );
-			if( isset( $buy['error'] ) )
+			if( isset( $sell['error'] ) )
 				print_r( $sell );
-				return $sell;
+			return $sell;
 		}
 
 		public function get_open_orders() {
@@ -62,8 +62,8 @@
 			$open_orders = $this->exch->open_orders();
 			$this->open_orders = [];
 			foreach( $open_orders as $open_order ) {
-				$open_order['market'] = $market;
-				$open_order['timestamp'] = $open_order['datetime'];
+				$open_order['market'] = "BTC-USD";
+				$open_order['timestamp_created'] = strtotime( $open_order['datetime'] . " UTC" );
 				$open_order['exchange'] = "bitstamp";
 				$open_order['avg_execution_price'] = null;
 				$open_order['side'] = null;
@@ -140,7 +140,10 @@
 		}
 
 		public function get_balances() {
-			$balances = $this->get_balance();
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
+			$balances = $this->exch->balance();
 
 			$response = [];
 
@@ -164,11 +167,15 @@
 
 			array_push( $response, $balance );
 
-			return $response;
+			$this->balances = $response;
+			return $this->balances;
 		}
 
-		public function get_balance( $currency = "BTC" ) {
-			return $this->exch->balance();
+		public function get_balance( $currency="BTC" ) {
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-USD" ) {

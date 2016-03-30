@@ -37,7 +37,7 @@
 				foreach( $result['result'] as $order )
 					array_push($response,$this->cancel($order['OrderUuid']));
 
-			if( $result['success'] )
+			if( isset( $result['success'] ) )
 				return array( 'success' => true, 'error' => false, 'message' => $response );
 			else
 				return array( 'success' => false, 'error' => true, 'message' => $result );
@@ -65,7 +65,7 @@
 				$open_order['market'] = $open_order['Exchange'];
 				$open_order['exchange'] = "bittrex";
 				$open_order['price'] = $open_order['Limit'];
-				$open_order['timestamp'] = $open_order['Opened'];
+				$open_order['timestamp_created'] = $open_order['Opened'];
 				$open_order['avg_execution_price'] = $open_order['Price'];
 				$open_order['side'] = $open_order['OrderType'];
 				$open_order['type'] = $open_order['OrderType'];
@@ -101,27 +101,6 @@
 			return $this->open_orders;
 		}
 
-/*Array
-(
-    [Uuid] =>
-    [OrderUuid] => 15507d39-5d77-43fd-bf46-8b30901ef448
-    [Exchange] => BTC-JBS
-    [OrderType] => LIMIT_BUY
-    [Quantity] => 21963.79333375
-    [QuantityRemaining] => 21963.79333375
-    [Limit] => 8.003E-5
-    [CommissionPaid] => 0
-    [Price] => 0
-    [PricePerUnit] =>
-    [Opened] => 2015-09-14T08:19:13.263
-    [Closed] =>
-    [CancelInitiated] =>
-    [ImmediateOrCancel] =>
-    [IsConditional] =>
-    [Condition] => NONE
-    [ConditionTarget] =>
-)*/
-
 		public function get_completed_orders() {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
@@ -131,6 +110,35 @@
 				foreach( $completed_orders['result'] as $completed_order ) {
 					$completed_order['exchange'] = "bittrex";
 					$completed_order['market'] = $market;
+
+				    $completed_order['price'] = null;
+					$completed_order['amount'] = null;
+					$completed_order['timestamp'] = null;
+					$completed_order['type'] = null;
+					$completed_order['fee_currency'] = null;
+					$completed_order['fee_amount'] = null;
+					$completed_order['tid'] = null;
+					$completed_order['order_id'] = null;
+					$completed_order['id'] = null;
+					$completed_order['fee'] = null;
+					$completed_order['total'] = null;
+
+					unset( $completed_order['OrderUuid'] );
+					unset( $completed_order['Exchange'] );
+					unset( $completed_order['TimeStamp'] );
+					unset( $completed_order['OrderType'] );
+					unset( $completed_order['Limit'] );
+					unset( $completed_order['Quantity'] );
+					unset( $completed_order['QuantityRemaining'] );
+					unset( $completed_order['Commission'] );
+					unset( $completed_order['Price'] );
+					unset( $completed_order['PricePerUnit'] );
+					unset( $completed_order['IsConditional'] );
+					unset( $completed_order['Condition'] );
+					unset( $completed_order['ConditionTarget'] );
+					unset( $completed_order['ImmediateOrCancel'] );
+					unset( $completed_order['Closed'] );
+
 					array_push( $this->completed_orders, $completed_order );
 				}
 			}
@@ -200,13 +208,16 @@
 		}
 
 		public function get_balances() {
+			if( isset( $this->balances ) )//internal cache
+				return $this->balances;
+
 			$balances = $this->exch->account_getbalances();
 			if( $balances['success'] == 1 )
 				$balances = $balances['result'];
 			else
 				return [];
 
-			$results = [];
+			$response = [];
 			foreach( $balances as $balance ) {
 				$balance['type'] = "exchange";
 				$balance['currency'] = strtoupper( $balance['Currency'] );
@@ -222,13 +233,18 @@
 				unset( $balance['Pending'] );
 				unset( $balance['CryptoAddress'] );
 
-				array_push( $results, $balance );
+				array_push( $response, $balance );
 			}
-			return $results;
+
+			$this->balances = $response;
+			return $this->balances;
 		}
 
 		public function get_balance( $currency="BTC" ) {
-			return [];
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
 		}
 
 		public function get_market_summary( $market="LTC-BTC" ) {
@@ -298,11 +314,18 @@
 
 		//TODO convert the $time to $count
 		public function get_all_trades( $time = 0 ) {
-			$results = [];
+			$n_trades = [];
 			foreach( $this->get_markets() as $market ) {
-				array_push( $results, $this->get_trades( $market, $time ) );
+				$trades = $this->get_trades( $market, $time );
+				if( isset( $trades['success'] ) && $trades['success'] == 1 ) {
+					if( is_array( $trades['result'] ) ) {
+						foreach( $trades['result'] as $trade ) {
+							array_push( $n_trades, $trade );
+						}
+					}
+				}
 			}
-			return $results;
+			return $n_trades;
 		}
 
 		public function get_trades( $market = 'BTC-USD', $time = 0 ) {
@@ -310,13 +333,43 @@
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
-			$result = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
-			return $result;
+			$orderbooks = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
+			$orderbooks = $orderbooks['result'];
+			$n_orderbooks = [];
+			$o_orderbooks = [];
+
+			if( isset( $orderbooks['buy'] ) )
+				foreach( $orderbooks['buy'] as $orderbook ) {
+					array_push( $n_orderbooks, $orderbook );
+				}
+
+			if( isset( $orderbooks['sell'] ) )
+				foreach( $orderbooks['sell'] as $orderbook ) {
+					array_push( $n_orderbooks, $orderbook );
+				}
+
+			foreach( $n_orderbooks as $orderbook ) {
+				$orderbook['market'] = $market;
+				$orderbook['price'] = $orderbook['Rate'];
+				$orderbook['amount'] = $orderbook['Quantity'];
+				$orderbook['timestamp'] = null;
+				$orderbook['exchange'] = null;
+				$orderbook['type'] = null;
+
+				unset( $orderbook['Quantity'] );
+				unset( $orderbook['Rate'] );
+				array_push( $o_orderbooks, $orderbook );
+			}
+
+			return $o_orderbooks;
 		}
 
-		public function get_orderbooks( $depth = 0 ) {
-			$result = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
-			return $result;
+		public function get_orderbooks( $depth = 20 ) {
+			$results = [];
+			foreach( $this->get_markets() as $market )
+				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
+
+			return $results;
 		}
 
 	}

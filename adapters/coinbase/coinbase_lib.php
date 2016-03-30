@@ -100,7 +100,7 @@
 		}
 
 		public function cancel_order( $order_id ) {
-			return "SUCCESS".$this->query('/orders/'.$order_id, array(), "DELETE" );
+			return $this->query('/orders/'.$order_id, array(), "DELETE" );
 		}
 
 		public function get_orders() {
