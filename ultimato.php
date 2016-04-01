@@ -4,7 +4,7 @@
 	ini_set( 'display_errors', 'on' );
 	date_default_timezone_set( "UTC" );
 
-	require_once( "config.php" );
+	require_once( "config_safe.php" );
 
 	try{
 		/*****

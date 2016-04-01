@@ -60,6 +60,12 @@
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
 			$open_orders = $this->exch->open_orders();
+
+			if( isset( $open_orders['error'] ) ) {
+				print_r( $open_orders );
+				return array( 'error' => $open_orders ); //need to standardize!
+			}
+
 			$this->open_orders = [];
 			foreach( $open_orders as $open_order ) {
 				$open_order['market'] = "BTC-USD";

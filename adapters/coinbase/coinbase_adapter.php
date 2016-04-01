@@ -317,7 +317,8 @@
 
 				ksort( $market_summary );
 
-				array_push( $this->market_summaries, $market_summary );
+				if( $market_summary['market'] == "BTC-USD" )
+					array_push( $this->market_summaries, $market_summary );
 			}
 			return $this->market_summaries;
 		}

@@ -218,7 +218,9 @@
 				return $this->balances;
 
 			$balances = $this->exch->getInfo();
+
 			$balances = $balances['return']['funds'];
+			
 			$open_orders = $this->get_open_orders();
 			if( isset( $open_orders['return'] ) )
 				$open_orders = $open_orders['return'];

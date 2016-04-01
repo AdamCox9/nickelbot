@@ -234,6 +234,7 @@
 				return $this->market_summaries;
 
 			$tickers = $this->exch->tickers();
+
 			$this->market_summaries = [];
 
 			$market_info = $this->exch->marketinfo();

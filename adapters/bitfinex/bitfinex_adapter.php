@@ -153,11 +153,15 @@
 			return $this->balances;
 		}
 
-		public function get_balance( $currency="BTC" ) {
+		public function get_balance( $currency="BTC", $opts = array() ) {
 			$balances = $this->get_balances();
 			foreach( $balances as $balance )
 				if( $balance['currency'] == $currency )
-					return $balance;
+					if( isset( $opts['type'] ) ) {
+						if( $opts['type'] == $balance['type'] )
+							return $balance;
+					} else
+						return $balance;
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {

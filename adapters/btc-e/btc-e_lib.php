@@ -55,6 +55,15 @@
 			if ($res === false) 
 				throw new Exception('Curl error: '.curl_error($ch));
 			$dec = json_decode($res, true);
+
+			//fix bug with nonce too small...
+			if( isset( $dec['error'] ) && $dec['success'] === 0 ) {
+				$nonce = explode( "you should send:", $dec['error'] );
+				if( isset( $nonce[1] ) )
+					$this->x = $nonce[1] - $req['nonce'];
+			}
+
+
 			if (!$dec) 
 				throw new Exception('Invalid data: '.$res);
 			return $dec;
