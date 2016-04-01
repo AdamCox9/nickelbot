@@ -14,7 +14,7 @@ It has not had any security audit whatsoever.
 Ensure that your API Keys are only accesible from your server's IP address.
 Ensure that you disable withdrawels on the API key's that you use with this software.
 This platform is capable of creating buy/sell market orders that can drain your exchange balances.
-There could be bots that will collect the buy/sell market orders from a different exchange that could essentially steal your funds.
+There could be bots that will collect the buy/sell market orders from a different account that could essentially steal your funds.
 
 Good luck!
 
