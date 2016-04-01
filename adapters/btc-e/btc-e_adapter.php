@@ -188,15 +188,15 @@
 		public function deposit_address($currency="BTC"){
 			switch( $currency ) {
 				case "BTC":
-					return array( 'currency' => "BTC", 'address' => "1jPtEamiPHn2NaPXab29ruSAparsvrUre", "wallet_type" => "exchange", "method" => null );
+					return array( 'currency' => "BTC", 'address' => $GLOBALS['BTCE_BTC_DEPOSIT_ADDRESS'], "wallet_type" => "exchange" );
 				case "LTC":
-					return array( 'currency' => "LTC", 'address' => "LZrNNQtK4yDzwEjj2VszEm529UaDDDsdPH", "wallet_type" => "exchange", "method" => null );
+					return array( 'currency' => "LTC", 'address' => $GLOBALS['BTCE_LTC_DEPOSIT_ADDRESS'], "wallet_type" => "exchange" );
 				case "NMC":
-					return array( 'currency' => "NMC", 'address' => "NEtAMTUgqyD4w7DEA414PRSFjhoVJstP7W", "wallet_type" => "exchange", "method" => null );
+					return array( 'currency' => "NMC", 'address' => $GLOBALS['BTCE_NMC_DEPOSIT_ADDRESS'], "wallet_type" => "exchange" );
 				case "NVC":
-					return array( 'currency' => "NVC", 'address' => "4KwnoXR5nKxPebxryruugbuqP7SdiuWxP3", "wallet_type" => "exchange", "method" => null );
+					return array( 'currency' => "NVC", 'address' => $GLOBALS['BTCE_NVC_DEPOSIT_ADDRESS'], "wallet_type" => "exchange" );
 				case "PPC":
-					return array( 'currency' => "PPC", 'address' => "PVduuiWTCm3jPaPr9JTPyBhAVrhZuEER5D", "wallet_type" => "exchange", "method" => null );
+					return array( 'currency' => "PPC", 'address' => $GLOBALS['BTCE_PPC_DEPOSIT_ADDRESS'], "wallet_type" => "exchange" );
 				default:
 					return FALSE;
 			}

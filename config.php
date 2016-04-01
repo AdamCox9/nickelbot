@@ -66,6 +66,13 @@
 	$poloniex_api_key = "0LWESBZB-G42RZSC1-R1ODIXAS-D74LGT07";
 	$poloniex_api_secret = "876ef684bd13d3505d1c8c70179cc27b925e171bf6a4109f554f7472776d16a8331156ed9bc50acd977ef470120d36f9e742a4f7a0f57a415149d330aa7ab31d";
 
+	//_____IMPORTANT FOR YOU TO CHANGE!!! WE CAN'T GET DEPOSIT ADDRESS THROUGH API?
+	$BTCE_BTC_DEPOSIT_ADDRESS = "1jPtEamiPHn2NaPXab29ruSAparsvrUre";
+	$BTCE_LTC_DEPOSIT_ADDRESS = "LZrNNQtK4yDzwEjj2VszEm529UaDDDsdPH";
+	$BTCE_NMC_DEPOSIT_ADDRESS = "NEtAMTUgqyD4w7DEA414PRSFjhoVJstP7W";
+	$BTCE_NVC_DEPOSIT_ADDRESS = "4KwnoXR5nKxPebxryruugbuqP7SdiuWxP3";
+	$BTCE_PPC_DEPOSIT_ADDRESS = "PVduuiWTCm3jPaPr9JTPyBhAVrhZuEER5D";
+
 	$Adapters = array();
 	$Adapters['Bitfinex'] = new BitfinexAdapter( new Bitfinex( $bitfinex_api_key, $bitfinex_api_secret ) );
 	$Adapters['Bitstamp'] = new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );

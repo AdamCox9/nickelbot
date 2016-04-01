@@ -106,29 +106,38 @@
 		}
 
 		public function get_currencies() {
-			return array( 'USD', 'BTC', 'LTC', 'DRK' );
+			return array( 'USD', 'BTC', 'LTC', 'ETH' );
 		}
 
-		public function deposit_address( $currency = "BTC" ){
-			$wallet_types = array( "exchange", "deposit", "trading" );
-			$addresses = [];
-			foreach( $wallet_types as $wallet ) {
-				$wallet_address = $this->exch->deposit_new( "bitcoin", $wallet, $renew = 0 );
-				print_r( $wallet_address );
-				if( $wallet_address['result'] === "success" ) {
-					$wallet_address['wallet_type'] = $wallet;
-					unset( $wallet_address['result'] );
-					array_push( $addresses, $wallet_address );
-				}
+		public function deposit_address( $currency = "BTC", $wallet_type = "exchange" ){
+			switch( $currency ) {
+				case "BTC": $currency="bitcoin"; break;
+				case "LTC": $currency="litecoin"; break;
+				case "ETH": $currency="ethereum"; break;
+				default: return array( "error" => "no" );
 			}
-			return $addresses[0];
+			$wallet_address = $this->exch->deposit_new( $currency, $wallet_type, $renew = 0 );
+
+			if( $wallet_address['result'] === "success" ) {
+				$wallet_address['wallet_type'] = $wallet_type;
+				unset( $wallet_address['result'] );
+				unset( $wallet_address['method'] );
+				return $wallet_address;
+			}
+			return array( "error" => "no" );
 		}
 		
 		public function deposit_addresses(){
-			$currencies = array( "bitcoin", "litecoin", "darkcoin", "mastercoin" );
+			$currencies = $this->get_currencies();
+			$wallet_types = array( "exchange", "deposit", "trading" );
 			$addresses = [];
 			foreach( $currencies as $currency ) {
-				$addresses = array_merge( $addresses, $this->deposit_address( $currency ) );
+				foreach( $wallet_types as $wallet_type ) {
+					$address = $this->deposit_address( $currency, $wallet_type );
+					if( ! isset( $address['error'] ) ) {
+						array_push( $addresses, $address );
+					}
+				}
 			}
 			return $addresses;
 		}

@@ -196,7 +196,6 @@
 					$address['wallet_type'] = "exchange";
 					$address['currency'] = $address['Currency'];
 					$address['address'] = $address['Address'];
-					$address['method'] = null;
 
 					unset( $address['Currency'] );
 					unset( $address['Address'] );

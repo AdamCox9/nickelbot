@@ -199,8 +199,7 @@
 				$n_address = [];
 				$n_address['address'] = $address;
 				$n_address['currency'] = $currency;
-				$n_address['method'] = null;
-				$n_address['type'] = null;
+				$n_address['type'] = "exchange";
 				array_push( $results, $n_address );
 			}
 			

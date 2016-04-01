@@ -187,11 +187,11 @@
 		}
 
 		public function deposit_address($currency="BTC"){
-			return array( 'error' => 'NOT_IMPLEMENTED' );
+			return array( 'error' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function deposit_addresses(){
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			return array( 'error' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_balances() {

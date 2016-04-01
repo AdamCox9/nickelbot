@@ -26,13 +26,11 @@
 		  
 		<script type="text/javascript">
 			$.ajax({
-				  url: "",
+				  url: "/data/deposit_addresses.php",
 				  context: document.body
 				}).done(function(data) {
 				  console.log( JSON.stringify( data ) );
-				  $( 'div#container' ).html( "" );
-				  for( i = 0; i < data.length; i++ )
-					//$( 'div#container' ).append( "<br>" + data[i] );
+				  $( 'div#container' ).html( data );
 				});
 		</script>
 	</body>

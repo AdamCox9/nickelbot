@@ -102,14 +102,13 @@
 		}
 
 		private function test_deposit_addresses( $addresses ) {
-			$keys = array( 'currency', 'address', 'method', 'wallet_type' );
 			foreach( $addresses as $address ) {
-				$this->equal_keys( $keys, $address );
+				$this->test_deposit_address( $address );
 			}
 		}
 
 		private function test_deposit_address( $address ) {
-			$keys = array( 'currency', 'address', 'method', 'wallet_type' );
+			$keys = array( 'currency', 'address', 'wallet_type' );
 			$this->equal_keys( $keys, $address );
 		}
 

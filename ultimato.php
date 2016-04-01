@@ -66,10 +66,10 @@
 		 *****/
 
 		//make_max_orders( $Adapters );
-		make_min_orders( $Adapters );
+		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
-		//make_deposit_addresses( $Adapters );
+		make_deposit_addresses( $Adapters, $Tester );
 		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );
 		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr
 

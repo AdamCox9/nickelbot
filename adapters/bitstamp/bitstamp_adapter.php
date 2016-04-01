@@ -127,12 +127,12 @@
 			$response = array();
 			if( $currency === "BTC" ) {
 				$address = $this->exch->bitcoin_deposit_address();
-				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address, 'method' => "bitcoin" );
+				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address );
 			}
 			if( $currency === "XRP" ) {
 				$address = $this->exch->ripple_address();
 				$address = $address['address'];
-				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address, 'method' => "ripple" );
+				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address );
 			}
 
 			return $response;
