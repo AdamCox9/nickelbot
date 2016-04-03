@@ -3,10 +3,10 @@
 	/*
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make minimum buy and sell orders across all the exchanges.
+		This is a simple example of a bot that will make minimum buy and sell orders for every currency across every exchange.
 
 		TODO
-		 - get balances and test if funds are available before making order
+		 - a lot
 	*/
 
 	function make_min_orders( $Adapters ) {
@@ -24,7 +24,7 @@
 
 			//_____remove 2 oldest orders (buy/sell) for each valid market...
 			$x = 0;
-			while( $x++ < 2 * $num_markets )
+			while( $x++ < $num_markets )
 				if( sizeof( $open_orders ) > 0 )
 					remove_oldest_order( $Adapter, array_pop( $open_orders ) );
 
@@ -63,7 +63,7 @@
 				$buy_price = $market_summary['bid'] + $epsilon;					//_____try to jump smallest unit possible above highest bid.
 				$sell_price = $market_summary['ask'] - $epsilon;				//_____try to jump smallest unit possible below lowest ask.
 				$spread = $sell_price - $buy_price;								//_____difference between highest bid and lowest ask.
-				$min_diff = 0.01 * $sell_price;									//_____orders should be at-least 2% far apart.
+				$min_diff = 0.01 * $sell_price;									//_____orders should be at-least 1% far apart.
 
 				echo " -> price precision $price_precision \n";
 				echo " -> epsilon $epsilon \n";
