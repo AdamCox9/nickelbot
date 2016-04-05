@@ -1,5 +1,11 @@
 #div_deposit_addresses{ float: left; width: 33%; }
 #div_open_orders{ float: right; width: 33%; }
 #div_completed_orders{ display: inline-block; width: 33%; }
+
+#div_deposits_withdrawals{ float: left; width: 33%; }
+#div_payment_processor{ float: right; width: 33%; }
+#div_voting_machine{ display: inline-block; width: 33%; }
+
 div.deposit_address{ font-size: 10pt; border: 1px solid #FFEEAA; background: blue; font-weight:bold; color: orange; }
 span.deposit_address{ font-size: 8pt; color: green; }
+div.nickelbox{ overflow:scroll; height:400px; }
