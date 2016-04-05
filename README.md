@@ -15,6 +15,9 @@ Ensure that your API Keys are only accesible from your server's IP address.
 Ensure that you disable withdrawels on the API key's that you use with this software.
 This platform is capable of creating buy/sell market orders that can drain your exchange balances.
 There could be bots that will collect the buy/sell market orders from a different account that could essentially steal your funds.
+It is not safe to use this software on a system that has any unencrypted software or encrypted software with the keys.
+Do not put other bots on the same operating system since they might contain your API Keys/Secrets with withdraw enabled and this software could potentially provide access to those keys.
+Do not trust updates that you pull from this repository since someone could get into my server and push a bad copy to github. I do have my git software keys password protected and access github with an API Key/Secret as is available by github.
 
 The code on this repository is running at http://www.nickelbot.com/
 
