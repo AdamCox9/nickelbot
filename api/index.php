@@ -96,7 +96,6 @@
 	function api_deposit_addresses()
 	{
 		global $Adapters;
-		//print_r( $Adapters );
 
 		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : null;
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->deposit_addresses() );
