@@ -46,12 +46,10 @@
 		});
 	});
 
-	$( "a#a_completed_orders" ).click(function() {
-		$.ajax({
-			url: "/api/index.php?action=completed_orders",
-			context: document.body
-		}).done(function(data) {
-			//console.log( JSON.stringify( data ) );
-			$( 'div#div_completed_orders' ).html( data );
-		});
+	$( "a#a_btc_tx_sound" ).click(function() {
+		init_btc_sounds();
+	});
+
+	$( "a#a_btc_visualizations" ).click(function() {
+		$( 'div#div_btc_visualizations' ).html( "<iframe width='33%' src='https://gappleto97.github.io/visualizer/'></iframe>" );
 	});
