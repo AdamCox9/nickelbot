@@ -22,11 +22,14 @@
 			$market_summaries = $Adapter->get_market_summaries();
 			$num_markets = sizeof( $market_summaries );
 
+
 			//_____remove 2 oldest orders (buy/sell) for each valid market...
 			$x = 0;
-			while( $x++ < $num_markets )
+			while( $x++ < 500 * $num_markets )
 				if( sizeof( $open_orders ) > 0 )
 					remove_oldest_order( $Adapter, array_pop( $open_orders ) );
+
+			continue;
 
 			shuffle( $market_summaries );
 			foreach( $market_summaries as $market_summary ) {

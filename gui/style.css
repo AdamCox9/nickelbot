@@ -1,3 +1,4 @@
-#sample_deposit_addresses{ float: left; width: 33%; }
-#sample_open_orders{ float: right; width: 33%; }
-#sample_completed_orders{ display: inline-block; width: 33%; }
+#div_deposit_addresses{ float: left; width: 33%; }
+#div_open_orders{ float: right; width: 33%; }
+#div_completed_orders{ display: inline-block; width: 33%; }
+div.deposit_address{ font-size: 8; border: 1px solid #FFEEAA; background: blue; font-weight:bold; color: orange; }

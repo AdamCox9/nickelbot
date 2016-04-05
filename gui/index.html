@@ -23,38 +23,71 @@
 		<p>Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a></p>
 		<p>Here this is on <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a></p>
 
-		<div id="sample_deposit_addresses">Loading deposit addresses...<br/><img src="/gui/img/ajax-loader.gif"/></div>
-		<div id="sample_open_orders">Loading open orders...<br/><img src="/gui/img/ajax-loader.gif"/></div>
-		<div id="sample_completed_orders">Loading completed orders...<br/><img src="/gui/img/ajax-loader.gif"/></div>
+		<div id="div_exchanges">
+			<img src="/gui/img/ajax-loader.gif"/>
+		</div>
+
+		<div id="div_deposit_addresses">
+			<a href="#" id="a_deposit_addresses">Load deposit addresses...</a>
+		</div>
+		
+		<div id="div_open_orders">
+			<a href="#" id="a_open_orders">Load open orders...</a>
+		</div>
+		
+		<div id="div_completed_orders">
+			<a href="#" id="a_completed_orders">Load last 100 completed orders...</a>
+		</div>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 		  
 		<script type="text/javascript">
+
 			$.ajax({
-				  url: "/data/deposit_addresses.php",
+				  url: "/api/index.php?action=exchanges",
 				  context: document.body
 				}).done(function(data) {
-				  console.log( JSON.stringify( data ) );
-				  $( 'div#sample_deposit_addresses' ).html( data );
+				  //console.log( JSON.stringify( data ) );
+				  $( 'div#div_exchanges' ).html( data );
 				});
-		</script>
-		<script type="text/javascript">
-			$.ajax({
-				  url: "/data/open_orders.php",
-				  context: document.body
-				}).done(function(data) {
-				  console.log( JSON.stringify( data ) );
-				  $( 'div#sample_open_orders' ).html( data );
+
+			$( "#a_deposit_addresses" ).click(function() {
+				exchanges = $( 'div#div_exchanges' ).html();
+				var obj = JSON.parse( exchanges );
+				console.log( obj );
+				$.each(obj, function( index, value ) {
+					$.ajax({
+					  url: "/api/index.php?action=deposit_addresses&exchange="+value,
+					  context: document.body
+					}).done(function(data) {
+					  var obj = JSON.parse( data );
+					  $.each( obj, function( index, value ) {
+						for( var i = 0; i < value.length; i++ ) {
+							$( 'div#div_deposit_addresses' ).append( "<div class='deposit_address'>" + index + " " + value[i]['currency'] + " " + value[i]['address'] + " " + value[i]['wallet_type'] + "</div>" );
+						}
+					  });
+					});
 				});
-		</script>
-		<script type="text/javascript">
-			$.ajax({
-				  url: "/data/completed_orders.php",
-				  context: document.body
-				}).done(function(data) {
-				  console.log( JSON.stringify( data ) );
-				  $( 'div#sample_completed_orders' ).html( data );
-				});
+			});
+
+			$( "#a_open_orders" ).click(function() {
+				$.ajax({
+					  url: "/api/index.php?action=open_orders",
+					  context: document.body
+					}).done(function(data) {
+					  //console.log( JSON.stringify( data ) );
+					  $( 'div#div_open_orders' ).html( data );
+					});
+			});
+			$( "#a_completed_orders" ).click(function() {
+				$.ajax({
+					  url: "/api/index.php?action=completed_orders",
+					  context: document.body
+					}).done(function(data) {
+					  console.log( JSON.stringify( data ) );
+					  $( 'div#div_completed_orders' ).html( data );
+					});
+			});
 		</script>
 
 	</body>
