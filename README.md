@@ -16,6 +16,10 @@ Ensure that you disable withdrawels on the API key's that you use with this soft
 This platform is capable of creating buy/sell market orders that can drain your exchange balances.
 There could be bots that will collect the buy/sell market orders from a different account that could essentially steal your funds.
 
+The code on this repository is running at http://www.nickelbot.com/
+
+I hope that you use this platform to customize your own website and build your own bots to sell while also contributing the the common platform. There is opportunity for many people to build businesses around this platform and I hope you are all one of them!
+
 Good luck!
 
 https://bitcointalk.org/index.php?topic=1420693.0
