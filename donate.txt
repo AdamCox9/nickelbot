@@ -1,0 +1,1248 @@
+BtceAdapter
+BTC: 1jPtEamiPHn2NaPXab29ruSAparsvrUre
+(exchange)
+BtceAdapter
+LTC: LZrNNQtK4yDzwEjj2VszEm529UaDDDsdPH
+(exchange)
+BtceAdapter
+NMC: NEtAMTUgqyD4w7DEA414PRSFjhoVJstP7W
+(exchange)
+BtceAdapter
+NVC: 4KwnoXR5nKxPebxryruugbuqP7SdiuWxP3
+(exchange)
+BtceAdapter
+PPC: PVduuiWTCm3jPaPr9JTPyBhAVrhZuEER5D
+(exchange)
+BitstampAdapter
+BTC: 32rQFK5oRywD3SAcKk6nff8GU6gqjGnZXw
+(exchange)
+BitstampAdapter
+XRP: rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B?dt=49205333
+(exchange)
+PoloniexAdapter
+1CR: CdPeWsPKC4aihnSZAmqWmu1eWfaC2LqE6z
+(exchange)
+PoloniexAdapter
+ABY: ATCWYqBnMY4z9kgUm1z9jhCeoaWimHwZux
+(exchange)
+PoloniexAdapter
+ACH: NXT-4LRR-D7CB-NV6Q-HTVPC
+(exchange)
+PoloniexAdapter
+ADN: AWxGKDh497e7r8ZgKQPNbYkxtSLEfW1dBj
+(exchange)
+PoloniexAdapter
+AEON: 395d2f6859074f3a5dd188f22f87da5964668e9555c66bd375940f3a5d303ba3
+(exchange)
+PoloniexAdapter
+AERO: ALF56PNp6Bqq1nmjhszJfrwKHMuc9QmJAi
+(exchange)
+PoloniexAdapter
+AMP: 1LPkdoitMCCrAFWgXE2ZeLvtvkGyTTMT4V
+(exchange)
+PoloniexAdapter
+ARCH: AS4HvrWZUrkLyr2JxiJB41fFJVieTN3VhH
+(exchange)
+PoloniexAdapter
+AUR: Aa2VFMWhUP4EqGerQTSyKYWwXG9tJSxWDS
+(exchange)
+PoloniexAdapter
+BALLS: SUJqpPAQFq4AG3unbyVaz46sos8o15JRBY
+(exchange)
+PoloniexAdapter
+BBR: a44fa6aa152b13d8c4ed0558c0488ee8ac65e4effd79e775022764b7bf280035
+(exchange)
+PoloniexAdapter
+BCN: 62875aae44c5ac772a8151ca17700428f6fdcf56621e2ec8168105177e035279
+(exchange)
+PoloniexAdapter
+BCY: 1JTWRZuAAkmAFJBcL61gDoH4FExZhwDoVC
+(exchange)
+PoloniexAdapter
+BELA: BC61QqxG3pCgcjaMHcVAcNVjVLYYcAfPJV
+(exchange)
+PoloniexAdapter
+BITCNY: 58cfea72f726d529
+(exchange)
+PoloniexAdapter
+BITS: BJjJpoQrFAfJZGGHuzuFg9g841fDPSHMgS
+(exchange)
+PoloniexAdapter
+BITUSD: 87ff60e2b903a373
+(exchange)
+PoloniexAdapter
+BLK: BFcryRQYEaTxDu7R2eLQcXRu3xauAPb7hM
+(exchange)
+PoloniexAdapter
+BLOCK: BWGtjsbcFTwUfHqiCEfxNvRGnYpWGLfgpH
+(exchange)
+PoloniexAdapter
+BLU: BYDvQ95u8gY4B4xTtoBU9keBGwaJXV8rX1
+(exchange)
+PoloniexAdapter
+BTC: 1CKLoVat8VvYh9VfuQYnLZYu7XZMPvkgSa
+(exchange)
+PoloniexAdapter
+BTCD: RHVg8A3rdDoJrQ9ygSWmPMnPvJpUMTZGu2
+(exchange)
+PoloniexAdapter
+BTM: baYU7eua8WamSVSe5XbR2MqkPHKG5ddg92
+(exchange)
+PoloniexAdapter
+BTS: c2217ea950a4e4e1
+(exchange)
+PoloniexAdapter
+BURN: BGTeqr1sPoGvmhTCwbp1FivUijq1UP1ML2
+(exchange)
+PoloniexAdapter
+BURST: BURST-F27U-SSC4-VYYS-FK2L8
+(exchange)
+PoloniexAdapter
+C2: CU3wXyTcokaEWHyX8ehuwWy2mnh5wf1X9M
+(exchange)
+PoloniexAdapter
+CC: 186HjuvQNCZKv8pMzFifGqLVhKfJUV5FSJ
+(exchange)
+PoloniexAdapter
+CCN: CHk7SecAF6SNwnDTyT78mi3AWef8ye4q7p
+(exchange)
+PoloniexAdapter
+CGA: aX6xcMPDY8AQjiV7KNWdNhUhktLeJugLfE
+(exchange)
+PoloniexAdapter
+CHA: 1EJp5yXe1VmJJ6Ssdt1p7Yk2PxRBuDRLS1
+(exchange)
+PoloniexAdapter
+CINNI: JVZnDrKhd4WuBfcQmA9cucssKLy3j7ZLXF
+(exchange)
+PoloniexAdapter
+CLAM: xWeWZzTYKYmcu5FMzi4ePWAjewfxCRBsD2
+(exchange)
+PoloniexAdapter
+CNL: 1LSfHu1FYpUGJgBdASdjjbDrV64gdWMsF5
+(exchange)
+PoloniexAdapter
+CNMT: NXT-4MTF-QJMJ-EUPC-3XJWT
+(exchange)
+PoloniexAdapter
+CNOTE: CZ1WFyxDnH2LCxYjQWhAoDB8djrcWPxHHV
+(exchange)
+PoloniexAdapter
+CURE: BCE42DnuYZXwK1kwcNodQFCY2eSLTMcjzr
+(exchange)
+PoloniexAdapter
+CYC: CetgRX8Ui7Sso7FFZhU442TZUgwWrX6nTr
+(exchange)
+PoloniexAdapter
+DASH: XkKjtQtqHRbxrMwFvtDKUhEvF2uJvXRosS
+(exchange)
+PoloniexAdapter
+DGB: DSEjDdyBp6om9rNJa1hFTSeD9iwS22trq6
+(exchange)
+PoloniexAdapter
+DIEM: DNP8ahLjdrV1FXGGdweuzwxAd3QtSMT2Aq
+(exchange)
+PoloniexAdapter
+DIS: DTmWgrv27R3EZieTGMuqCtMUfjeyZkBUyc
+(exchange)
+PoloniexAdapter
+DOGE: DPW1B56YrkWH4RjXtNPXWq2gYmm8WGKuz2
+(exchange)
+PoloniexAdapter
+DRKC: 1P8LqcGhem8buVThdGvgJ5u7QaBC6VHmHm
+(exchange)
+PoloniexAdapter
+DSH: f4f50db6f4e4ab30a45c70974026b69da66b98d63998488e91f4f86c4d0146fd
+(exchange)
+PoloniexAdapter
+EBT: 5dW42X2z6XzLMS5rRXUEqnBnjSm4GAbLft
+(exchange)
+PoloniexAdapter
+EMC2: ESbZ8KoonbPbh3LPCQ4Km5a4msRe6bm8rV
+(exchange)
+PoloniexAdapter
+ENC: EV5Rdhf415y45hV9GaoXBp3Wdktt12WMXB
+(exchange)
+PoloniexAdapter
+ETH: 0xbdb45148edc82fb98094208fd46c540b139d9406
+(exchange)
+PoloniexAdapter
+EXE: EHu85aJZuV1Ro92aU9qxu7TiEbrEizvZAe
+(exchange)
+PoloniexAdapter
+EXP: 0x980027b615651af1c53b6c6dd289369c170dc202
+(exchange)
+PoloniexAdapter
+FCN: 6b39d36d1b7b83cc52c33d99511013314c21864d939c209c3e576dc56e28a737
+(exchange)
+PoloniexAdapter
+FCT: FA331Gp7A3tph3p6CxvBbbcXt5geg237FjGpGioNjy5ZG2KRqvjd
+(exchange)
+PoloniexAdapter
+FIBRE: FDoesLfh4m2YKDjYbQyL97vU7Anq7AuWXj
+(exchange)
+PoloniexAdapter
+FLDC: 1MqaaJPsyZKK81TrYardLELbYKbqxwA8Kd
+(exchange)
+PoloniexAdapter
+FLO: FMAtvjkKuFe1vGiDAgLeQqjLuqVLJpqVs9
+(exchange)
+PoloniexAdapter
+FLT: FBwNSuNvWU6eZDFcwvsuycMrYXKkrfhUnd
+(exchange)
+PoloniexAdapter
+FRAC: FoKqGtwhhGJis4htXHGTT8ga8TtPNSVbfP
+(exchange)
+PoloniexAdapter
+FVZ: fXBXT4A3j9j2dR2FfxWehP7bo99wWua2Nv
+(exchange)
+PoloniexAdapter
+FZN: NXT-6Z37-NBLV-ZPMC-9Q47J
+(exchange)
+PoloniexAdapter
+GAP: GcTJxwVexNhF9ED5puwWDh5i7pH1qB5dD4
+(exchange)
+PoloniexAdapter
+GDN: GVMHsG44rSYGa1Vpj3vCBAW1hxmtzswvQL
+(exchange)
+PoloniexAdapter
+GEMZ: 1AVLSEQ7Gy9Wm3Jdm8hVtNwBh1WFR45oSM
+(exchange)
+PoloniexAdapter
+GEO: GVt4isPgHJvXRTD4srVeHZyVC4GiDCfXhw
+(exchange)
+PoloniexAdapter
+GMC: GR9VhwQKMAsfFjyyXyJgQbvx15WGUzFYJH
+(exchange)
+PoloniexAdapter
+GML: GeJGjnFNFREUizcps3pZS2ZBVwWSZjroU5
+(exchange)
+PoloniexAdapter
+GPC: LNZueYDVwKzUQjeYgRdAqfbmPoDtZQA1uR
+(exchange)
+PoloniexAdapter
+GRC: SE69ZwZ5X5h3WHTSDJ571jNiNAtVmyYvEG
+(exchange)
+PoloniexAdapter
+GRCX: G2bvyFmWP9VPxRTQrPWYHYwLCCrzN63TCn
+(exchange)
+PoloniexAdapter
+GRS: FqUKxp3HeDJXEkzn6yTpBQ9NBc6RsDjdvq
+(exchange)
+PoloniexAdapter
+GUE: Fy3uErKcTwskbhrML8BX7R7b78URrSZ5kz
+(exchange)
+PoloniexAdapter
+HIRO: HA99zFjsMxqca17XfEA4zD7Lkcb5BBTPdz
+(exchange)
+PoloniexAdapter
+HUC: HLDtsnzcyaSzBTiAGw9NJp53CzQbRrjifg
+(exchange)
+PoloniexAdapter
+HUGE: BprqFuzAWFor9eRPbPXmFWzinb4sDbixoU
+(exchange)
+PoloniexAdapter
+HYP: pCRMdYs5WMGyvRmeaNirVBWqKW8rSeMdvm
+(exchange)
+PoloniexAdapter
+HZ: NHZ-3983-TWN5-A6JL-6M39Q
+(exchange)
+PoloniexAdapter
+IFC: iCpHjUXxC8DpRwEJwtkJHNn8Np7Y5wkDwJ
+(exchange)
+PoloniexAdapter
+INDEX: NXT-R8SQ-GFB5-P7H9-9MZJG
+(exchange)
+PoloniexAdapter
+IOC: ic2SBCfn9htjYu7WCuoJRfGJSyaBDs5o43
+(exchange)
+PoloniexAdapter
+JLH: NXT-5TVM-JJTU-X4GT-3FQZB
+(exchange)
+PoloniexAdapter
+JPC: Jcxisq2tEWaBKXm8yPTJPSmbEgYV1xG2t8
+(exchange)
+PoloniexAdapter
+KEY: KU7fGVhxLdjNsRRyLjTTvfdoAaEh6BmYyU
+(exchange)
+PoloniexAdapter
+LGC: LXvsRZ18JGyCujNB7Rs92gQ7zge2sGE6xR
+(exchange)
+PoloniexAdapter
+LOL: Ldi6JfjB71iSiiQHBN8PBcuG82VYq9ksA4
+(exchange)
+PoloniexAdapter
+LQD: NXT-UD8A-763D-FMLM-FTJ9H
+(exchange)
+PoloniexAdapter
+LTBC: 1BJ76QnJMSf5M1R1rvZwpTCTnMcYwgXFdj
+(exchange)
+PoloniexAdapter
+LTC: LMSBtokGBpGhQKDKuHTgPMG7g5CqRcm32N
+(exchange)
+PoloniexAdapter
+MAID: 18S6GuU1geKjxQHvFQvnLaKtRDizvQEY29
+(exchange)
+PoloniexAdapter
+MAST: DRjQNyhUvmfXmYyrFwVdsHZZzvBpr29xk4
+(exchange)
+PoloniexAdapter
+MCN: 10fcbb400ab90742343e795fc64d997d769823f20bd36d8964fca89ef0afa3b9
+(exchange)
+PoloniexAdapter
+METH: MSSR8XMCsVFAEZ3vowCRAqd8zvwL5mSpNL
+(exchange)
+PoloniexAdapter
+MIL: MFVG66smizCjamhVL9zPDbUa9og257tQ1F
+(exchange)
+PoloniexAdapter
+MIN: MFfZcjvVs5b92zddHKPhCeSj3gt7eeggcS
+(exchange)
+PoloniexAdapter
+MINT: MfVQ5h4DKNry22vEXbDuz214463gRTxzBK
+(exchange)
+PoloniexAdapter
+MMC: MQ2pcm3yVT6uo6AJG13gQouLaQWPt9ftmQ
+(exchange)
+PoloniexAdapter
+MMNXT: NXT-F3S4-5H4Z-D9Q2-B2AR3
+(exchange)
+PoloniexAdapter
+MMXIV: Mmer5vApzZK6scrNftgFskCyBbTZBJHF4G
+(exchange)
+PoloniexAdapter
+MNTA: MeTiXMxF1qAAUaPQREECjbuuo4ZRYg29nW
+(exchange)
+PoloniexAdapter
+MRS: MEDoupnQ8ZiqnJtpnHRh4W5eBPfpMLiZbi
+(exchange)
+PoloniexAdapter
+MYR: MUyp5ZFtWafD5fJ8cyRrdNukxMN47NBmSN
+(exchange)
+PoloniexAdapter
+N5X: 5h151sSUGJ7dzSXSAWToWtqEEUT5pHy5QZ
+(exchange)
+PoloniexAdapter
+NAS: NAS-5G7G-R37E-YUW4-FXJJK
+(exchange)
+PoloniexAdapter
+NAUT: NXT-6MJA-QB6V-FJZ5-2Z2XB
+(exchange)
+PoloniexAdapter
+NAV: sciMXXknhRh8GYj9nwoMRGEDkA5WaCyjho
+(exchange)
+PoloniexAdapter
+NBT: BARgaE4sqv1tLP1bsfx1zoRFnmdBTdVTr1
+(exchange)
+PoloniexAdapter
+NEOS: NQptohoZv2sRBnAMo5f6f2g2r331RzmjZQ
+(exchange)
+PoloniexAdapter
+NMC: N5L9q4buwhPaocdmEqcWXS3BCsacC75syD
+(exchange)
+PoloniexAdapter
+NOBL: 9mHQi3qcAAvJVu7K9fTUpmczngG4ivc9Qm
+(exchange)
+PoloniexAdapter
+NOTE: DgbaZXXCMh7tJ1x6oyiayfKsTBnoB9VDgS
+(exchange)
+PoloniexAdapter
+NOXT: NXT-F2MH-JF3E-VUR2-A9U37
+(exchange)
+PoloniexAdapter
+NRS: 9dBLXjFQZV1bZymVwqKNwRfTbqKW8UoTpZ
+(exchange)
+PoloniexAdapter
+NSR: SdmjiYfRsyfS9VbMyTBAzQNpWUDuhBJT9A
+(exchange)
+PoloniexAdapter
+NXT: NXT-HF9T-LBTG-WRM6-C5UVR
+(exchange)
+PoloniexAdapter
+NXTI: NXT-BKHX-NYPX-9M99-CWHMK
+(exchange)
+PoloniexAdapter
+OMNI: 1HxdYH2dnVeJS4cvgEYC7zNZh9G4CbZxoj
+(exchange)
+PoloniexAdapter
+OPAL: ofMwhDEBbzDqgg9mq4bfGMWgEKVze31NXK
+(exchange)
+PoloniexAdapter
+PIGGY: pmhFEo6kvc741Z9bqc4WcYc8iLmUpFJTSw
+(exchange)
+PoloniexAdapter
+PINK: PGNKvRhccMCFygYTzVPJdStnFbGNfTqAhT
+(exchange)
+PoloniexAdapter
+PLX: PLGMG4gFSLD5fwCwTMCGFH427vRhbDsnvM
+(exchange)
+PoloniexAdapter
+POT: PVadJYSiQaYjnsEzhMPUMuQoZxYWQrcweX
+(exchange)
+PoloniexAdapter
+PPC: PXTJ7HTKGRHrhVHyZm4BnvLPRDQLouJobN
+(exchange)
+PoloniexAdapter
+PRC: QYgkrwWCxQVSHT3vwvheKUKR9q6ctBfcov
+(exchange)
+PoloniexAdapter
+PTS: e8797dbe9766f6ee
+(exchange)
+PoloniexAdapter
+QBK: QjMZJbtcHMKDjr5bzwLGPQgYRenP1cLdxD
+(exchange)
+PoloniexAdapter
+QCN: f9c5e9c73947e5bb7d92a6535387750030235a310426db71605adf1d1ed63456
+(exchange)
+PoloniexAdapter
+QORA: QQ1ZjDaUmkjtDGTUhNQAiQuqYRMBc4HndC
+(exchange)
+PoloniexAdapter
+QTL: QgLkzj7fCY2PkhuRyK766vqpgB7ijmikoL
+(exchange)
+PoloniexAdapter
+RADS: Xu7XzcPEmnvBgpbe31hJjunmaGMWSU8BrR
+(exchange)
+PoloniexAdapter
+RBY: RGdVJ1gfvCSoWnMUABT5ATLGujedDs4ezf
+(exchange)
+PoloniexAdapter
+RDD: RimUPCc2NRpMJQHLjkSLFYzG5cCaGoKRFd
+(exchange)
+PoloniexAdapter
+RIC: RUNt7L92yYd5CE6tQYNzpfQ7hVDBDUemku
+(exchange)
+PoloniexAdapter
+RZR: RJW8f9jNCcQX84yjCc236BrvC9zU7jbr4R
+(exchange)
+PoloniexAdapter
+SC: 017c5f239ec3a91a94da549e0f932131bf450892a844ff34b3b810fede1f9366e5dd27ec4b91
+(exchange)
+PoloniexAdapter
+SDC: SRP1pdNR6eYBatD3SnV1b7Qc3QQSt3ss5T
+(exchange)
+PoloniexAdapter
+SHOPX: xGgDVud5ct9dAZf4ST6zg8hzEX5Uj9Eu5K
+(exchange)
+PoloniexAdapter
+SILK: B9cEmVthUY6MXhZ84Jj5oqkC6F1sKZNXXU
+(exchange)
+PoloniexAdapter
+SJCX: 1LWKKVkE8N74BmPLRKKMjWL4sUmzqG1bjV
+(exchange)
+PoloniexAdapter
+SQL: ShvsyQvEGpZM9gqE1S3unmPLyxg4Q8hTcx
+(exchange)
+PoloniexAdapter
+SRCC: SNA9afzyFN581JhMXyp91d6K1jM7j7Dj7q
+(exchange)
+PoloniexAdapter
+SSD: shLsSkJ5ACJp2hQ9j6JMm922C6o7eMqBLE
+(exchange)
+PoloniexAdapter
+STR: 2249788
+(exchange)
+PoloniexAdapter
+SWARM: 1MUwn1EzHxjjvz46742YPKiDK8S8qbcK17
+(exchange)
+PoloniexAdapter
+SYNC: SWmuzSgrGAkSzo9MKM2JL9EmLHMVTBbWuQ
+(exchange)
+PoloniexAdapter
+SYS: SP2A27LLUV3nXaASU1HWsy5aAbudmdQBEp
+(exchange)
+PoloniexAdapter
+TAC: TumeER3UJ81JrHXX3xFVtZ3vMFNVgVYo1t
+(exchange)
+PoloniexAdapter
+TOR: Tm8mswXVnNdtoohrFvbbLPhWkJ55X99Ctk
+(exchange)
+PoloniexAdapter
+TRUST: TCmSRCrJ1KveNxi11Brd3gCJcEQYn75uXM
+(exchange)
+PoloniexAdapter
+UIS: UTCcrBkC8P6WZnkaxjHGYpYvfRnG1bEath
+(exchange)
+PoloniexAdapter
+ULTC: UPJ8Fvznc4dVP1nX1V9vWrQ8d16sxefBVs
+(exchange)
+PoloniexAdapter
+UNITY: NXT-2PL2-GCVG-6U5E-2A4E4
+(exchange)
+PoloniexAdapter
+URO: UeELXx4wJ871UNhho1aTXpx6KvZph2bVxa
+(exchange)
+PoloniexAdapter
+USDT: 16VjxwovTzuPaamsBwwTJYPeRHcBUuULt9
+(exchange)
+PoloniexAdapter
+UTIL: UjpChEPBUzq2BDky8cbcMSNQiUG8m5YEq8
+(exchange)
+PoloniexAdapter
+VIA: VrFn2oV7jg62yapvA4ceukCPCgYGd6T3vX
+(exchange)
+PoloniexAdapter
+VOOT: VZyBNtr9Bt91fkviiAUxW5eeA3TV4hxnCp
+(exchange)
+PoloniexAdapter
+VRC: VUQkqTbHTapjJdSDyXkC1bwPnWGMrGhmVm
+(exchange)
+PoloniexAdapter
+VTC: Vnbz5GsUg8vwD1u6nudbHZLaYqwLAXKs68
+(exchange)
+PoloniexAdapter
+WDC: Wgaqo4M8ozoSzhYgMX8Ep6NsprWVfRKg9y
+(exchange)
+PoloniexAdapter
+XAI: AJRDKKY6HWoJktK1RGNZhD4Yo4GZFM8Hvc
+(exchange)
+PoloniexAdapter
+XAP: 19phCu2B4HjJKQ4QWgVZHTRi5FSdH17DLJ
+(exchange)
+PoloniexAdapter
+XBC: BRb9vot2TR7FYPtbvUcuJP1Rxvw8JQbsYh
+(exchange)
+PoloniexAdapter
+XC: XJhULVuehXbpsNFEbFCZBPUtogcXUvFvxp
+(exchange)
+PoloniexAdapter
+XCH: Vw5Xg1zUkgH2Mceybt8jLK5id1ybtZdvFr
+(exchange)
+PoloniexAdapter
+XCN: CLDCKAxA3dszfH2i1baTx66R9Pqap5EGa4
+(exchange)
+PoloniexAdapter
+XCP: 1KCn1xLjFjwrj9b7ynYUhgpj45r1kky2WS
+(exchange)
+PoloniexAdapter
+XCR: 4136421283973329807C
+(exchange)
+PoloniexAdapter
+XDN: 08bd0e904f58cba66b143f2950ba937b41510c379dad47ce040941ea17c5069b
+(exchange)
+PoloniexAdapter
+XDP: DPradAn1ooYdKQDAc6NARPQVxhxhLgHZEQ
+(exchange)
+PoloniexAdapter
+XEM: 543103ed446f8f87
+(exchange)
+PoloniexAdapter
+XHC: HCHPXqeUnsRFghPsY6iWb3QKjHcZvK9yrU
+(exchange)
+PoloniexAdapter
+XMG: 9Na2rYQCgYezyoUMi8NFFGvDUQkuoATaEU
+(exchange)
+PoloniexAdapter
+XMR: 671a163cf0cef5cc3bf40573bea1a556c22d76e9e01d97c105813c3448801aa4
+(exchange)
+PoloniexAdapter
+XPB: 34cfb49d05c4187f73196b6cc0748064818ed2c59f0ee608dd21aa4c52051796
+(exchange)
+PoloniexAdapter
+XPM: AakihRumE7cY5mmZW56weSuLdKsPJ1XQwa
+(exchange)
+PoloniexAdapter
+XRP: rNacqdwxSuUTwb4AWUMjbRVLxJqQds3wEj
+(exchange)
+PoloniexAdapter
+XSI: XtYm8soCNmwX96jye8Y6GViZmMxR9u23su
+(exchange)
+PoloniexAdapter
+XST: SJKbx2F5Y7dWscTFhEWuQqKkGjxwi9qM67
+(exchange)
+PoloniexAdapter
+XUSD: NXT-9BC7-RL8P-T2SJ-BM5SL
+(exchange)
+PoloniexAdapter
+XVC: VdU2HszupCyfHnpuukAbgWr9GLvuTkFjmQ
+(exchange)
+PoloniexAdapter
+YACC: DaPPCFJwdSWG3gdzLjb8vQYFsc7kKDCbqo
+(exchange)
+BitfinexAdapter
+BTC: 39Zcne5PpTg7LX5NhgfaQU96RXGpVRRGeb
+(exchange)
+BitfinexAdapter
+BTC: 3Jv5nUVeqNQwVtJjJg23e2B5NSjSRkZGrQ
+(deposit)
+BitfinexAdapter
+BTC: 384Lyvm28TkW8zcSv1JwQL4vSomSZ6ckkJ
+(trading)
+BitfinexAdapter
+LTC: LaQeH5D6ayTBAEgDdkNUwsojqFkbjLRMrk
+(exchange)
+BitfinexAdapter
+LTC: LUjAXwLbV7APXM6SczZrHqvMBZcQNyE6ua
+(deposit)
+BitfinexAdapter
+LTC: LhSQnxoh1ieuJfLgaZ1gE2YfTm8ANrxYvg
+(trading)
+BitfinexAdapter
+ETH: 0x01831c027e269557926b0c376e8fe9ccc069efa3
+(exchange)
+BittrexAdapter
+BTC: 1H6qgT8Hjhjyuvg2aCTFMhMnY5ViM7D3nX
+(exchange)
+BittrexAdapter
+LTC: LPztVDaTXFZJiZgtgKaVaNLmpiQCqhPMKX
+(exchange)
+BittrexAdapter
+DOGE: DLqCRozrTPrBt2zutUKoaJ1bT6hQYW4jHT
+(exchange)
+BittrexAdapter
+VTC: VrszW7sss1XDfzD88hJUNriSjaLVR34pe3
+(exchange)
+BittrexAdapter
+PPC: PSviJuMaznRGsbzwdgKaPbniSTvUr3VSAr
+(exchange)
+BittrexAdapter
+FTC: 6ngTvrXW8tycuezYzHjAvrzeReu4m67LET
+(exchange)
+BittrexAdapter
+RDD: RrBSAxMRxsMvfVnPb2kd2C8psGo13Whm4r
+(exchange)
+BittrexAdapter
+NXT: 62563f490c23454496438f26e97313e2f1ddf842b8cc47e59cbb5ac5ef370fb3
+(exchange)
+BittrexAdapter
+DASH: XsUpYgrNdqQ1JXcEauzzH18D5iNFyrGUQ5
+(exchange)
+BittrexAdapter
+POT: PDXbc51Ub1dxRDFKG1EG5YJRiodJJdf6eW
+(exchange)
+BittrexAdapter
+BLK: BG1iRTEh1W3gmb5BiVUZ9dVdQX1zYTTb1s
+(exchange)
+BittrexAdapter
+EMC2: EepKWuT5XkS1pNDQhAD2BwgpXFtWeZ1nwy
+(exchange)
+BittrexAdapter
+MYR: MTxPMmhPv7cp3q6HAwr49GhNe2xChgKrCw
+(exchange)
+BittrexAdapter
+AUR: Acopgvz5aPn1kXgrL7juVLsJGzB89mu2c6
+(exchange)
+BittrexAdapter
+UTC: UmGtf4YpXAmZrS7HkngtfL3aYJr82gh6eh
+(exchange)
+BittrexAdapter
+MZC: MG3bfatT6JTHTBWCtkyt5GGppf7wnZ5xDi
+(exchange)
+BittrexAdapter
+EFL: LbD1BjgRxjsF5gmWm5ELbftvMpk94MMuwK
+(exchange)
+BittrexAdapter
+FAIR: fMRxuYG5yPqvyeughDMjiZUkrkqoVGT5GE
+(exchange)
+BittrexAdapter
+SLR: 8ci7ySoKBCTLWwig32TcvaxEmLG2LeELYg
+(exchange)
+BittrexAdapter
+PTC: LFPMvBv9wAyEiW9VSR5ec9GibfMpAzMHXb
+(exchange)
+BittrexAdapter
+GRS: FeAohqxxXH6QW4WZ1irU5QToYqFWBr6wph
+(exchange)
+BittrexAdapter
+NLG: GVHmFYTXwytNPu1LDURBKRMhhtapFwCej4
+(exchange)
+BittrexAdapter
+RBY: RKMaSGSPCf2UaFRMdjYX4MqyucakGQBKim
+(exchange)
+BittrexAdapter
+GIVE: 7K45MRtC57H4agzQDH5z8XTMeKFbjQtFQP
+(exchange)
+BittrexAdapter
+XWC: WWZ1uQPdUiTKovm6V2SY2ugydNfbQFrVK8
+(exchange)
+BittrexAdapter
+MONA: MHb92cQS1RqRcUQB4y67KPrCsjE9nFQs69
+(exchange)
+BittrexAdapter
+BITS: BRvA85nKcjLwGzhtnY6Dt2iB75dsZ2PKdT
+(exchange)
+BittrexAdapter
+OC: oL9g5TJbP19ZCmeVHgZ6zSR4BW6jkFmrZM
+(exchange)
+BittrexAdapter
+THC: HE5jqVQ5kdTAqe9NHGkXVnH4mKYrXCvT1s
+(exchange)
+BittrexAdapter
+ENRG: eHu3FCE4LS1Gm1sTsGu2sA23JvVq3Cw2Qt
+(exchange)
+BittrexAdapter
+SFR: SkR8YNzfaSAPWap38ZMP3NDo69u4dU7XPA
+(exchange)
+BittrexAdapter
+ERC: EbWkgKTiSAW922yfyX2eF5kyfA3bfwedPN
+(exchange)
+BittrexAdapter
+NAUT: 6656c1df54344a3cbb3059286c0caf9c9ff662a5303b40118948b0f111dce871
+(exchange)
+BittrexAdapter
+VRC: VJsugejwmnhqNUTvY66YstfSCKWwss2p6B
+(exchange)
+BittrexAdapter
+CURE: BSuZE7Mhva4T1qnbvR7fAoUqVDampaCtpR
+(exchange)
+BittrexAdapter
+URO: UhJMeBqapEfdZocRj8EoEtxMkVc8XuV66Q
+(exchange)
+BittrexAdapter
+BLC: BnQuPo5zAj5cp4STf2MhT1Z8vzu4dzGwK6
+(exchange)
+BittrexAdapter
+XSI: XpYF6VGtCrHR4rxdraD1Lbeh36dE9ghX8G
+(exchange)
+BittrexAdapter
+XC: XPuC4Q8YutD9BpE6vyAz5EcBa83nG3EXQN
+(exchange)
+BittrexAdapter
+XDQ: dShW1WYTm9tGDzkbVpLEzSPPMCD4x8cUTs
+(exchange)
+BittrexAdapter
+BBR: 34f039b216864905a215e5cd90744f29f44b1fbc20424decb7bea2a49c85d201
+(exchange)
+BittrexAdapter
+HYPER: HGsTDyX5NiZFkBnXbGdkDHw4mNYS2Vk4Za
+(exchange)
+BittrexAdapter
+CCN: CfHtvow2Bk4khQbCutMV1R6LXBXVZyLtv3
+(exchange)
+BittrexAdapter
+XMR: 41cd392751c2489b959ca0519915001bc03214e6c27f4dd4a06ff1193fc4f9b6
+(exchange)
+BittrexAdapter
+CLOAK: ByCh4Pm5jjPJmiEB6nTw8ras7KtPqnaRXG
+(exchange)
+BittrexAdapter
+BSD: iJohuLqo9k2F7s1BHhzFm5wwoaF1JvYrS9
+(exchange)
+BittrexAdapter
+CRYPT: Eqtpnnf1M54e6P4nMyNvbJRdDdGNwBtJQc
+(exchange)
+BittrexAdapter
+START: sNvaJXyyjwadd7od9WXSrMBw2nsEWFMLJd
+(exchange)
+BittrexAdapter
+KORE: KCaergYDMe7dGNieBiuHmsbkbMFJzf2HjC
+(exchange)
+BittrexAdapter
+XDN: 4ecef8fb9ba04ba291f1f524e7328375b70547d156a44f0d830a3f8e0297a220
+(exchange)
+BittrexAdapter
+TRK: pPLFFjGrVctXB7f9gmsE496E4NMvpVGDWB
+(exchange)
+BittrexAdapter
+QTL: QNDxar9WcZnuB9nYgMthspeDMR7aEYY8fr
+(exchange)
+BittrexAdapter
+TRUST: TM9PWfCAeqVNBQeTkGSiBNezsopGisFhBQ
+(exchange)
+BittrexAdapter
+NAV: sdCbf1y8uTrwwUkznSJRG2BoKarqGiB1zg
+(exchange)
+BittrexAdapter
+XST: SM45EeKgDg8x8DAETsAQFfwoT4VExyc3VC
+(exchange)
+BittrexAdapter
+APEX: AVk3aHFS4LTsm7GsAqp8TeUaXXN1TeD7Ub
+(exchange)
+BittrexAdapter
+BTCD: RF4isvUw2RQwkWRdwZ9Nri1NjWpmBAwNz4
+(exchange)
+BittrexAdapter
+VIA: VxaumyWbQzJuvwwTxm2DppUdrc95MLkQQR
+(exchange)
+BittrexAdapter
+TRI: TEYpzZA6YLkKcstrxnfB4veExSzYYTiFPA
+(exchange)
+BittrexAdapter
+UNO: uQBmiKZsjBw6RVB7VcfYnsGNywtTN7opNK
+(exchange)
+BittrexAdapter
+PINK: PBfHWfJxk6ti5sfZBeNbHgVGyWkTox6SWE
+(exchange)
+BittrexAdapter
+IOC: ik5x48BdCaGawVyTW1qdeWxA54JLZmpK3U
+(exchange)
+BittrexAdapter
+SDC: SMoiV5udfuj8WS3aNtrBVJJbfDqK366c8u
+(exchange)
+BittrexAdapter
+MAX: mM8CsGiXF4EQvBsr7pTB1sq8Xfac9g9cEZ
+(exchange)
+BittrexAdapter
+LXC: DMLJ6Q3KeNNbBTuv1tSubmVR4zDxVZaWmb
+(exchange)
+BittrexAdapter
+BOB: 18JBTS3v7PBWc2kdtVeTFXqttpMnvKWtaK
+(exchange)
+BittrexAdapter
+MWC: MB59iNQcPK1a8GbYgYGZwLWwkG6SR7cB92
+(exchange)
+BittrexAdapter
+CANN: CJJ54wYWQdVt9ML7Rm9u9mGDHLwHd2dx9C
+(exchange)
+BittrexAdapter
+FC2: F91NtDy998LchW8KW81JrG6ZEqD1NJnkXR
+(exchange)
+BittrexAdapter
+SSD: sMdXUdtWkLFWxh22VQnpgfr5WaArPByTK9
+(exchange)
+BittrexAdapter
+J: JTEZCL7k92id3pc1yZhgDBWPGJuskWGAR2
+(exchange)
+BittrexAdapter
+SYS: Siam51ae3XNRcTKnH2Nks3rn2C5CQvNPHh
+(exchange)
+BittrexAdapter
+NEOS: NVZDxinrVSRftWWyfmn9MdHoiC9EhT8rDU
+(exchange)
+BittrexAdapter
+DGB: DKMHqkL5YmwhnR6gD8BTT3h67ups3KxYXv
+(exchange)
+BittrexAdapter
+ROOT: RSrU1aTFT8jS786uidhQk5gME1fhsUQrqp
+(exchange)
+BittrexAdapter
+BTS: 3bf75280341b4478bac
+(exchange)
+BittrexAdapter
+FIBRE: F7Qn9zUarKxPZjczu5sqtnGJ6tWm1UAt2H
+(exchange)
+BittrexAdapter
+JBS: JU21MyHEHxjDhjiXeuPDF3qoPHmRY5BcBi
+(exchange)
+BittrexAdapter
+BURST: 3f253b873bfc4a6280d76192fa7494bf82b833ba24964558b5c4b1524b9e560d
+(exchange)
+BittrexAdapter
+TIT: 18dKUvSAN24TQpK16cXVdDcV3FvLV6kaDW
+(exchange)
+BittrexAdapter
+BSTY: Y1g5rGsLLR7Pz8Y1JiRG8BrrAHGyXfXAnA
+(exchange)
+BittrexAdapter
+PXI: PC8Jn3bukSE4vcTYQZcButrwQty6ApvkEh
+(exchange)
+BittrexAdapter
+DGC: DJK8evAW3VLr5f9b9eb1VuA6FW9ucu9QWN
+(exchange)
+BittrexAdapter
+SLG: Sj4WYDe1gFwTCmdRpwVyFefb29Db71ja7o
+(exchange)
+BittrexAdapter
+ROS: RM6o5hKsctx9DPY4pn5p8zTpEDkiYBj16s
+(exchange)
+BittrexAdapter
+STV: SZdoKD66vWwhjaPdEjXyGMex2yCYpsHofo
+(exchange)
+BittrexAdapter
+OPAL: oM5soPBrUwusVhAaMU1R6y8j9Ls4pWoens
+(exchange)
+BittrexAdapter
+EXCL: EU5zZUH9FpyFYPMJdbDWkKbckPKWBPTexi
+(exchange)
+BittrexAdapter
+SWIFT: bZC6s72Z1NgETGRiz4zgpLG7zet6hZGuiB
+(exchange)
+BittrexAdapter
+ARCH: APsf2DALgHXpEN6B5s7PYE4gZ1Ma38qMxg
+(exchange)
+BittrexAdapter
+NET: nHRAczCHv9bgDQigSihdETKGsR3HDzoPuL
+(exchange)
+BittrexAdapter
+GAIA: GNsG91GvJAP5nwaNLCTcXzpxTmzDM2fNzV
+(exchange)
+BittrexAdapter
+GHC: GRGRDBepxkfekzLf4cKPnsiyofEtAEUvcu
+(exchange)
+BittrexAdapter
+SMBR: SMpFkCctLJ3pGnki6V9199WYdervuVjBr7
+(exchange)
+BittrexAdapter
+MARYJ: MHrABNEVnJwskfUJbTPaLk7jzRRGf5aUnv
+(exchange)
+BittrexAdapter
+DOPE: 4WpyHqa9BhXjDwLn3myFUDg7yBXfGzkSCo
+(exchange)
+BittrexAdapter
+BLOCK: BqKdCdZWC2LeSt3G2W7VUk2opjRSAgjMBc
+(exchange)
+BittrexAdapter
+ABY: AM91RqTeKfdBwGkUuqQUBEbzveYk4Hpj2B
+(exchange)
+BittrexAdapter
+QSLV: QTtPrh7a7TBtKpyTiGhDAqnSi4y3HyjeUb
+(exchange)
+BittrexAdapter
+VIOR: VFsU9BiHWtgoAfUnz3GETb14bdygn5DzKo
+(exchange)
+BittrexAdapter
+BYC: BHAZiH7Gcj3LWrPvQjCyuFu5hriTMvj9eQ
+(exchange)
+BittrexAdapter
+UFO: C1HQJh4wRr5DVpQc77Q7rBu2cp55XPVuqy
+(exchange)
+BittrexAdapter
+XMG: 9Ew42NdY73nGtBYfumPHS3i5Vs5792MVgL
+(exchange)
+BittrexAdapter
+XQN: QcYCSh3ujRwxx8DdFF44vqqdzbFhzvmkyV
+(exchange)
+BittrexAdapter
+BLITZ: oWi3XxFnrbnRFsgKR2JNMcWzqgeYEEzA1F
+(exchange)
+BittrexAdapter
+VPN: Vvo4beMpLXi5eUyrxRuXnUm2rV7okzmrrb
+(exchange)
+BittrexAdapter
+BAY: BPZmQYL3fBrEkvhYSJwbhH1doYPzeLmgxU
+(exchange)
+BittrexAdapter
+DTC: dVZzBeVerUL8rgXb4WcfJnyDMkDEbbm46D
+(exchange)
+BittrexAdapter
+AM: AdMiTHCQNZSZu9MEkYGY4FWbj6WkqgJ3NE
+(exchange)
+BittrexAdapter
+METAL: MGtyrF28CLkPKHwms4GLXqLYpFPv6T8pBG
+(exchange)
+BittrexAdapter
+SPR: SZNpD3LRDr42DVQP2jzJ3CiZWdVy8e8FU3
+(exchange)
+BittrexAdapter
+VTR: xr147FSyUUmwvDzhH9K3MEdAKXPxD1i57ceBJbapJWTvcKJZJTfLRSuYffD58DDr3SfCG8Qqw1pYpNtGs6g8XT9y8uGR75EiotHzcy
+(exchange)
+BittrexAdapter
+XPY: PMeqEyoh3uvp4zEGrccERLLkfWQeSnFxQo
+(exchange)
+BittrexAdapter
+XAI: AXwU3hvNRuwgd761uWhWMsKEvp16i5nee6
+(exchange)
+BittrexAdapter
+NKT: oUX5Df2xBW7LBgFXPhkuFAUT6W6RMbheRA
+(exchange)
+BittrexAdapter
+XRP: 584611625
+(exchange)
+BittrexAdapter
+GMC: GVLnX765BN85512c2P26GHtyEZYteDJ1Jm
+(exchange)
+BittrexAdapter
+BCR: 6CDuRRksfKhwNYpWFuqBwH6D1Zf1mm6hAd
+(exchange)
+BittrexAdapter
+GP: GYZmvTVuERJGp1R6iqdV8PKGWhdCDtzT2X
+(exchange)
+BittrexAdapter
+NIRO: 2RKh3xB2ugpYJPDaEiHWoLkTKUiCkbWK55Uvss9dxAjY22SQTQX
+(exchange)
+BittrexAdapter
+RBR: RYd9TjSYSZvdndRhzQdgcctBEm9yaCyfhb
+(exchange)
+BittrexAdapter
+FSC2: FVUtazszqB425LQFtoXLs8KErVCTFHpRBr
+(exchange)
+BittrexAdapter
+SOON: SYy4y7W219Asi1M6Fk2ntTNZ1WUPFZKRid
+(exchange)
+BittrexAdapter
+HZ: 187944dcda2e46fba7e6a07c9bc1563f2b869936760d47ba974b577b1ecc702c
+(exchange)
+BittrexAdapter
+KOBO: FEtEFKEjixj7zEQU2bAMVMDwpdshoyafw7
+(exchange)
+BittrexAdapter
+XCP: 1PfMUCp8rDr4qDEbJeAht4JVayca1AA9ZX
+(exchange)
+BittrexAdapter
+SJCX: 1FQVKyRJ22kNZ9pekBTXd97AVjK72VZzLD
+(exchange)
+BittrexAdapter
+BITB: 2XqkzSP2iKFSqfP8ppHm6cWDiAwmmbLXbZ
+(exchange)
+BittrexAdapter
+XTC: 14a6ct4UjWhN5LUFZv76Lnib6kVP3jnn7g
+(exchange)
+BittrexAdapter
+GEO: Gh369sHcAgyztr5ajq5Tq5YPobzMwP8MVn
+(exchange)
+BittrexAdapter
+FLDC: 1DxUFcTYr9KqzrnGvr6V7hbBtfSwvcR8oY
+(exchange)
+BittrexAdapter
+GSM: GdQpuuWpyW9uefxdS22bvDzHg5cHHaB9PM
+(exchange)
+BittrexAdapter
+WBB: WdAPxh7nkCbMcCg1UhysbYCvxGYN4rcYsx
+(exchange)
+BittrexAdapter
+GEMZ: 14mBWvqhyqhquBtM2WxiyMzQJ6MARQurpj
+(exchange)
+BittrexAdapter
+GRC: SFe5EUWKDLdexA5CEwMQP5CUwDRPZDKp6R
+(exchange)
+BittrexAdapter
+XCO: XMDi181p5JJJb6qyYCw2JwgSFPVTgjLPZV
+(exchange)
+BittrexAdapter
+MTR: MUYUoNikDkFVzzjoCTuqTrr872kf7ruCjR
+(exchange)
+BittrexAdapter
+FLO: FD3H9uJsD7wfz9ZW3FR86WmaVZnB61dLeT
+(exchange)
+BittrexAdapter
+ASN: AZ2iEq5epokLAGos3UaKxTrQ9amCkJJTLW
+(exchange)
+BittrexAdapter
+LDOGE: dFuSVBinUMVQFxVAQUGG61DJLEYBMx8u8m
+(exchange)
+BittrexAdapter
+CRAVE: BuPXY57cv2HQjNrRs5Vu8QfenFdFbJo7tw
+(exchange)
+BittrexAdapter
+U: Uetf2rwDHHCeu8dmHKKo8f7sfHMmbLNGgZ
+(exchange)
+BittrexAdapter
+OCTO: 1LwiQ8RqdibWHzjmZYvVcHAnkZahv2GVBy
+(exchange)
+BittrexAdapter
+NBT: BKfCwT5vdPk5nFg2hYEjFmxzMxzesasHjp
+(exchange)
+BittrexAdapter
+XEM: 63238acab8a94180b6c
+(exchange)
+BittrexAdapter
+MUE: 7DFmNnSNpq9P5ZooLJc13eG8oxyGkkjw2f
+(exchange)
+BittrexAdapter
+XVC: Vpwm4PC83F3S8dgojgXXfk9WyQL9RbPumg
+(exchange)
+BittrexAdapter
+TRON: PXS2iAmUe2ufKKSKGsphTkprKQzHR5qDJX
+(exchange)
+BittrexAdapter
+8BIT: 8YVehXonej9kWsPPwPY2jgKbpWkSsLCEtB
+(exchange)
+BittrexAdapter
+CLAM: xULJgT8guVQCiodV32MAJbnJtkTZXFv25C
+(exchange)
+BittrexAdapter
+XSEED: bLmHPkMozYGbANd8gR96y4TJi6q7yJPjqb
+(exchange)
+BittrexAdapter
+CF: cgScMkedUssHWpK2iiTFxSZVfL62jsnsLi
+(exchange)
+BittrexAdapter
+NTRN: 9YEhxmjWBmon3pXKqSi9n6bUBwPNESdxLf
+(exchange)
+BittrexAdapter
+SLING: SQJmKTe355NWaEW9sFD5a9oygupSU6oKf7
+(exchange)
+BittrexAdapter
+DMD: dVhNATCwSx6viCSG4LTamLqDnvvMzGLk8J
+(exchange)
+BittrexAdapter
+GAM: GXzk3hNKGPdBUJR8mBxAikh4hEH7mPwpiR
+(exchange)
+BittrexAdapter
+UNIT: PBfZvtS9AETXDmoSAPLb3Kn6i5d5bgH3n5
+(exchange)
+BittrexAdapter
+SHELL: SSJ2cTgGqoKedHGFaVKdpxiNWQTJqVL3tJ
+(exchange)
+BittrexAdapter
+GRT: Ger5sziEp52abRva56KJzLXbfgqrpb8BgG
+(exchange)
+BittrexAdapter
+VIRAL: VWcGRxGXgpyaqo2Z21z29gL6qMzmHkj3e6
+(exchange)
+BittrexAdapter
+M1: MpFRRtrgBhwEXeDRV7LhWStxLdRwpUun2E
+(exchange)
+BittrexAdapter
+SPHR: B6aFNkT5WzQ7bsA3TMSWaL9q5E1zMZuviy
+(exchange)
+BittrexAdapter
+ARB: AexpJXMitdmbWhzWpRYC4rTftB1u65QFVH
+(exchange)
+BittrexAdapter
+OK: PTJZAoHRFDLtv7ofMdf5fvDZ9KPNRQ6DfN
+(exchange)
+BittrexAdapter
+ADC: ARfJi3Y5cWVXygRuS61c1cSLhKH9HQaMdN
+(exchange)
+BittrexAdapter
+SNRG: SQRCsMwvioKEEVyBvRbHwbspFmyWpApnQ7
+(exchange)
+BittrexAdapter
+PKB: PKdnoodKWVWtzod8y2iJJ47EyWuvngXB7v
+(exchange)
+BittrexAdapter
+GEN: GXEqLYZh9UYsKZ821drLdWkP1Mc5SE3oaZ
+(exchange)
+BittrexAdapter
+DIBS: DiSe4iePZaWRUAZdm4aKuVHw7Ej5zTHpTG
+(exchange)
+BittrexAdapter
+TES: 5VrKiEjg3hUmzJ58dprXNrr5bRg7s8hB18
+(exchange)
+BittrexAdapter
+XRA: RXQxgkF26CwMmidabgeGRHRwBZQ51pZhch
+(exchange)
+BittrexAdapter
+DIGS: DYc2ApkkKhquBeB5E6EDiz9tkEj9tAo4za
+(exchange)
+BittrexAdapter
+HYP: pMAfgcFCU3bajtCGkmDAyPDsqxcrHpg6my
+(exchange)
+BittrexAdapter
+CPC: CWwsDv6xkgmoVe9HoShMAHdCEiDHkrgoQZ
+(exchange)
+BittrexAdapter
+AXIOM: ASrXJvvG7ZswQN6zSGrhrLRXL7sMoTgXQZ
+(exchange)
+BittrexAdapter
+AEON: 4830f7c2475a43d6acd9a75af184ba07a494ec2c0860459fa55a40394171da71
+(exchange)
+BittrexAdapter
+BITZ: BR8doQkg545E214wsEy3ykENSM8cgyyWB9
+(exchange)
+BittrexAdapter
+ETH: 0x0d69124bc5e6b5a5666d1de9b76b859ec076beba
+(exchange)
+BittrexAdapter
+GCR: GUiadZDwnyhvcgYXE3WvTPc2HkzsB1Qd64
+(exchange)
+BittrexAdapter
+TX: TiqRKxo2koPgBR6TXfBnCued7fDeLSzukG
+(exchange)
+BittrexAdapter
+SHF: 0x040d5444bd6b9b733acba706d5c37240b10d0d8f
+(exchange)
+BittrexAdapter
+BCY: 1GPMS2wKnLVTXihmzAWg6NHZmYAfPueSXN
+(exchange)
+BittrexAdapter
+PRIME: Pa1ZW1w6oa1RamjiGTN1V8kdcfMCUsvfCf
+(exchange)
+BittrexAdapter
+EXP: 0x00262a8eec2260faf601777269c605d9867a5ac2
+(exchange)
+BittrexAdapter
+NEU: NYRyLV4dSiFR6KVLUfZgK35UJHMy111dGz
+(exchange)
+BittrexAdapter
+SWING: SNYMA7Sn5Gaqpjwv6PYzs2hfxXaZXAVvP8
+(exchange)
+BittrexAdapter
+MAPC: MHjquZNYTvKhFBQeggrc1GBDsqw8s7bjrq
+(exchange)
+BittrexAdapter
+INFX: i9FxSKfdqeRDZgS5BhwefwSs3Fj9PfhKSZ
+(exchange)
+BittrexAdapter
+SOIL: 0x231ab575eb0802503ee1a1d924c5e74256230d89
+(exchange)
+BittrexAdapter
+OMNI: 1EJRdMbcDiD752ZKpUhj19WPmBJaogKi8K
+(exchange)
+BittrexAdapter
+USDT: 18dZEedB43EjM8v21ubSnrsDAW33Vrviow
+(exchange)
+BittrexAdapter
+AMP: 1BoGkjuK2Re2xZ1SpqFn44ACjvBgxMgaZn
+(exchange)
+BittrexAdapter
+XLM: b4c6f251d1d44879a94
+(exchange)
+BittrexAdapter
+SPRTS: ST9so2hAXQvhDeptxc7fUSjHdHTxV3UuXx
+(exchange)
+BittrexAdapter
+YBC: yPQyhJScq49sZz3HN83x7ZbMK1hMX3TTtS
+(exchange)
+BittrexAdapter
+BTA: BJtK3AwjqrtKjPrDGGMmBduVK29ane2koo
+(exchange)
+BittrexAdapter
+MEC: MWg4sLU5cFNdSRcyqfjzmKqbLHJxJgb9R9
+(exchange)
+BittrexAdapter
+BITCNY: f000a2c7260941c0875
+(exchange)
+BittrexAdapter
+CUBE: CWMk3Qbmox6QxzzcFWUazsRWB98a1ks6Z2
+(exchange)
+BittrexAdapter
+AMS: aU2g8niGKx2kednZL9doPvzxSbbdW9sSPv
+(exchange)
+BittrexAdapter
+SCRT: SbQSmZfZuybHy99FYQYCSjkynPj8pvqGry
+(exchange)
+BittrexAdapter
+SCOT: 1PzBMp5Y1mUnPmBFsimjXoTWB4TVUAKmCA
+(exchange)
+BittrexAdapter
+CLUB: CVA31ckcoC3d2Gyi2E1p7jd9CLyw3dP6AK
+(exchange)
+BittrexAdapter
+BNT: BLDcuzCmw9pwHDAmNfVRZk73no3Nsr2qPZ
+(exchange)
+BittrexAdapter
+VOX: VQb7gRCknxs592C1oohUBcQRhxEdJzeCEV
+(exchange)
+BittrexAdapter
+MND: MECU8wPhXxCZLhN9xd8tS2TC7itYAnhsqw
+(exchange)
+BittrexAdapter
+EMC: EdUbwAYbknYwH9hPUKEaVnREyX1QCGHqKN
+(exchange)
+BittrexAdapter
+FCT: FA1zwhnmYECta9fjj99VMEEbQ5UZpqHXuRudxzMAaFeYRBKRxarU
+(exchange)
+BittrexAdapter
+MAID: 12tXEu4UxdFk6Tvgzr3wVSv8HZWN2DdVnY
+(exchange)
+BittrexAdapter
+FRK: FMKjovJqiJmqVkuw7CePG3FifkTtVmNewQ
+(exchange)
+BittrexAdapter
+EGC: ESSaCFtuLaJB7Jpd3KskAdmNbG6XVKASyG
+(exchange)
+BittrexAdapter
+SLS: SUWBvLbACpa6EduhYB5odmdcQKmmxfMuCr
+(exchange)
+BittrexAdapter
+HIRE: HVXBRkQAXQ8qGWMpVjs9amNBPfLN2BVadn
+(exchange)
+BittrexAdapter
+ORB: oaTE8W59LKc87oAtnY4NYB1SvfFWpaEQDJ
+(exchange)
+BittrexAdapter
+STEPS: SRCE72gLUJzCkjo9sPsLWTS4yVMTGa3fqT
+(exchange)
+BittrexAdapter
+RADS: Xv5acBNcZknFzdbkjS5zypH2Yx8kjZousH
+(exchange)
+BittrexAdapter
+DCR: DshFxgBG2G6LVAHd8xHiYvbuNz7t9a7FKS2
+(exchange)
+BittrexAdapter
+SEC: 1Ft49hE9JHt9FuMoUHoMzFjBTaGnAW2bpi
+(exchange)
+BittrexAdapter
+DNET: DP9pyNTtj7NFT32928GhgHq11XUruZqgt3
+(exchange)
+BittrexAdapter
+WARP: WkTr26m6VRECFBwmMBHBdMguvwcNbFuivL
+(exchange)
+BittrexAdapter
+CRBIT: CJGFQuo51DVsLj6cRLxVJtt4LAGKTgNrdK
+(exchange)
+BittrexAdapter
+MEME: PSVpoxVtMSPyc1N7pySYA7TZEnA3tBHaMc
+(exchange)
