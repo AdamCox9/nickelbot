@@ -18,7 +18,7 @@ There could be bots that will collect the buy/sell market orders from a differen
 
 The code on this repository is running at http://www.nickelbot.com/
 
-I hope that you use this platform to customize your own website and build your own bots to sell while also contributing the the common platform. There is opportunity for many people to build businesses around this platform and I hope you are all one of them!
+I hope that you use this code to build your own custom website and build your own custom bots to sell or use while also contributing the the common platform. There is opportunity for many people to build businesses around this platform and I hope you are all one of them!
 
 Good luck!
 
