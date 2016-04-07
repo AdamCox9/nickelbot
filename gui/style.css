@@ -1,3 +1,9 @@
+#div_exchanges_save{ display: none; }
+
+#div_exchanges{ float: left; width: 33%; }
+#div_currencies{ float: right; width: 33%; }
+#div_markets{ display: inline-block; width: 33%; }
+
 #div_deposit_addresses{ float: left; width: 33%; }
 #div_open_orders{ float: right; width: 33%; }
 #div_completed_orders{ display: inline-block; width: 33%; }
@@ -6,6 +12,10 @@
 #div_btc_tx_sound{ float: right; width: 33%; }
 #div_btc_visualizations{ display: inline-block; width: 33%; }
 
-div.deposit_address{ font-size: 10pt; border: 1px solid #FFEEAA; background: blue; font-weight:bold; color: orange; }
+div.deposit_address{ font-size: 10pt; border: 1px solid #FFEEAA; background: blue; font-weight: bold; color: orange; }
 span.deposit_address{ font-size: 8pt; color: green; }
+
+div.open_orders{ font-size: 10pt; border: 1px solid #88BB36; background: orange; font-weight: bold; color: yellow; }
+span.open_orders{ font-size: 8pt; color: green; }
+
 div.nickelbox{ overflow:scroll; height:400px; }

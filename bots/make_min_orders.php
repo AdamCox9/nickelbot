@@ -18,16 +18,16 @@
 			usort($open_orders, function($a, $b) {
 				return $b['timestamp_created'] - $a['timestamp_created'];
 			});
+
 			//_____get the markets to loop over:
 			$market_summaries = $Adapter->get_market_summaries();
 			$num_markets = sizeof( $market_summaries );
 
-
 			//_____remove 2 oldest orders (buy/sell) for each valid market...
-			$x = 0;
+			/*$x = 0;
 			while( $x++ < $num_markets )
 				if( sizeof( $open_orders ) > 0 )
-					remove_oldest_order( $Adapter, array_pop( $open_orders ) );
+					remove_oldest_order( $Adapter, array_pop( $open_orders ) );*/
 
 			shuffle( $market_summaries );
 			foreach( $market_summaries as $market_summary ) {

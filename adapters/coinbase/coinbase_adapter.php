@@ -136,14 +136,14 @@
 			foreach( $orders as $order ) {
 				$order['market'] = $order['product_id'];
 				$order['timestamp_created'] = strtotime( $order['created_at'] );
-				$order['exchange'] = "bter";
+				$order['exchange'] = "coinbase";
 				$order['avg_execution_price'] = null;
 				$order['side'] = null;
 				$order['is_live'] = null;
 				$order['is_cancelled'] = null;
 				$order['is_hidden'] = null;
 				$order['was_forced'] = null;
-				$order['original_amount'] = null;
+				$order['amount'] = $order['size'];
 				$order['remaining_amount'] = null;
 				$order['executed_amount'] = null;
 

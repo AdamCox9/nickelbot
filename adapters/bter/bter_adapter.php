@@ -173,17 +173,17 @@
 
 		public function get_markets() {
 			$markets = $this->exch->pairs();
-			$markets = str_replace('_', '-', $markets );
-			return array_map( 'strtoupper', $markets );
+			$markets = str_replace('_', '-', strtoupper( $markets ) );
+			return $markets;
 		}
 
 		public function get_currencies() {
 			$currencies = $this->exch->marketlist();
 			$response = [];
 			foreach( $currencies['data'] as $currency ) {
-				array_push( $response, $currency['symbol'] );
+				array_push( $response, strtoupper( $currency['symbol'] ) );
 			}
-			return array_unique( array_map('strtoupper',$response) );
+			return $response;
 		}
 
 		public function deposit_address($currency="BTC"){

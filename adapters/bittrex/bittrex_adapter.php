@@ -76,7 +76,7 @@
 				$open_order['original_amount'] = null;
 				$open_order['remaining_amount'] = null;
 				$open_order['executed_amount'] = null;
-				$open_order['amount'] = null;
+				$open_order['amount'] = $open_order['Quantity'];
 
 				unset( $open_order['Uuid'] );
 				unset( $open_order['OrderUuid'] );

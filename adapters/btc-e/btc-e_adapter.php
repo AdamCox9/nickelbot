@@ -122,6 +122,8 @@
 			if( isset( $open_orders['return'] ) ) {
 				foreach( $open_orders['return'] as $order_id => $open_order ) {
 					$open_order['id'] = $order_id;
+					$open_order['price'] = $open_order['rate'];
+					$open_order['market'] = $open_order['pair'];
 					array_push( $this->open_orders, $open_order );
 				}
 			}

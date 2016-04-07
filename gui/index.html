@@ -7,6 +7,11 @@
 	  <link rel="stylesheet" type="text/css" href="/gui/style.css">
 	</head>
 	<body>
+
+		<div id="div_exchanges_save">
+			<img src="/gui/img/ajax-loader.gif"/><!-- invisible holder for now -->
+		</div>
+
 		<h1>NickelBot</h1>
 		<img id="logo" src="/gui/img/nickelbot.png"/>
 
@@ -20,23 +25,29 @@
 		</h3>
 		
 		<p>
-			This is a home of NickelBot. NickelBot does stuff with digital currencies such as trading and investing. Check back sometime to see if there are tools that will be open to the public. There will probably be more bots living here in the cloud sometime soon that will be accessible to everyone. Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. Here this is on <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>. Here I am at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
+			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot will have more abilities to share with you here in the cloud sometime soon. Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. Here this is on <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>. Here I am at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
 		</p>
 
+		<a name="nickelbox"></a>
 		<h4>
-			Exchanges
+			NickelBox <!-- notice that NickelBox is both singular and plural -->
 		</h4>
 		
-		<div id="div_exchanges">
-			<img src="/gui/img/ajax-loader.gif"/>
+		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
+
+		<div class="nickelbox" id="div_exchanges">
+			<a href="#nickelbox" id="a_exchanges">Load exchanges...</a>
 		</div>
 
-		<a name="nickelbox"></a>
-		<h5>
-			NickelBox <!-- notice that NickelBox is both singular and plural -->
-		<h5>
+		<div class="nickelbox" id="div_currencies">
+			<a href="#nickelbox" id="a_currencies">Load currencies...</a>
+		</div>
 
-		<div style='clear:both;padding-top:25px;'></div>
+		<div class="nickelbox" id="div_markets">
+			<a href="#nickelbox" id="a_markets">Load markets...</a>
+		</div>
+
+		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
 		<div class="nickelbox" id="div_deposit_addresses">
 			<a href="#nickelbox" id="a_deposit_addresses">Load deposit addresses...</a>
@@ -50,7 +61,7 @@
 			<a href="#nickelbox" id="a_completed_orders">Load last 100 completed orders...</a>
 		</div>
 
-		<div style='clear:both;padding-top:25px;'></div>
+		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
 		<div class="nickelbox" id="div_deposits_withdrawals">
 			<a href="#nickelbox" id="a_deposits_withdrawals">Load latest deposits and withdrawals...</a>
@@ -71,9 +82,11 @@
 			<!--<div>Watch the <a target="_blank" href="">visualizations</a>!</div>-->
 		</div>
 
-		<div style='clear:both;padding-top:25px;'></div>
+		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<h6>Thank You for not hacking my server</h6>
+		<h5>Thank You for not hacking my server!</h5>
+
+		<h6>Come back soon!</h6>
 
 		<div>&copy; NickelBot? Customize this website and launch a business with it. You own your customizations!</div>
 

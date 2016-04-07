@@ -13,6 +13,7 @@
 	- or TODO update the htaccess? so we can do this:
 	- /api/bitfinex/buy/?market=BTC-LTC&price=100&amount=5
 
+	- TODO make me a class and other safety features
 
  *****/
 
@@ -30,12 +31,12 @@
 	require_once( "../config_safe.php" );
 
 	try {
-		start();
+		api_start();
 	} catch( Exception $e ) {
 		echo $e->getMessage() . "\n";
 	}
 
-	function start()
+	function api_start()
 	{
 		$action = isset( $_GET['action'] ) ? $_GET['action'] : die( "action required" );
 
@@ -69,11 +70,19 @@
 	}
 	function api_currencies()
 	{
-		echo "currencies";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_currencies() );
 	}
 	function api_markets()
 	{
-		echo "markets";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_markets() );
 	}
 	function api_exchanges()
 	{
@@ -91,15 +100,19 @@
 	//all of them
 	function api_open_orders()
 	{
-		echo "open_orders";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_open_orders() );
 	}
 	function api_deposit_addresses()
 	{
 		global $Adapters;
 
-		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : null;
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->deposit_addresses() );
-
 	}
 
 

@@ -78,7 +78,6 @@
 				$open_order['is_hidden'] = null;
 				$open_order['was_forced'] = null;
 				$open_order['original_amount'] = null;
-				$open_order['amount'] = null;
 				$open_order['remaining_amount'] = null;
 				$open_order['executed_amount'] = null;
 				unset( $open_order['datetime'] );

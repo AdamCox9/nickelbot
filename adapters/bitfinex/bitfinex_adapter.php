@@ -64,10 +64,13 @@
 
 			if( is_array( $open_orders ) )
 				foreach( $open_orders as $open_order ) {
+					//Array ( [id] => 683750567 [symbol] => ltcusd [exchange] => bitfinex [price] => 3.284 [avg_execution_price] => 0.0 
+					//[side] => sell [type] => exchange limit [timestamp] => 1459905252.0 [is_live] => 1 [is_cancelled] => [is_hidden] => 1 
+					//[oco_order] => [was_forced] => [original_amount] => 0.1 [remaining_amount] => 0.1 [executed_amount] => 0.0 )
 					$open_order['exchange'] = "bitfinex";
 					$open_order['market'] = $open_order['symbol'];
 					$open_order['timestamp_created'] = $open_order['timestamp'];
-					$open_order['amount'] = null;
+					$open_order['amount'] = $open_order['original_amount'];
 
 					unset( $open_order['symbol'] );
 					array_push( $this->open_orders, $open_order );
