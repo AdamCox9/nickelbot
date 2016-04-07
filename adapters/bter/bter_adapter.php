@@ -173,8 +173,11 @@
 
 		public function get_markets() {
 			$markets = $this->exch->pairs();
-			$markets = str_replace('_', '-', strtoupper( $markets ) );
-			return $markets;
+			$results = [];
+			foreach( $markets as $market ) {
+				array_push( $results, str_replace('_', '-', strtoupper( $market ) ) );
+			}
+			return $results;
 		}
 
 		public function get_currencies() {

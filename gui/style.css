@@ -19,3 +19,19 @@ div.open_orders{ font-size: 10pt; border: 1px solid #88BB36; background: orange;
 span.open_orders{ font-size: 8pt; color: green; }
 
 div.nickelbox{ overflow:scroll; height:400px; }
+
+div.trollbox_wrapper {
+	float:left;
+}
+
+div.trollbox {
+	font-size:10pt;
+	width:350px;
+	height:350px;
+	border: 1px solid #666;
+	overflow: scroll;
+}
+
+span.handle {
+	color:blue;
+}
