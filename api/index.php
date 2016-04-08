@@ -15,6 +15,8 @@
 
 	- TODO make me a class and other safety features
 
+	Don't let Adapters object leak the API Keys/Secrets on the web with print_r!
+
  *****/
 
 	error_reporting( E_ALL );
