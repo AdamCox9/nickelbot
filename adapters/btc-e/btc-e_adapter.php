@@ -133,7 +133,7 @@
 		public function get_completed_orders( $market = 'BTC-USD' ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
-			$completed_orders = $this->exch->TradeHistory( array( 'count' => 1000, 'order' => 'DESC', 'since' => 0, 'end' => time() ) );;
+			$completed_orders = $this->exch->TradeHistory( array( 'count' => 100, 'order' => 'DESC', 'since' => 0, 'end' => time() ) );;
 			$this->completed_orders = [];
 			if( isset( $completed_orders['return'] ) ) {
 				foreach( $completed_orders['return'] as $completed_order ) {

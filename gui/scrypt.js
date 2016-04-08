@@ -92,14 +92,39 @@
 	});
 
 	$( "a#a_completed_orders" ).click(function() {
+
 		exchanges = $( 'div#div_exchanges_save' ).html();
-
-		//currency = this.currency
-		//exchange = this.exchange
-
 		var obj = JSON.parse( exchanges );
-		//console.log( obj );
 		$.each(obj, function( index, value ) {
+			$( 'div#div_completed_orders' ).append( "<div style='text-decoration:underline;' class='exchange' id='" + value + "'>" + value + "</div>" );
+			$( "div#" + value ).click(function(event) {
+				$.ajax({
+				 url: "/api/index.php?action=markets&exchange="+event.target.id,
+				 context: document.body
+				}).done(function(data) {
+					var obj = JSON.parse( data );
+					$.each( obj, function( index, value ) {
+						for( var i = 0; i < value.length; i++ ) {
+							$( 'div#div_completed_orders' ).append( "<div style='text-decoration:underline;' class='market' id='" + index + "_" + value[i] + "'>" + index + " - " + value[i] + "</div>" );
+							$( "div#" + index + "_" + value ).click(function(event) {
+								var arr = event.target.id.split("_");
+								var exchange = arr[0].replace("Adapter", "");
+								var market = arr[1];
+								$.ajax({
+								 url: "/api/index.php?action=completed_orders&exchange="+exchange+"&market="+market,
+								 context: document.body
+								}).done(function(data) {
+									console.log( data );
+									$( 'div#div_completed_orders' ).append( data );
+								});
+							});
+						}
+					});
+				});
+			});
+		});
+
+		/*$.each(obj, function( index, value ) {
 			$.ajax({
 			 url: "/api/index.php?action=markets&exchange="+value,
 			 context: document.body
@@ -112,7 +137,7 @@
 					}
 				});
 			});
-		});
+		});*/
 	});
 
 	$( "a#a_btc_tx_sound" ).click(function() {

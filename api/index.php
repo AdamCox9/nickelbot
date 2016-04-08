@@ -95,7 +95,14 @@
 	//last 100
 	function api_completed_orders()
 	{
-		echo "completed_orders";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
+		if( $market == "error" ) return array( "error" => "market required" );
+
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_completed_orders( $market ) );
 	}
 	//all of them
 	function api_open_orders()
