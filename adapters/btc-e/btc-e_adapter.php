@@ -119,11 +119,28 @@
 				//return $this->open_orders;
 			$open_orders = $this->exch->ActiveOrders( $arr = array() );
 			$this->open_orders = [];
+
 			if( isset( $open_orders['return'] ) ) {
 				foreach( $open_orders['return'] as $order_id => $open_order ) {
 					$open_order['id'] = $order_id;
 					$open_order['price'] = $open_order['rate'];
 					$open_order['market'] = $open_order['pair'];
+					$open_order['exchange'] = "Btce";
+					$open_order['avg_execution_price'] = null;
+					$open_order['side'] = $open_order['type'];
+					$open_order['is_live'] = true;
+					$open_order['is_hidden'] = false;
+					$open_order['is_cancelled'] = false;
+					$open_order['was_forced'] = null;
+					$open_order['original_amount'] = null;
+					$open_order['remaining_amount'] = null;
+					$open_order['executed_amount'] = null;
+
+
+					unset( $open_order['pair'] );
+					unset( $open_order['rate'] );
+					unset( $open_order['status'] );
+
 					array_push( $this->open_orders, $open_order );
 				}
 			}

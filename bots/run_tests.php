@@ -44,22 +44,22 @@
 			echo " -> getting completed orders\n";
 			$Tester->test( 'completed_orders', $Adapter->get_completed_orders() );
 
-			echo " -> getting all recent trades\n";
+			/*echo " -> getting all recent trades\n";
 			$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );
 
 			echo " -> getting some depth of orderbook\n";
-			$Tester->test( 'orderbooks', $Adapter->get_orderbooks( $depth = 20 ) );
+			$Tester->test( 'orderbooks', $Adapter->get_orderbooks( $depth = 20 ) );*/
 
 			echo " -> cancelling all orders\n";
 			$Tester->test( 'cancel_all', $Adapter->cancel_all() );
 
 			//_____Utilities: they do not directly access native API libraries where as Adapters must access native API or self
 
-			echo " -> getting volumes\n";
-			$volumes[ get_class( $Adapter ) ] = Utilities::get_total_volumes( $Adapter->get_market_summaries() );
+			//echo " -> getting volumes\n";
+			//$volumes[ get_class( $Adapter ) ] = Utilities::get_total_volumes( $Adapter->get_market_summaries() );
 
-			echo " -> getting worths\n";
-			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
+			//echo " -> getting worths\n";
+			//$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
 
 		}
 	}

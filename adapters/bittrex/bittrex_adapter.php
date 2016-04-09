@@ -33,9 +33,10 @@
 		public function cancel_all() {
 			$result = $this->get_open_orders();
 			$response = array();
-			if( isset( $result['success'] ) )
-				foreach( $result['result'] as $order )
-					array_push($response,$this->cancel($order['OrderUuid']));
+
+			foreach( $result as $order ) {
+				array_push($response,$this->cancel($order['id']));
+			}
 
 			if( isset( $result['success'] ) )
 				return array( 'success' => true, 'error' => false, 'message' => $response );

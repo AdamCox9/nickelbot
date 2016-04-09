@@ -102,7 +102,8 @@
 			$orders = $this->get_open_orders();
 			$results = array();
 			foreach( $orders as $order ) {
-				$order['detailedInfo'] = $this->exch->cancelorder( array( 'order_id' => $order['id'] ) );
+				$order['cancel_results'] = $this->exch->cancelorder( array( 'order_id' => $order['id'] ) );
+				print_r( $order );
 				array_push($results,$order);
 			}
 			return array( 'success' => true, 'error' => false, 'message' => $results );
@@ -149,6 +150,14 @@
 				unset( $order['time_unix'] );
 				unset( $order['date'] );
 				unset( $order['margin'] );
+				unset( $order['sell_type'] );
+				unset( $order['buy_type'] );
+				unset( $order['sell_amount'] );
+				unset( $order['buy_amount'] );
+				unset( $order['rate'] );
+				unset( $order['initial_rate'] );
+				unset( $order['initial_amount'] );
+				unset( $order['status'] );
 
 				array_push( $results, $order );
 
@@ -190,11 +199,11 @@
 		}
 
 		public function deposit_address($currency="BTC"){
-			return array( 'error' => 'METHOD_NOT_AVAILABLE' );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function deposit_addresses(){
-			return array( 'error' => 'METHOD_NOT_AVAILABLE' );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_balances() {

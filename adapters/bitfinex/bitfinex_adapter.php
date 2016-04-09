@@ -72,6 +72,8 @@
 					$open_order['timestamp_created'] = $open_order['timestamp'];
 					$open_order['amount'] = $open_order['original_amount'];
 
+					unset( $open_order['timestamp'] );
+					unset( $open_order['oco_order'] );
 					unset( $open_order['symbol'] );
 					array_push( $this->open_orders, $open_order );
 				}

@@ -1,9 +1,9 @@
 <?PHP
 
 	// Utility functions:
-	// These should be compatible with all of the exchanges
-	// They should not use ExchangeAdapter objects, 
-	// but they should accept arrays returned from Adapter APIs
+	// These should be compatible with all of the data returned from Adapter objects.
+	// They should not use the Adapter objects themselves, but they should accept arrays returned from Adapter APIs
+	// This can be used to perform custom calculations on data.
 
 	class Utilities {
 
@@ -83,8 +83,8 @@
 			return array( "btc_worth" => $btc_worth );
 		}
 
-		//Calculate avg_buy_price, avg_sell_price, loss, profit, breakeven sale price,
-		//for all buys & sells (disregard transfers & deposits... only trades) etc...
+		//Calculate avg_buy_price, avg_sell_price, loss, profit, breakeven sale price, etc...
+		//for all buys & sells & withdrawals & transfers & deposits & etc...
 		public static function analysis( $trades = array(), $time = 0 ){}
 
 		//This function will parse through trades since $time finding the highest & lowest sell price

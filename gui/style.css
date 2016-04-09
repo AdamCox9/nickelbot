@@ -35,3 +35,7 @@ div.trollbox {
 span.handle {
 	color:blue;
 }
+
+div.code { margin-bottom: 25px; padding: 10px; }
+div.code_desc { margin: 10px; border: 1px #666 dashed; padding: 10px; }
+div.code_resp { margin: 10px; border: 1px #999 dashed; padding: 10px; }

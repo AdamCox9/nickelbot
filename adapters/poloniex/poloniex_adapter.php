@@ -8,7 +8,7 @@
 
 		private function get_market_symbol( $market ) {
 			$market = explode( "-", $market );
-			$a = $market[1] . "_" . $market[0];
+			$a = $market[0] . "_" . $market[1];
 
 			return $a;
 		}
@@ -311,13 +311,12 @@
 			$markets = $this->get_markets();
 			$results = [];
 			foreach( $markets as $key ) {
-				$key = str_replace( "-", "_", $key );
 				$open_orders = $this->get_open_orders($key); //this will change to be standard across all adapters...
-				if( is_array( $open_orders ) )
-					foreach( $open_orders as $open_order )
-						foreach( $open_order as $order )
-							if( isset( $order['orderNumber'] ) )
-								array_push($results, $this->cancel($order['orderNumber'], array( 'market' => $key ) ) );
+				if( is_array( $open_orders ) ) {
+					foreach( $open_orders as $open_order ) {
+						array_push($results, $this->cancel($open_order['id'], array( 'market' => $this->get_market_symbol( $key ) ) ) );
+					}
+				}
 			}
 			return array( 'success' => true, 'error' => false, 'message' => $results );
 		}

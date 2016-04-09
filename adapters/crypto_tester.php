@@ -113,7 +113,7 @@
 		}
 
 		private function test_open_orders( $active_orders ) {
-			$keys = array( 'id', 'market', 'price', 'timestamp', 'exchange', 'avg_execution_price', 'side','type', 'is_live', 'is_cancelled', 'is_hidden', 'was_forced', 'original_amount', 'remaining_amount', 'executed_amount', 'amount' );
+			$keys = array( 'id', 'market', 'price', 'timestamp_created', 'exchange', 'avg_execution_price', 'side','type', 'is_live', 'is_cancelled', 'is_hidden', 'was_forced', 'original_amount', 'remaining_amount', 'executed_amount', 'amount' );
 			foreach( $active_orders as $active_order ) {
 				$this->equal_keys( $keys, $active_order );
 			}
