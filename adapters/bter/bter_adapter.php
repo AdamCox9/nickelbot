@@ -6,6 +6,11 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market ) {
+			$market = strtolower( str_replace("-", "_", $market ) );
+			return $market;
+		}
+
 		public function get_info() {
 			return [];
 		}
@@ -167,17 +172,36 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market = "BTC-USD" ) {
-			if( isset( $this->completed_orders ) )
-				return $this->completed_orders;
-			$markets = $this->get_markets();
-			$this->completed_orders = [];
-			foreach( $markets as $market ) {
-				$market = str_replace( "-", "_", strtolower( $market ) );
-				$trades24hours = $this->exch->mytrades( array( 'pair' => $market ) );
-				array_merge( $this->completed_orders, $trades24hours['trades'] );
+		//TODO: see if there is a limit
+		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
+			$market = $this->get_market_symbol($market);
+			$orders = $this->exch->mytrades( array( 'pair' => $market ) );
+			$results = [];
+
+			foreach( $orders['trades'] as $order ) {
+				$order['market'] = $market;
+				$order['order_id'] = $order['orderid'];
+				$order['price'] = $order['rate'];
+				$order['exchange'] = "Bter";
+				$order['timestamp'] = $order['time_unix'];
+				$order['exchange'] = "Bter";
+				$order['fee_currency'] = null;
+				$order['fee_amount'] = null;
+				$order['tid'] = null;
+				$order['id'] = null;
+				$order['fee'] = null;
+				$order['total'] = null;
+
+				unset( $order['orderid'] );
+				unset( $order['oid'] );
+				unset( $order['pair'] );
+				unset( $order['rate'] );
+				unset( $order['time'] );
+				unset( $order['time_unix'] );
+
+				array_push( $results, $order );
 			}
-			return $this->completed_orders;
+			return $results;
 		}
 
 		public function get_markets() {

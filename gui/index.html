@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	  <meta charset="UTF-8">
+	  <meta charset="UTF-8"/>
 	  <title>NickelBot | Home</title>
-	  <link rel="stylesheet" type="text/css" href="/gui/style.css">
+	  <link rel="stylesheet" type="text/css" href="/gui/style.css"/>
 	</head>
 	<body>
 
@@ -25,7 +25,7 @@
 		</h3>
 		
 		<p>
-			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot will have more abilities to share with you here in the cloud sometime soon. Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
+			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you here in the cloud! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
 		</p>
 
 		<h4 id="nickelbox">
@@ -62,7 +62,7 @@
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<div class="nickelbox" id="div_deposits_withdrawals">
+		<!--<div class="nickelbox" id="div_deposits_withdrawals">
 			<a href="#nickelbox" id="a_deposits_withdrawals">Load latest deposits and withdrawals...</a>
 		</div>
 
@@ -78,8 +78,7 @@
 
 		<div class="nickelbox" id="div_btc_tx_sound">
 			<a href="#nickelbox" id="a_btc_tx_sound">Listen to Bitcoin Transactions...</a>
-			<!--<div>Watch the <a target="_blank" href="">visualizations</a>!</div>-->
-		</div>
+		</div>-->
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
@@ -92,6 +91,25 @@
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
+		<h6 id="docs">Docs</h6>
+
+		<div class="code">
+			<div class="code_desc">
+				Get deposit addresses for an exchange.
+			</div>
+			<code>
+				public function Adapter->deposit_addresses();
+			</code>
+			<div class="code_resp">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=deposit_addresses">/api/index.php?exchange=Bitfinex&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=deposit_addresses">/api/index.php?exchange=Bitstamp&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=deposit_addresses">/api/index.php?exchange=Bittrex&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=deposit_addresses">/api/index.php?exchange=Btce&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=deposit_addresses">/api/index.php?exchange=Bter&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=deposit_addresses">/api/index.php?exchange=Coinbase&action=deposit_addresses</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=deposit_addresses">/api/index.php?exchange=Poloniex&action=deposit_addresses</a></div>
+			</div>
+		</div>
 		<div class="code">
 			<div class="code_desc">
 				Cancel one order<br/>
@@ -166,17 +184,6 @@
 				public function get_open_orders();<br/>
 				public function get_completed_orders();<br/>
 				public function get_order( $order_id );
-			</code>
-			<div class="code_resp">
-			</div>
-		</div>
-		<div class="code">
-			<div class="code_desc">
-				Get a deposit address for a currency: merge?
-			</div>
-			<code>
-				public function deposit_address( $currency="BTC" );<br/>
-				public function deposit_addresses();
 			</code>
 			<div class="code_resp">
 			</div>
@@ -280,21 +287,11 @@
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<h6>Thank You for not hacking my server! Come back again!</h6>
+		<p>Thank You for not hacking my server! Come back again!</p>
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<div>&copy; NickelBot? Customize this website and launch a business with it. You own your customizations! <a href="http://validator.w3.org/check?uri=referer">Valid HTML</a></div>
-
-		<p>
-			<a href="http://jigsaw.w3.org/css-validator/check/referer">
-				<img style="border:0;width:88px;height:31px"
-					src="http://jigsaw.w3.org/css-validator/images/vcss"
-					alt="Valid CSS!" />
-			</a>
-		</p>
-
-		+
+		<div>&copy; NickelBot? Customize this website and launch a business with it. You own your customizations! <a href="http://validator.w3.org/check?uri=referer">Valid HTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS</a></div>
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="/gui/scrypt.js"></script>
@@ -303,4 +300,5 @@
 		<script src="/gui/riffwave.js"></script>
 		<script src="/gui/btx_tx_sound.js"></script>
 		<script src="/gui/trollbox.js"></script>
-</body></html>
+	</body>
+</html>

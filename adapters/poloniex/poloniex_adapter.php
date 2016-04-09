@@ -8,9 +8,7 @@
 
 		private function get_market_symbol( $market ) {
 			$market = explode( "-", $market );
-			$a = $market[0] . "_" . $market[1];
-
-			return $a;
+			return $market[0] . "_" . $market[1];
 		}
 
 		public function get_info() {
@@ -137,35 +135,34 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market = "BTC-USD" ) {
+		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
 
 			$market = $this->get_market_symbol( $market );
-			$completed_orders = $this->exch->returnTradeHistory( 'All' /*$market*/ );
+			$orders = $this->exch->returnTradeHistory( $market );
 
 			$results = [];
-			foreach( $completed_orders as $market => $orders ) {
-				foreach( $orders as $order ) {
-					$order['market'] = $market;
-					$order['price'] = $order['rate'];
-					$order['timestamp'] = $order['date'];
-					$order['exchange'] = null;
-					$order['fee_currency'] = null;
-					$order['fee_amount'] = null;
-					$order['tid'] = null;
-					$order['order_id'] = null;
-					$order['id'] = null;
+			foreach( $orders as $order ) {
+				$order['market'] = $market;
+				$order['price'] = $order['rate'];
+				$order['timestamp'] = $order['date'];
+				$order['exchange'] = null;
+				$order['fee_currency'] = null;
+				$order['fee_amount'] = null;
+				$order['tid'] = null;
+				$order['order_id'] = null;
+				$order['id'] = null;
 
-					unset( $order['globalTradeID' ] );
-					unset( $order['tradeID' ] );
-					unset( $order['date' ] );
-					unset( $order['rate' ] );
-					unset( $order['orderNumber' ] );
-					unset( $order['category' ] );
-					
-					array_push( $results, $order );
-				}
+				unset( $order['globalTradeID' ] );
+				unset( $order['tradeID' ] );
+				unset( $order['date' ] );
+				unset( $order['rate' ] );
+				unset( $order['orderNumber' ] );
+				unset( $order['category' ] );
+				
+				array_push( $results, $order );
+
 			}
 
 			$this->completed_orders = $results;

@@ -20,7 +20,7 @@
 			echo "******* $exchange_name ******\n";
 			array_push( $exchanges, $exchange_name );
 			
-			echo " -> getting currencies\n";
+			/*echo " -> getting currencies\n";
 			$currencies[ $exchange_name ] = $Adapter->get_currencies();
 			$Tester->test( 'currencies', $currencies );
 
@@ -39,10 +39,11 @@
 			$Tester->test( 'deposit_addresses', $Adapter->deposit_addresses() );
 			
 			echo " -> getting open orders\n";
-			$Tester->test( 'open_orders', $Adapter->get_open_orders() );
+			$Tester->test( 'open_orders', $Adapter->get_open_orders() );*/
 
 			echo " -> getting completed orders\n";
-			$Tester->test( 'completed_orders', $Adapter->get_completed_orders() );
+			foreach( $Adapter->get_markets() as $market )
+				$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
 
 			/*echo " -> getting all recent trades\n";
 			$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );

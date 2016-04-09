@@ -86,10 +86,10 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market="BTC-USD" ) {
+		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
-			$completed_orders = $this->exch->user_transactions( array( 'offset' => 0, 'limit' => 1000, 'sort' => 'desc' ) );
+			$completed_orders = $this->exch->user_transactions( array( 'offset' => 0, 'limit' => $limit, 'sort' => 'desc' ) );
 			$this->completed_orders = [];
 			foreach( $completed_orders as $completed_order ) {
 				$completed_order['market'] = "BTC-USD";

@@ -80,10 +80,10 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market="BTC-USD" ) {
+		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
 			$completed_orders = [];
 			$market = str_replace( "-", "", strtoupper( $market ) );
-			$market_trades = $this->exch->mytrades( array( 'symbol' => $market, 'timestamp' => 0, 'until' => time(), 'limit_trades' => 100, 'symbol' => $market ) );
+			$market_trades = $this->exch->mytrades( array( 'symbol' => $market, 'timestamp' => 0, 'until' => time(), 'limit_trades' =>  $limit, 'symbol' => $market ) );
 			foreach( $market_trades as $market_trade ) {
 				$market_trade['market'] = $market;
 				$market_trade['exchange'] = "bitfinex";

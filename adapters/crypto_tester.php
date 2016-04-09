@@ -13,6 +13,9 @@
 				}
 			}
 
+			if( ! is_array( $data ) )
+				die( "UNKNOWN ERROR" );
+
 			$method = 'test_' . $method;
 			return $this->$method( $data );
 

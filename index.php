@@ -1,6 +1,6 @@
 <?PHP
 
-$template = require_once( 'gui/index.html' );
+$template = file_get_contents( 'gui/index.html' );
 
 echo $template;
 

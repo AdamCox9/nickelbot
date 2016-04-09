@@ -11,5 +11,6 @@ These are the adapter and native rest api classes.
 
 TODO:
  - This needs to be organized into a clean directory structure and this directory structure needs to be defined.
+    + Maybe it should be renamed to /class/ instead of /adapters/ since that it is misleading.
  - There should be a base Adapter class since there is some duplicate functionality in the Adapters.
  - It would be best to take as much functionality out of each Adapter class and put into the Base Adapter class.

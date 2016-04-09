@@ -102,12 +102,12 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market="BTC-USD" ) {
+		public function get_completed_orders( $market="BTC-USD", $limit = 100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
 			$this->completed_orders = [];
 			foreach( $this->get_markets() as $market ) {
-				$completed_orders = $this->exch->account_getorderhistory( array( 'market' => $market, 'count' => 100 ) );
+				$completed_orders = $this->exch->account_getorderhistory( array( 'market' => $market, 'count' => $limit ) );
 				foreach( $completed_orders['result'] as $completed_order ) {
 					$completed_order['exchange'] = "bittrex";
 					$completed_order['market'] = $market;

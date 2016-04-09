@@ -157,9 +157,7 @@
 			return $this->open_orders;
 		}
 
-		public function get_completed_orders( $market = "BTC-USD" ) {
-			if( isset( $this->completed_orders ) )
-				return $this->completed_orders;
+		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
 			$completed_orders = $this->exch->get_fills();
 			$results = [];
 
@@ -189,9 +187,8 @@
 				array_push( $results, $completed_order );
 
 			}
-			$this->completed_orders = $results;
 
-			return $this->completed_orders;
+			return $results;
 		}
 
 		public function get_markets() {
