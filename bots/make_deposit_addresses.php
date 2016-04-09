@@ -11,7 +11,7 @@ function make_deposit_addresses( $Adapters, $Tester ) {
 	foreach( $Adapters as $Adapter ) {
 		echo "\n<br/>***** " . get_class( $Adapter ) . " *****<br/>\n";
 		$deposit_addresses = $Adapter->deposit_addresses();
-		if( isset( $deposit_addresses['error'] ) && $deposit_addresses['error'] == "METHOD_NOT_AVAILABLE" ) continue;
+		if( isset( $deposit_addresses['ERROR'] ) && $deposit_addresses['ERROR'] == "METHOD_NOT_AVAILABLE" ) continue;
 		
 		$Tester->test( "deposit_addresses", $deposit_addresses );
 
