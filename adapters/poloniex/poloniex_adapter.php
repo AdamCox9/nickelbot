@@ -235,12 +235,11 @@
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {
-			$market = strtoupper($market);
-			$prices = $this->exch->returnTicker();
-			if(isset($prices[$market]))
-				return $prices[$market];
-			else
-				return array();
+			foreach( $this->get_market_summaries() as $market_summary ) {
+				if( $market_summary['market'] == $market )
+					return $market_summary;
+			}
+			return array( 'ERROR' => 'MARKET_NOT_FOUND' );
 		}
 
 		public function get_market_summaries() {
@@ -249,7 +248,7 @@
 			foreach( $market_summaries as $key => $market_summary ) {
 				$market_summary['market'] = strtoupper( str_replace( "_", "-", $key ) );
 				$msmn = explode( "-", $market_summary['market'] );
-				$market_summary['market'] = $msmn[1] . "-" . $msmn[0];
+				$market_summary['market'] = $msmn[0] . "-" . $msmn[1];
 				$market_summary['exchange'] = "poloniex";
 				$market_summary['last_price'] = $market_summary['last'];
 				$market_summary['ask'] = is_null( $market_summary['lowestAsk'] ) ? 0 : $market_summary['lowestAsk'];

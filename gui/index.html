@@ -62,27 +62,38 @@
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<!--<div class="nickelbox" id="div_deposits_withdrawals">
+		<div class="nickelbox" id="div_deposits_withdrawals">
 			<a href="#nickelbox" id="a_deposits_withdrawals">Load latest deposits and withdrawals...</a>
 		</div>
 
 		<div class="nickelbox" id="div_btc_visualizations">
-			<a href="#nickelbox" id="a_payment_processor">Load payment processor...</a><br>
-			<a href="#nickelbox" id="a_sound_alerter">Load sound alerter...</a><br>
-			<a href="#nickelbox" id="a_bot_shop">Load bot shop...</a><br>
-			<a href="#nickelbox" id="a_voting_booth">Load voting booth...</a><br>
-			<a href="#nickelbox" id="a_other_sample_nickelbox">Load other sample NickelBox...</a><br>
-			<a href="#nickelbox" id="a_etcetera">Load etcetera...</a><br>
 			<a href="#nickelbox" id="a_btc_visualizations">Load BTC visualizations...</a><br>
 		</div>
 
 		<div class="nickelbox" id="div_btc_tx_sound">
 			<a href="#nickelbox" id="a_btc_tx_sound">Listen to Bitcoin Transactions...</a>
+		</div>
+
+		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
+
+		<!--<div class="nickelbox" id="div_deposits_withdrawals">
+			<a href="#nickelbox" id="a_payment_processor">Load payment processor...</a><br>
+		</div>
+
+		<div class="nickelbox" id="div_btc_visualizations">
+			<a href="#nickelbox" id="a_sound_alerter">Load sound alerter...</a><br>
+		</div>
+
+		<div class="nickelbox" id="div_btc_tx_sound">
+			<a href="#nickelbox" id="a_bot_shop">Load bot shop...</a><br>
+			<a href="#nickelbox" id="a_voting_booth">Load voting booth...</a><br>
+			<a href="#nickelbox" id="a_other_sample_nickelbox">Load other sample NickelBox...</a><br>
+			<a href="#nickelbox" id="a_etcetera">Load etcetera...</a><br>
 		</div>-->
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<h5>Super Trollbox</h5>
+		<h5 id="super_trollbox">Super Trollbox</h5>
 
 		<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>
@@ -157,7 +168,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Cancel one order<br/>
+				Cancel one order.
 			</div>
 			<code>
 				public function cancel( $order_id = 1, $opts = array() );
@@ -168,7 +179,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Cancel all orders:
+				Cancel all orders.
 			</div>
 			<code>
 				public function cancel_all();
@@ -179,9 +190,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Make a buy order - TODO accept an array of orders<br/>
-				$type: limit, market, stop, margin, trigger, etc...<br/>
-				merge with sell to make order(...)
+				Make a buy order.
 			</div>
 			<code>
 				public function buy( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
@@ -192,9 +201,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Make a sell order - TODO accept an array of orders<br/>
-				$type: limit, market, stop, margin, trigger, etc...<br/>
-				merge with buy to make order(...)
+				Make a sell order.
 			</div>
 			<code>
 				public function sell( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
@@ -205,7 +212,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Get all open orders.
+				Get all open orders on an exchange.
 			</div>
 			<code>
 				public function get_open_orders();<br/>
@@ -215,7 +222,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Get completed orders for a specific market.
+				Get completed orders for a specific market on an exchange.
 			</div>
 			<code>
 				public function get_completed_orders( $market );<br/>
@@ -225,7 +232,7 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Get order orders.
+				Get order.
 			</div>
 			<code>
 				public function get_order( $id );<br/>
@@ -235,28 +242,59 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Get specific market summary: merge and accept an array of markets to get
+				Get specific market summary for an exchange.
 			</div>
 			<code>
 				public function get_market_summary( $market="BTC-LTC" );<br/>
+			</code>
+			<div class="code_resp">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitstamp&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=get_market_summary&market=BTC-XMR">/api/index.php?exchange=Bittrex&action=get_market_summary&market=BTC-XMR</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Btce&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=get_market_summary&market=BTC-DOGE">/api/index.php?exchange=Bter&action=get_market_summary&market=BTC-DOGE</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Coinbase&action=get_market_summary&market=BTC-USD</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=get_market_summary&market=BTC-ETH">/api/index.php?exchange=Poloniex&action=get_market_summary&market=BTC-ETH</a></div>
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get all market summaries for all markets for an exchange.
+			</div>
+			<code>
 				public function get_market_summaries();
+			</code>
+			<div class="code_resp">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summaries">/api/index.php?exchange=Bitfinex&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=get_market_summaries">/api/index.php?exchange=Bitstamp&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=get_market_summaries">/api/index.php?exchange=Bittrex&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=get_market_summaries">/api/index.php?exchange=Btce&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=get_market_summaries">/api/index.php?exchange=Bter&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=get_market_summaries">/api/index.php?exchange=Coinbase&action=get_market_summaries</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=get_market_summaries">/api/index.php?exchange=Poloniex&action=get_market_summaries</a></div>
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				Get balance for a specific currency on an exchange.
+			</div>
+			<code>
+				public function get_balance( $currency="BTC" );<br/>
 			</code>
 			<div class="code_resp">
 			</div>
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				Balances, confirmed, reserved, available & total... for each currency...<br/>
-				merge and accept an array of currencies
+				Get all balances for all currencies on an exchange.
 			</div>
 			<code>
-				public function get_balance( $currency="BTC" );<br/>
 				public function get_balances();
 			</code>
 			<div class="code_resp">
 			</div>
 		</div>
-		<div class="code">
+		<!--<div class="code">
 			<div class="code_desc">
 				Stuff for margin trading...<br/>
 				Start implementing
@@ -328,7 +366,7 @@
 			</code>
 			<div class="code_resp">
 			</div>
-		</div>
+		</div>-->
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 

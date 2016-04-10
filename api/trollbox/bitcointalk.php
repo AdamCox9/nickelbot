@@ -1,7 +1,5 @@
 <?PHP
 
-	
-
 	$rss = new DOMDocument();
 	$rss->load('http://bitcointalk.org/index.php?type=rss;action=.xml&limit=20');
 

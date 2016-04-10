@@ -85,7 +85,7 @@
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
 						console.log( JSON.stringify( value[i] ) );
-						$( 'div#div_open_orders' ).append( "<div class='open_orders'>" + index + "<br/>" + value[i]['type'] + " " + "<span class='open_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp_created'] + ")</div>" );
+						$( 'div#div_open_orders' ).append( "<div class='open_orders'>" + index + "<br/>" + value[i]['type'] + " " + "<span class='open_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp_created'] + ")" + " (id: " + value[i]['id'] + ")</div>" );
 					}
 				});
 			});
