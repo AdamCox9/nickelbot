@@ -38,8 +38,7 @@
 		$epsilon = "0.00000001";
 
 		//_____make 10 new visible orders:
-		$z = 0;
-		while ( $z++ < 16 ) {
+		while( $sell_price - $buy_price > 0.00000001 ) {
 			$buy_size = bcdiv( '0.0005', $buy_price, $price_precision );
 			$sell_size = bcdiv( '0.0005', $sell_price, $price_precision );
 			$buy_price = number_format( $buy_price, $price_precision, '.', '' );
