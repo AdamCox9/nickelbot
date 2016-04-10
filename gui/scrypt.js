@@ -18,7 +18,7 @@
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
 			$.ajax({
-			 url: "/api/index.php?action=currencies&exchange="+value,
+			 url: "/api/index.php?action=get_currencies&exchange="+value,
 			 context: document.body
 			}).done(function(data) {
 				var obj = JSON.parse( data );
@@ -36,7 +36,7 @@
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
 			$.ajax({
-			 url: "/api/index.php?action=markets&exchange="+value,
+			 url: "/api/index.php?action=get_markets&exchange="+value,
 			 context: document.body
 			}).done(function(data) {
 				var obj = JSON.parse( data );
@@ -77,13 +77,14 @@
 		//console.log( obj );
 		$.each(obj, function( index, value ) {
 			$.ajax({
-			 url: "/api/index.php?action=open_orders&exchange="+value,
+			 url: "/api/index.php?action=get_open_orders&exchange="+value,
 			 context: document.body
 			}).done(function(data) {
 				//console.log( data );
 				var obj = JSON.parse( data );
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
+						console.log( JSON.stringify( value[i] ) );
 						$( 'div#div_open_orders' ).append( "<div class='open_orders'>" + index + "<br/>" + value[i]['type'] + " " + "<span class='open_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp_created'] + ")</div>" );
 					}
 				});
@@ -99,7 +100,7 @@
 			$( 'div#div_completed_orders' ).append( "<div style='text-decoration:underline;' class='exchange' id='" + value + "'>" + value + "</div>" );
 			$( "div#" + value ).click(function(event) {
 				$.ajax({
-				 url: "/api/index.php?action=markets&exchange="+event.target.id,
+				 url: "/api/index.php?action=get_markets&exchange="+event.target.id,
 				 context: document.body
 				}).done(function(data) {
 					var obj = JSON.parse( data );
@@ -111,7 +112,7 @@
 								var exchange = arr[0].replace("Adapter", "");
 								var market = arr[1];
 								$.ajax({
-								 url: "/api/index.php?action=completed_orders&exchange="+exchange+"&market="+market,
+								 url: "/api/index.php?action=get_completed_orders&exchange="+exchange+"&market="+market,
 								 context: document.body
 								}).done(function(data) {
 									console.log( data );
@@ -126,7 +127,7 @@
 
 		/*$.each(obj, function( index, value ) {
 			$.ajax({
-			 url: "/api/index.php?action=markets&exchange="+value,
+			 url: "/api/index.php?action=get_markets&exchange="+value,
 			 context: document.body
 			}).done(function(data) {
 				//console.log( data );

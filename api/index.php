@@ -44,12 +44,14 @@
 
 		switch( $action ) {
 			case "exchanges": $response = api_exchanges(); break;
+			case "cancel": $response = api_cancel(); break;
+			case "cancel_all": $response = api_cancel_all(); break;
 			case "buy": $response = api_buy(); break;
 			case "sell": $response = api_sell(); break;
-			case "currencies": $response = api_currencies(); break;
-			case "markets": $response = api_markets(); break;
-			case "completed_orders": $response = api_completed_orders(); break;
-			case "open_orders": $response = api_open_orders(); break;
+			case "get_currencies": $response = api_currencies(); break;
+			case "get_markets": $response = api_markets(); break;
+			case "get_completed_orders": $response = api_completed_orders(); break;
+			case "get_open_orders": $response = api_open_orders(); break;
 			case "deposit_addresses": $response = api_deposit_addresses(); break;
 			default: die( "error" );
 		}
@@ -64,11 +66,59 @@
 
 	function api_buy()
 	{
-		echo "buy";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		$price = isset( $_GET['price'] ) ? $_GET['price'] : "error";
+		if( $price == "error" ) return array( "error" => "price required" );
+		$amount = isset( $_GET['amount'] ) ? $_GET['amount'] : "error";
+		if( $amount == "error" ) return array( "error" => "amount required" );
+		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
+		if( $market == "error" ) return array( "error" => "market required" );
+
+		$price = "404";
+		$amount = "0.011";
+		$market = "BTC-USD";
+
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->buy( $market, $amount, $price ) );
 	}
 	function api_sell()
 	{
-		echo "sell";
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		$price = isset( $_GET['price'] ) ? $_GET['price'] : "error";
+		if( $price == "error" ) return array( "error" => "price required" );
+		$amount = isset( $_GET['amount'] ) ? $_GET['amount'] : "error";
+		if( $amount == "error" ) return array( "error" => "amount required" );
+		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
+		if( $market == "error" ) return array( "error" => "market required" );
+
+		$price = "444";
+		$amount = "0.011";
+		$market = "BTC-USD";
+
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->sell( $market, $amount, $price ) );
+	}
+	function api_cancel()
+	{
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		$id = isset( $_GET['id'] ) ? $_GET['id'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		if( $id == "error" ) return array( "error" => "id required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->cancel( $id ) );
+	}
+	function api_cancel_all()
+	{
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->cancel_all() );
 	}
 	function api_currencies()
 	{

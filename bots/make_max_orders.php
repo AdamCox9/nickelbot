@@ -31,9 +31,10 @@
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
 
-				$buy_price = number_format( $buy_price, 32, '.', '' );
-				$sell_price = number_format( $sell_price, 32, '.', '' );
+				$buy_price = number_format( $buy_price * 0.9, 32, '.', '' );
+				$sell_price = number_format( $sell_price * 1.1, 32, '.', '' );
 
+				//Don't sell the currency we are buying with
 				$quote_curs = array( /*"BTC", "LTC", "CNY", "NXT", "USD", "XRP"*/ );
 
 				if( $buy_price > 0 && ! in_array( $base_cur, $quote_curs ) ) {
