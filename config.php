@@ -1,12 +1,5 @@
 <?PHP
 
-	/*if( ! isset( $_SERVER['REMOTE_ADDR'] ) || $_SERVER['REMOTE_ADDR'] != '76.24.176.23' ) {
-		if( ! isset( $_SERVER['USER'] ) || $_SERVER['USER'] !== "root" ) {
-			header("HTTP/1.0 404 Not Found");
-			exit;
-		}
-	}*/
-
 	//_____Maybe we can organize these dependencies better.
 
 	//_____Crypto tools, etc...

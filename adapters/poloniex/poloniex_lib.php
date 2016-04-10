@@ -14,6 +14,8 @@
 		}
 			
 		private function query(array $req = array()) {
+			usleep(100000);//prevent rate limit
+
 			// API settings
 			$key = $this->api_key;
 			$secret = $this->api_secret;
@@ -154,7 +156,7 @@
 			return $this->query( 
 				array(
 					'command' => 'returnOpenOrders',
-					'currencyPair' => strtoupper($currencyPair)
+					'currencyPair' => $currencyPair
 				)
 			);
 		}
@@ -194,7 +196,7 @@
 			return $this->query( 
 				array(
 					'command' => 'cancelOrder',	
-					'currencyPair' => strtoupper($currencyPair),
+					'currencyPair' => $currencyPair,
 					'orderNumber' => $order_number
 				)
 			);
