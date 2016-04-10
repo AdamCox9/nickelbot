@@ -12,8 +12,6 @@
 	function poloniex_light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-		//$Adapter->cancel_all();
-
 		//_____get the markets to loop over:
 
 		$eth_market = $Adapter->get_market_summary( "BTC-ETH" );
@@ -48,12 +46,23 @@
 				echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
 				echo " -> selling $sell_size of ETH for $sell_price costing " . $sell_size * $sell_price . " \n";
 
-				$Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
-				$Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+				if( $btc_bal > 0 ) {
+					$Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+					$btc_bal = $btc_bal - $buy_size * $buy_price;
+				}
+				if( $eth_bal > 0 ) {
+					$Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+					$eth_bal = $eth_bal - $sell_size;
+				}
+				if( $btc_bal <= 0 && $eth_bal <= 0 ) {
+					//$Adapter->cancel_all();
+					break;
+				}
 			}
 
 			$buy_price = $buy_price + $epsilon;
 			$sell_price = $sell_price - $epsilon;
+
 		}
 
 		echo "\n";
