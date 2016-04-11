@@ -15,12 +15,12 @@
 		$volumes = [];
 		$worths = [];
 
-		foreach( $Adapters as $Adapter ) { //this loop kind of for testing...
+		foreach( $Adapters as $Adapter ) {
 			$exchange_name = get_class( $Adapter );
 			echo "******* $exchange_name ******\n";
 			array_push( $exchanges, $exchange_name );
 			
-			/*echo " -> getting currencies\n";
+			echo " -> getting currencies\n";
 			$currencies[ $exchange_name ] = $Adapter->get_currencies();
 			$Tester->test( 'currencies', $currencies );
 
@@ -44,24 +44,24 @@
 
 			echo " -> getting completed orders\n";
 			foreach( $Adapter->get_markets() as $market )
-				$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );*/
+				$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
 
 			echo " -> cancelling all orders\n";
 			$Tester->test( 'cancel_all', $Adapter->cancel_all() );
 
-			/*echo " -> getting all recent trades\n";
+			echo " -> getting all recent trades\n";
 			$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );
 
 			echo " -> getting some depth of orderbook\n";
-			$Tester->test( 'orderbooks', $Adapter->get_orderbooks( $depth = 20 ) );*/
+			$Tester->test( 'orderbooks', $Adapter->get_orderbooks( $depth = 20 ) );
 
 			//_____Utilities: they do not directly access native API libraries where as Adapters must access native API or self
 
-			/*echo " -> getting volumes\n";
+			echo " -> getting volumes\n";
 			$volumes[ get_class( $Adapter ) ] = Utilities::get_total_volumes( $Adapter->get_market_summaries() );
 
 			echo " -> getting worths\n";
-			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );*/
+			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
 
 		}
 	}

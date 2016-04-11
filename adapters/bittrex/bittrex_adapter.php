@@ -1,6 +1,6 @@
 <?PHP
 
-	class BittrexAdapter implements CryptoExchange {
+	class BittrexAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;

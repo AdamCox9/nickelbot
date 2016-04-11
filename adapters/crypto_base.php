@@ -1,0 +1,7 @@
+<?PHP
+
+	class CryptoBase {
+
+	}
+
+?>

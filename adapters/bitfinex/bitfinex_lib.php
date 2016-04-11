@@ -7,12 +7,21 @@
 		protected $api_secret;
 		protected $trading_url = "https://api.bitfinex.com/v1";
 		
-		public function __construct( $api_key, $api_secret ) {
+		public function __construct( $api_key, $api_secret ) 
+		{
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
 		}
 			
-		private function query( $path, array $req = array() ) {
+		private function query( $path, array $req = array() ) 
+		{
+
+			echo "\n\n";
+			echo "$path";
+			echo "\n";
+			print_r( $req );
+			echo "\n\n";
+
 			// API settings
 			$key = $this->api_key;
 			$secret = $this->api_secret;

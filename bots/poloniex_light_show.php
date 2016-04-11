@@ -12,7 +12,10 @@
 	function poloniex_light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-		$Adapter->cancel_all();
+		$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
+		foreach( $eth_open_orders as $eth_open_order ) {
+			print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
+		}
 
 		//_____get the markets to loop over:
 
@@ -35,7 +38,7 @@
 		echo "buy price: $buy_price\n";
 		echo "sell price: $sell_price\n";
 
-		$epsilon = "0.00000002";
+		$epsilon = "0.00000005";
 
 		//_____make 10 new visible orders:
 		while( $sell_price - $buy_price > 0.00000001 ) {

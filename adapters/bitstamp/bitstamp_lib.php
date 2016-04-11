@@ -18,6 +18,15 @@
 
 		private function query($path, array $req = array(), $type = 'post')
 		{
+
+			echo "\n\n";
+			echo "$path";
+			echo "\n";
+			print_r( $req );
+			echo "\n";
+			echo "$type";
+			echo "\n\n";
+
 			// API settings
 			$key = $this->key;
 			

@@ -1,6 +1,6 @@
 <?PHP
 
-	class PoloniexAdapter implements CryptoExchange {
+	class PoloniexAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;
@@ -130,6 +130,7 @@
 				$order['remaining_amount'] = null;
 				$order['executed_amount'] = null;
 
+				unset( $order['startingAmount'] );
 				unset( $order['orderNumber'] );
 				unset( $order['rate'] );
 				unset( $order['total'] );
@@ -178,10 +179,10 @@
 
 		//BTC_USD, BTC_LTC, LTC_USD, etc...
 		public function get_markets() {
-			$markets = array_keys( $this->exch->returnTicker() );
+			$markets = $this->get_market_summaries();
 			$results = [];
 			foreach( $markets as $market ) {
-				array_push( $results, $this->get_market_symbol( $market ) );
+				array_push( $results, $market['market'] );
 			}
 			return $results;
 		}
@@ -196,11 +197,14 @@
 		}
 		
 		public function deposit_addresses(){
+			/*
+			//TODO: first try to get deposit address, then compare to currencies and generate new ones when they don't exist
+			
 			$addresses = $this->exch->returnDepositAddresses();
 			$currencies = array_diff( $this->get_currencies(), array_keys( $addresses ) );
 			foreach( $currencies as $currency ) {
 				$this->exch->generateNewAddress( $currency );
-			}
+			}*/
 			$results = [];
 			$addresses = $this->exch->returnDepositAddresses();
 			foreach( $addresses as $currency => $address ) {
@@ -254,8 +258,10 @@
 		}
 
 		public function get_market_summaries() {
+			if( isset( $this->market_summaries ) )
+				return $this->market_summaries;
 			$market_summaries = $this->exch->returnTicker();
-			$response = [];
+			$this->market_summaries = [];
 			foreach( $market_summaries as $key => $market_summary ) {
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['exchange'] = "poloniex";
@@ -306,9 +312,9 @@
 
 				ksort( $market_summary );
 
-				array_push( $response, $market_summary );
+				array_push( $this->market_summaries, $market_summary );
 			}
-			return $response;
+			return $this->market_summaries;
 		}
 
 		//_____Cancel all orders:

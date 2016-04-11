@@ -1,4 +1,5 @@
 <?php
+
 	interface CryptoExchange
 	{
 		//This could have exchange info such as name, url, location, total volume, etc???

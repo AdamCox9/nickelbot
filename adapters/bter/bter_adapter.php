@@ -1,14 +1,21 @@
 <?PHP
 
-	class BterAdapter implements CryptoExchange {
+	class BterAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;
 		}
 
+		//Get the symbol returned from Adapter:
 		private function get_market_symbol( $market ) {
-			$market = strtolower( str_replace("-", "_", $market ) );
+			$market = strtoupper( str_replace("_", "-", $market ) );
 			return $market;
+		}
+		
+		//Get the symbol returned from native lib:
+		private function unget_market_symbol( $market ) {
+			$market = explode( "-", $market );
+			return $market[0] . "_" . $market[1];
 		}
 
 		public function get_info() {
@@ -173,33 +180,38 @@
 		}
 
 		//TODO: see if there is a limit
-		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
+		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) 
+		{
 			$market = $this->get_market_symbol($market);
 			$orders = $this->exch->mytrades( array( 'pair' => $market ) );
 			$results = [];
 
-			foreach( $orders['trades'] as $order ) {
-				$order['market'] = $market;
-				$order['order_id'] = $order['orderid'];
-				$order['price'] = $order['rate'];
-				$order['exchange'] = "Bter";
-				$order['timestamp'] = $order['time_unix'];
-				$order['exchange'] = "Bter";
-				$order['fee_currency'] = null;
-				$order['fee_amount'] = null;
-				$order['tid'] = null;
-				$order['id'] = null;
-				$order['fee'] = null;
-				$order['total'] = null;
+			if( ! isset( $orders['trades'] ) ) {
+				return array( 'ERROR' => array( $orders ) );
+			} else {
+				foreach( $orders['trades'] as $order ) {
+					$order['market'] = $market;
+					$order['order_id'] = $order['orderid'];
+					$order['price'] = $order['rate'];
+					$order['exchange'] = "Bter";
+					$order['timestamp'] = $order['time_unix'];
+					$order['exchange'] = "Bter";
+					$order['fee_currency'] = null;
+					$order['fee_amount'] = null;
+					$order['tid'] = null;
+					$order['id'] = null;
+					$order['fee'] = null;
+					$order['total'] = null;
 
-				unset( $order['orderid'] );
-				unset( $order['oid'] );
-				unset( $order['pair'] );
-				unset( $order['rate'] );
-				unset( $order['time'] );
-				unset( $order['time_unix'] );
+					unset( $order['orderid'] );
+					unset( $order['oid'] );
+					unset( $order['pair'] );
+					unset( $order['rate'] );
+					unset( $order['time'] );
+					unset( $order['time_unix'] );
 
-				array_push( $results, $order );
+					array_push( $results, $order );
+				}
 			}
 			return $results;
 		}

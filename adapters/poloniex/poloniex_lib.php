@@ -8,13 +8,19 @@
 		protected $trading_url = "https://poloniex.com/tradingApi";
 		protected $public_url = "https://poloniex.com/public";
 		
-		public function __construct($api_key, $api_secret) {
+		public function __construct($api_key, $api_secret) 
+		{
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
 		}
 			
-		private function query(array $req = array()) {
-			usleep(100000);//prevent rate limit
+		private function query(array $req = array()) 
+		{
+			usleep(1000000);//rate limit
+
+			echo "\n\n";
+			print_r( $req );
+			echo "\n\n";
 
 			// API settings
 			$key = $this->api_key;

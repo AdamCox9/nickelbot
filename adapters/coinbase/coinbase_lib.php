@@ -7,13 +7,24 @@
 		protected $api_secret;
 		protected $trading_url = "https://api.exchange.coinbase.com";
 		
-		public function __construct($api_key, $api_secret,$passphrase) {
+		public function __construct($api_key, $api_secret,$passphrase) 
+		{
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
 			$this->passphrase = $passphrase;
 		}
 			
-		public function query( $method, $params = array(), $type = "GET" ) {
+		public function query( $method, $params = array(), $type = "GET" ) 
+		{
+
+			echo "\n\n";
+			echo "$method";
+			echo "\n";
+			print_r( $params );
+			echo "\n";
+			echo "$type";
+			echo "\n\n";
+
 			$key = $this->api_key;
 			$secret = $this->api_secret;
 			$passphrase = $this->passphrase;

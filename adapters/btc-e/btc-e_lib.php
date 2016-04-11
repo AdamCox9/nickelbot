@@ -9,13 +9,22 @@
 		protected $api_secret;
 		protected $trading_url = "https://btc-e.com/tapi/";
 		
-		public function __construct($api_key, $api_secret) {
+		public function __construct($api_key, $api_secret) 
+		{
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
 			$this->x = 0;
 		}
 
-		private function query($method, array $req = array()) {
+		private function query($method, array $req = array())
+		{
+
+			echo "\n\n";
+			echo "$method";
+			echo "\n";
+			print_r( $req );
+			echo "\n\n";
+
 			// API settings
 			$key = $this->api_key;
 			$secret = $this->api_secret;

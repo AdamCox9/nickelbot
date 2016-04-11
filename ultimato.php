@@ -25,7 +25,14 @@
 
 		 *****/
 
-		//poloniex_light_show( $Adapters['Poloniex'] );
+		while(1) {
+			echo "\n\n***************************";
+			sleep(1);
+			echo "\n***************************";
+			sleep(1);
+			echo "\n***************************\n\n";
+			poloniex_light_show( $Adapters['Poloniex'] );
+		}
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );

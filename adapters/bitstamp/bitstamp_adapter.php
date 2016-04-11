@@ -1,6 +1,6 @@
 <?PHP
 
-	class BitstampAdapter implements CryptoExchange {
+	class BitstampAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;

@@ -45,6 +45,8 @@
 					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 6 )
 						die( "Currency must be 1-6 characters: {$curs[1]}" );
 				}
+				//Could further test this market by creating an order and cancelling it.
+				//Use the Adapter->get_market_symbol and Adapter->unget_market_symbol
 			}
 		}
 
