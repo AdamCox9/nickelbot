@@ -3,3 +3,5 @@ config_safe.php
 supertrollbox.php
 cron.out
 out.txt
+bittrex_out.txt
+poloniex_out.txt

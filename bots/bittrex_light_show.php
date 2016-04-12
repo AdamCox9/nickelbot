@@ -42,8 +42,8 @@
 
 		$epsilon = "0.00000005";
 
-		$buy = []; 
-		$sell = [];
+		$buy = array( 'message' => null ); 
+		$sell = array( 'message' => null ); 
 
 		//_____make 10 new visible orders:
 		while( $sell_price - $buy_price > 0.00000001 ) {
@@ -55,18 +55,18 @@
 			if( $buy_price < $sell_price ) {
 				echo " -> btc bal $btc_bal before and eth bal $eth_bal before\n";
 
-				if( ! isset( $buy['message'] ) || ( isset( $buy['message'] ) && $buy['message'] != 'INUFFICIENT_FUNDS' ) ) {
+				if( $buy['message'] !== 'INSUFFICIENT_FUNDS' ) {
 					echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
 					$buy = $Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+					echo "buy:\n";
+					print_r( $buy );
 				}
-				if( ! isset( $sell['message'] ) || ( isset( $buy['message'] ) && $buy['message'] != 'INUFFICIENT_FUNDS' ) ) {
+				if( $sell['message'] !== 'INSUFFICIENT_FUNDS' ) {
 					echo " -> selling $sell_size of ETH for $sell_price earning " . $sell_size * $sell_price . " \n";
 					$sell = $Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+					echo "\nsell:\n";
+					print_r( $sell );
 				}
-				print_r( $buy );
-				echo "\n";
-				print_r( $sell );
-				echo "\n";
 				if( isset( $buy['message'] ) && $buy['message'] == 'INSUFFICIENT_FUNDS' && isset( $sell['message'] ) && $sell['message'] == 'INSUFFICIENT_FUNDS' ) {
 					if( rand() % 99 == 88 )
 						$Adapter->cancel_all();
