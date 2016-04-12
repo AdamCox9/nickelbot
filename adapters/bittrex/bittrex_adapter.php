@@ -248,7 +248,55 @@
 		}
 
 		public function get_market_summary( $market="LTC-BTC" ) {
-			return $this->exch->getmarketsummary( array('market' => $market ) );
+			$market_summary = $this->exch->getmarketsummary( array('market' => $market ) );
+			$market_summary = $market_summary['result'][0];
+
+			$market_summary['exchange'] = "bittrex";
+			$msmn = explode( "-", $market_summary['MarketName'] );
+			$market_summary['market'] = $msmn[1] . "-" . $msmn[0];
+			$market_summary['high'] = $market_summary['High'];
+			$market_summary['low'] = $market_summary['Low'];
+			$market_summary['base_volume'] = $market_summary['Volume'];
+			$market_summary['quote_volume'] = $market_summary['BaseVolume'];
+			$market_summary['btc_volume'] = null;
+			$market_summary['last_price'] = $market_summary['Last'];
+			$market_summary['timestamp'] = $market_summary['TimeStamp'];
+			$market_summary['bid'] = is_null( $market_summary['Bid'] ) ? 0 : $market_summary['Bid'];
+			$market_summary['ask'] = is_null( $market_summary['Ask'] ) ? 0 : $market_summary['Ask'];
+			$market_summary['display_name'] = $market_summary['market'];
+			$market_summary['result'] = true;
+			$market_summary['created'] = $market_summary['Created'];
+			$market_summary['open_buy_orders'] = $market_summary['OpenBuyOrders'];
+			$market_summary['open_sell_orders'] = $market_summary['OpenSellOrders'];
+			$market_summary['percent_change'] = null;
+			$market_summary['frozen'] = null;
+			$market_summary['verified_only'] = null;
+			$market_summary['expiration'] = null;
+			$market_summary['initial_margin'] = null;
+			$market_summary['maximum_order_size'] = null;
+			$market_summary['mid'] = ( $market_summary['bid'] + $market_summary['ask'] ) / 2;
+			$market_summary['minimum_margin'] = null;
+			$market_summary['minimum_order_size_quote'] = 0.00050000;
+			$market_summary['minimum_order_size_base'] = null;
+			$market_summary['price_precision'] = 8;
+			$market_summary['vwap'] = null;
+			$market_summary['market_id'] = null;
+
+			unset( $market_summary['OpenBuyOrders'] );
+			unset( $market_summary['OpenSellOrders'] );
+			unset( $market_summary['MarketName'] );
+			unset( $market_summary['High'] );
+			unset( $market_summary['Low'] );
+			unset( $market_summary['Volume'] );
+			unset( $market_summary['Last'] );
+			unset( $market_summary['BaseVolume'] );
+			unset( $market_summary['TimeStamp'] );
+			unset( $market_summary['Bid'] );
+			unset( $market_summary['Ask'] );
+			unset( $market_summary['Created'] );
+			unset( $market_summary['PrevDay'] );
+
+			return $market_summary;
 		}
 
 		public function get_market_summaries() {

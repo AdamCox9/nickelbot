@@ -3,19 +3,21 @@
 	/*
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make a blink show on Poloniex.
+		This is a simple example of a bot that will make minimum orders on ETH to close the spread.
 
 		TODO
-		 - a lot
+		 - allow for any market or array of markets or all markets
 	*/
 
-	function poloniex_light_show( $Adapter ) {
+	function light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-		$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
+		/*$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
 		foreach( $eth_open_orders as $eth_open_order ) {
 			print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
-		}
+		}*/
+
+		$Adapter->cancel_all();
 
 		//_____get the markets to loop over:
 
@@ -48,20 +50,22 @@
 			$sell_price = number_format( $sell_price, $price_precision, '.', '' );
 
 			if( $buy_price < $sell_price ) {
-				echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
-				echo " -> selling $sell_size of ETH for $sell_price costing " . $sell_size * $sell_price . " \n";
+				echo " -> btc bal $btc_bal before and eth bal $eth_bal before\n";
 
-				if( $btc_bal > 0 ) {
-					$Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+				if( $btc_bal > 0.0005 && $btc_bal > $buy_size * $buy_price ) {
+					echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
+					print_r( $Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) ) );
 					$btc_bal = $btc_bal - $buy_size * $buy_price;
 				}
-				if( $eth_bal > 0 ) {
-					$Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+				if( $eth_bal > 0.02 && $eth_bal > $sell_size ) {
+					echo " -> selling $sell_size of ETH for $sell_price costing " . $sell_size * $sell_price . " \n";
+					print_r( $Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) ) );
 					$eth_bal = $eth_bal - $sell_size;
 				}
 				if( $btc_bal <= 0 && $eth_bal <= 0 ) {
 					break;
 				}
+
 			}
 
 			$buy_price = $buy_price + $epsilon;
