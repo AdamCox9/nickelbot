@@ -9,7 +9,7 @@
 		 - a lot
 	*/
 
-	function light_show( $Adapter ) {
+	function bittrex_light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
 		/*$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );

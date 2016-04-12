@@ -22,7 +22,7 @@
 			print_r( $req );
 			echo "\n\n";
 
-			usleep(200000);//rate limit
+			usleep(1000000);//rate limit
 
 			$key = $this->api_key;
 			$secret = $this->api_secret;
