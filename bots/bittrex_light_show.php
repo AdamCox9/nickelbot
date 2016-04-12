@@ -12,28 +12,11 @@
 	function bittrex_light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-		/*$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
-		foreach( $eth_open_orders as $eth_open_order ) {
-			print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
-		}*/
-
-		//print_r( $Adapter->cancel_all() );
-
 		//_____get the markets to loop over:
 
 		$eth_market = $Adapter->get_market_summary( "BTC-ETH" );
-
-		$btc_bal_arr = $Adapter->get_balance( "BTC", array( 'type' => 'exchange' ) );
-		$btc_bal = $btc_bal_arr['available'];
-
-		$eth_bal_arr = $Adapter->get_balance( "ETH", array( 'type' => 'exchange' ) );
-		$eth_bal = $eth_bal_arr['available'];
-
 		$price_precision = 8;
 		
-		echo " -> eth balance ($eth_bal) \n";
-		echo " -> btc balance ($btc_bal) \n";
-
 		$buy_price = $eth_market['bid'];
 		$sell_price = $eth_market['ask'];
 
@@ -53,7 +36,6 @@
 			$sell_price = number_format( $sell_price, $price_precision, '.', '' );
 
 			if( $buy_price < $sell_price ) {
-				echo " -> btc bal $btc_bal before and eth bal $eth_bal before\n";
 
 				if( $buy['message'] !== 'INSUFFICIENT_FUNDS' ) {
 					echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
@@ -67,7 +49,7 @@
 					echo "\nsell:\n";
 					print_r( $sell );
 				}
-				if( isset( $buy['message'] ) && $buy['message'] == 'INSUFFICIENT_FUNDS' && isset( $sell['message'] ) && $sell['message'] == 'INSUFFICIENT_FUNDS' ) {
+				if( $buy['message'] == 'INSUFFICIENT_FUNDS' && $sell['message'] == 'INSUFFICIENT_FUNDS' ) {
 					if( rand() % 99 == 88 )
 						$Adapter->cancel_all();
 					return;

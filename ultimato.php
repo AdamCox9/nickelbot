@@ -31,7 +31,7 @@
 			echo "\n***************************";
 			sleep(1);
 			echo "\n***************************\n\n";
-			bittrex_light_show( $Adapters['Bittrex'] );
+			poloniex_light_show( $Adapters['Poloniex'] );
 		}
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
