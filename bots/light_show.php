@@ -12,12 +12,12 @@
 	function light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
+		//usleep( 100000 );
+
 		/*$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
 		foreach( $eth_open_orders as $eth_open_order ) {
 			print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
 		}*/
-
-		$Adapter->cancel_all();
 
 		//_____get the markets to loop over:
 
@@ -62,8 +62,19 @@
 					print_r( $Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) ) );
 					$eth_bal = $eth_bal - $sell_size;
 				}
-				if( $btc_bal <= 0 && $eth_bal <= 0 ) {
-					break;
+				if( $btc_bal <= 0.0005 && $eth_bal <= 0.02 ) {
+
+					$eth_market = $Adapter->get_market_summary( "BTC-ETH" );
+
+					$btc_bal_arr = $Adapter->get_balance( "BTC", array( 'type' => 'exchange' ) );
+					$btc_bal = $btc_bal_arr['available'];
+
+					$eth_bal_arr = $Adapter->get_balance( "ETH", array( 'type' => 'exchange' ) );
+					$eth_bal = $eth_bal_arr['available'];
+
+					if( $btc_bal <= 0.0005 && $eth_bal <= 0.02 ) {
+						exit;
+					}
 				}
 
 			}

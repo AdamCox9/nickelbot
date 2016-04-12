@@ -31,7 +31,7 @@
 			echo "\n***************************";
 			sleep(1);
 			echo "\n***************************\n\n";
-			light_show( $Adapters['Bittrex'] );
+			light_show( $Adapters['Bittrex'], "ETH", "BTC" );
 		}
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
