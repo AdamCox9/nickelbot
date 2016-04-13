@@ -14,17 +14,29 @@
 
 		//_____get the markets to loop over:
 
-		$eth_market = $Adapter->get_market_summary( "ETH-BTC" );
-		$price_precision = 8;
-		
-		$buy_price = $eth_market['bid'];
-		$sell_price = $eth_market['ask'];
+		if( rand(0,20) == 3 )
+			$Adapter->cancel_all();
+
+		$markets = $Adapter->get_markets();
+		$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];
+		$market_summary = $Adapter->get_market_summary( $market );
+		$price_precision = 5;
+
+		if( $market == "BTC-USD" ) {
+			$min_order_size = "0.01"; // (base) must buy 0.01 BTC
+			$epsilon = "0.01";
+		} else {
+			$price_precision = 5;
+			$min_order_size = "0.1"; // (base) must buy 0.1 ETH or LTC
+			$epsilon = "0.0001";
+		}
+
+		$buy_price = $market_summary['bid'];
+		$sell_price = $market_summary['ask'];
 
 		echo "buy price: $buy_price\n";
 		echo "sell price: $sell_price\n";
 
-		$min_order_size = "0.1"; // (base) must buy 0.01 ETH
-		$epsilon = "0.00001";
 
 		$buy = array(); 
 		$sell = array(); 
@@ -38,21 +50,24 @@
 
 				if( ! isset( $buy['message'] ) ) {
 					echo " -> buying $min_order_size of ETH for $buy_price costing " . $min_order_size * $buy_price . " \n";
-					$buy = $Adapter->buy( $eth_market['market'], $min_order_size, $buy_price, 'limit' );
+					$buy = $Adapter->buy( $market_summary['market'], $min_order_size, $buy_price, 'limit' );
 					echo "buy:\n";
 					print_r( $buy );
 				}
 				if( ! isset( $sell['message'] ) ) {
 					echo " -> selling $min_order_size of ETH for $sell_price earning " . $min_order_size * $sell_price . " \n";
-					$sell = $Adapter->sell( $eth_market['market'], $min_order_size, $sell_price, 'limit' );
+					$sell = $Adapter->sell( $market_summary['market'], $min_order_size, $sell_price, 'limit' );
 					echo "\nsell:\n";
 					print_r( $sell );
 				}
 
 
 				if( isset( $buy['message'] ) && isset( $sell['message'] ) ) {
-					if( rand() % 28 == 18 )
+					if( rand(0,10) == 3 )
 						$Adapter->cancel_all();
+					if( $buy['message'] == 'You cannot place more than 100 limit orders per pair' || $sell['message'] == 'You cannot place more than 100 limit orders per pair' )
+						$Adapter->cancel_all();
+
 					return;
 				}
 
