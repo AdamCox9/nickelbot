@@ -6,6 +6,16 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market )
+		{
+			return strtoupper( substr_replace($market, '-', 3, 0) );
+		}
+
+		private function unget_market_symbol( $market )
+		{
+			return str_replace( "-", "", strtolower( $market ) );
+		}
+
 		public function get_info() {
 			return [];
 		}
@@ -39,18 +49,14 @@
 		}
 
 		public function buy( $pair="BTC-USD", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$pair = strtolower( $pair );
-			$pair = str_replace( "-", "", $pair );
-			$buy = $this->exch->order_new( $pair, $amount, $price, "bitfinex", "buy", "exchange limit", true );
+			$buy = $this->exch->order_new( $this->unget_market_symbol( $pair ), $amount, $price, "bitfinex", "buy", "exchange limit", true );
 			if( isset( $sell['message'] ) )
 				print_r( $buy );
 			return $buy;
 		}
 		
 		public function sell( $pair="BTC-USD", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$pair = strtolower( $pair );
-			$pair = str_replace( "-", "", $pair );
-			$sell = $this->exch->order_new( $pair, $amount, $price, "bitfinex", "sell", "exchange limit", true );
+			$sell = $this->exch->order_new( $this->unget_market_symbol( $pair ), $amount, $price, "bitfinex", "sell", "exchange limit", true );
 			if( isset( $sell['message'] ) )
 				print_r( $sell );
 			return $sell;
@@ -64,11 +70,8 @@
 
 			if( is_array( $open_orders ) )
 				foreach( $open_orders as $open_order ) {
-					//Array ( [id] => 683750567 [symbol] => ltcusd [exchange] => bitfinex [price] => 3.284 [avg_execution_price] => 0.0 
-					//[side] => sell [type] => exchange limit [timestamp] => 1459905252.0 [is_live] => 1 [is_cancelled] => [is_hidden] => 1 
-					//[oco_order] => [was_forced] => [original_amount] => 0.1 [remaining_amount] => 0.1 [executed_amount] => 0.0 )
 					$open_order['exchange'] = "bitfinex";
-					$open_order['market'] = $open_order['symbol'];
+					$open_order['market'] = $this->get_market_symbol( $open_order['symbol'] );
 					$open_order['timestamp_created'] = $open_order['timestamp'];
 					$open_order['amount'] = $open_order['original_amount'];
 
@@ -82,8 +85,7 @@
 
 		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
 			$completed_orders = [];
-			$market = str_replace( "-", "", strtoupper( $market ) );
-			$market_trades = $this->exch->mytrades( array( 'symbol' => $market, 'timestamp' => 0, 'until' => time(), 'limit_trades' =>  $limit, 'symbol' => $market ) );
+			$market_trades = $this->exch->mytrades( array( 'symbol' => $this->unget_market_symbol( $market ), 'timestamp' => 0, 'until' => time(), 'limit_trades' =>  $limit ) );
 			foreach( $market_trades as $market_trade ) {
 				$market_trade['market'] = $market;
 				$market_trade['exchange'] = "bitfinex";
@@ -99,8 +101,7 @@
 			$markets = $this->exch->symbols();
 			$results = [];
 			foreach( $markets as $market ) {
-				$market = strtoupper( $market );
-				array_push( $results, substr_replace($market, '-', 3, 0) );
+				array_push( $results, $this->get_market_symbol( $market ) );
 			}
 			return $results;
 		}
@@ -173,14 +174,16 @@
 						return $balance;
 		}
 
-		public function get_market_summary( $market = "BTC-LTC" ) {
-			$market = strtolower( str_replace( "-", "", $market ) );
-			if( isset( $this->market_summaries ) )
-				foreach( $this->market_summaries as $market_summary )
-					if( $market_summary['pair'] = $market )
+		public function get_market_summary( $market = "ETH-BTC" ) {
+			if( isset( $this->market_summaries ) ) {
+				foreach( $this->market_summaries as $market_summary ) {
+					if( $market_summary['market'] == $market ) {
 						return $market_summary;
+					}
+				}
+			}
 			$this->get_market_summaries();
-			return $this->get_market_summary( $market );
+			return $this->get_market_summary( $market );//(core dumped)
 		}
 
 		public function get_market_summaries() {
@@ -192,8 +195,8 @@
 			foreach( $market_summaries as $market_summary ) {
 				$market_summary = array_merge( $market_summary, $this->exch->pubticker( $market_summary['pair'] ) );
 				$market_summary['exchange'] = 'bitfinex';
-				$market_summary['market'] = substr_replace( strtoupper( $market_summary['pair'] ), '-', 3, 0);
-				$market_summary['display_name'] = $market_summary['pair'];
+				$market_summary['market'] = $this->get_market_symbol( $market_summary['pair'] );
+				$market_summary['display_name'] = $market_summary['market'];
 				$market_summary['minimum_order_size_base'] = $market_summary['minimum_order_size'];
 				$market_summary['minimum_order_size_quote'] = null;
 				$market_summary['result'] = true;
@@ -221,7 +224,7 @@
 		}
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
-			return $this->exch->trades( str_replace( "-", "", strtolower( $market ) ) );
+			return $this->exch->trades( $this->unget_market_symbol( $market ) );
 		}
 
 		public function get_all_trades( $time = 0 ) {
@@ -247,7 +250,7 @@
 		}
 
 		public function get_orderbook( $market = 'BTC-USD', $depth = 20 ) {
-			$book = $this->exch->book( str_replace( "-", "", strtolower( $market ) ) );
+			$book = $this->exch->book( $this->unget_market_symbol( $market ) );
 			$results = [];
 			foreach( $book['bids'] as $bid ) {
 				$bid['exchange'] = "bitfinex";

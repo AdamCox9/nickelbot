@@ -3,5 +3,7 @@ config_safe.php
 supertrollbox.php
 cron.out
 out.txt
+bitfinex_out.txt
 bittrex_out.txt
+btce_out.txt
 poloniex_out.txt

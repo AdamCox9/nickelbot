@@ -258,8 +258,8 @@
 		}
 
 		public function get_market_summaries() {
-			if( isset( $this->market_summaries ) )
-				return $this->market_summaries;
+			/*if( isset( $this->market_summaries ) )
+				return $this->market_summaries;*/
 			$market_summaries = $this->exch->returnTicker();
 			$this->market_summaries = [];
 			foreach( $market_summaries as $key => $market_summary ) {

@@ -21,18 +21,25 @@
 			TODO: make a Bot class?
 			NOTE: do not print_r the $Adapter class because it may leak keys and secrets on the web.
 
+			One way to run a bot would be to execute a php script in a cron job.
+			Another way would be to make a while(1) loop that continuously runs.
+			It would be a good idea to monitor the process with e-mail alerts, etc...
+			Don't put the while(1) on in a cron or else a new instance will be launched each time that will stay executing... sure to get banhammer on API!!!
+
 			Here are some sample bots being used in such a simple way:
 
 		 *****/
 
 		while(1) {
 			echo "\n\n***************************";
-			sleep(1);
-			echo "\n***************************";
-			sleep(1);
+			sleep(5);
 			echo "\n***************************\n\n";
-			poloniex_light_show( $Adapters['Poloniex'] );
+			bitfinex_light_show( $Adapters['Bitfinex'] );
+			//bittrex_light_show( $Adapters['Bittrex'] );
+			//btce_light_show( $Adapters['Btce'] );
+			//poloniex_light_show( $Adapters['Poloniex'] );
 		}
+		
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );

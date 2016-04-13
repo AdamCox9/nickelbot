@@ -22,6 +22,8 @@
 			print_r( $req );
 			echo "\n\n";
 
+			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
+
 			// API settings
 			$key = $this->api_key;
 			$secret = $this->api_secret;
