@@ -17,13 +17,13 @@
 		public function query( $method, $params = array(), $type = "GET" ) 
 		{
 
-			echo "\n\n";
+			/*echo "\n\n";
 			echo "$method";
 			echo "\n";
 			print_r( $params );
 			echo "\n";
 			echo "$type";
-			echo "\n\n";
+			echo "\n\n";*/
 
 			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
 

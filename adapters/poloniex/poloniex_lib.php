@@ -18,9 +18,9 @@
 		{
 			usleep(1000000);//rate limit
 
-			echo "\n\n";
+			/*echo "\n\n";
 			print_r( $req );
-			echo "\n\n";
+			echo "\n\n";*/
 
 			// API settings
 			$key = $this->api_key;

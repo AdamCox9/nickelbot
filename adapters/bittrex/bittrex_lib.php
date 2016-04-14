@@ -16,11 +16,11 @@
 		private function query( $path, array $req = array() ) 
 		{
 
-			echo "\n\n";
+			/*echo "\n\n";
 			echo "$path";
 			echo "\n";
 			print_r( $req );
-			echo "\n\n";
+			echo "\n\n";*/
 
 			usleep(1000000);//rate limit
 

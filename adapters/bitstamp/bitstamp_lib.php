@@ -19,13 +19,13 @@
 		private function query($path, array $req = array(), $type = 'post')
 		{
 
-			echo "\n\n";
+			/*echo "\n\n";
 			echo "$path";
 			echo "\n";
 			print_r( $req );
 			echo "\n";
 			echo "$type";
-			echo "\n\n";
+			echo "\n\n";*/
 
 			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
 

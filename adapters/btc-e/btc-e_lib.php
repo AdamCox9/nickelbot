@@ -19,11 +19,11 @@
 		private function query($method, array $req = array())
 		{
 
-			echo "\n\n";
+			/*echo "\n\n";
 			echo "$method";
 			echo "\n";
 			print_r( $req );
-			echo "\n\n";
+			echo "\n\n";*/
 
 			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
 
