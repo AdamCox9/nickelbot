@@ -34,8 +34,9 @@
 			echo "\n\n***************************";
 			sleep(5);
 			echo "\n***************************\n\n";
-			bitfinex_light_show( $Adapters['Bitfinex'] );
-			//bittrex_light_show( $Adapters['Bittrex'] );
+			//light_show( $Adapters['Bitstamp'] );
+			//bitfinex_light_show( $Adapters['Bitfinex'] );
+			bittrex_light_show( $Adapters['Bittrex'] );
 			//btce_light_show( $Adapters['Btce'] );
 			//poloniex_light_show( $Adapters['Poloniex'] );
 		}
@@ -46,7 +47,7 @@
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
-		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );
+		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...
 		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr
 
 	} catch( Exception $e ){

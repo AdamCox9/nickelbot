@@ -3,73 +3,71 @@
 	/*
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make a blink show on Poloniex.
+		This is a simple example of a bot that will make orders on the spread at any exchange.
 
 		TODO
-		 - a lot
+		 - accept an array of markets...
 	*/
 
 	function light_show( $Adapter ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-		/*$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
-		foreach( $eth_open_orders as $eth_open_order ) {
-			print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
-		}*/
-
-		//print_r( $Adapter->cancel_all() );
-
 		//_____get the markets to loop over:
 
-		$eth_market = $Adapter->get_market_summary( "BTC-ETH" );
+		if( rand(0,20) == 3 )
+			$Adapter->cancel_all();
 
-		$btc_bal_arr = $Adapter->get_balance( "BTC", array( 'type' => 'exchange' ) );
-		$btc_bal = $btc_bal_arr['available'];
+		$markets = $Adapter->get_markets();
+		$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];
+		$market_summary = $Adapter->get_market_summary( $market );
+		$price_precision = 5;
 
-		$eth_bal_arr = $Adapter->get_balance( "ETH", array( 'type' => 'exchange' ) );
-		$eth_bal = $eth_bal_arr['available'];
+		if( $market == "BTC-USD" ) {
+			$min_order_size = "0.01"; // (base) must buy 0.01 BTC
+			$epsilon = "0.01";
+		} else {
+			$price_precision = 5;
+			$min_order_size = "0.1"; // (base) must buy 0.1 ETH or LTC
+			$epsilon = "0.0001";
+		}
 
-		$price_precision = 8;
-		
-		echo " -> eth balance ($eth_bal) \n";
-		echo " -> btc balance ($btc_bal) \n";
-
-		$buy_price = $eth_market['bid'];
-		$sell_price = $eth_market['ask'];
+		$buy_price = $market_summary['bid'];
+		$sell_price = $market_summary['ask'];
 
 		echo "buy price: $buy_price\n";
 		echo "sell price: $sell_price\n";
 
-		$epsilon = "0.00000005";
 
-		$buy = []; 
-		$sell = [];
+		$buy = array(); 
+		$sell = array(); 
 
 		//_____make 10 new visible orders:
-		while( $sell_price - $buy_price > 0.00000001 ) {
-			$buy_size = bcdiv( '0.0005', $buy_price, $price_precision );
-			$sell_size = bcdiv( '0.0005', $sell_price, $price_precision );
+		while( $sell_price - $buy_price > $epsilon ) {
 			$buy_price = number_format( $buy_price, $price_precision, '.', '' );
 			$sell_price = number_format( $sell_price, $price_precision, '.', '' );
 
 			if( $buy_price < $sell_price ) {
-				echo " -> btc bal $btc_bal before and eth bal $eth_bal before\n";
 
-				if( ! isset( $buy['message'] ) || ( isset( $buy['message'] ) && $buy['message'] != 'INUFFICIENT_FUNDS' ) ) {
-					echo " -> buying $buy_size of ETH for $buy_price costing " . $buy_size * $buy_price . " \n";
-					$buy = $Adapter->buy( $eth_market['market'], $buy_size, $buy_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+				if( ! isset( $buy['message'] ) ) {
+					echo " -> buying $min_order_size in $market for $buy_price costing " . $min_order_size * $buy_price . " \n";
+					$buy = $Adapter->buy( $market_summary['market'], $min_order_size, $buy_price, 'limit' );
+					echo "buy:\n";
+					print_r( $buy );
 				}
-				if( ! isset( $sell['message'] ) || ( isset( $buy['message'] ) && $buy['message'] != 'INUFFICIENT_FUNDS' ) ) {
-					echo " -> selling $sell_size of ETH for $sell_price earning " . $sell_size * $sell_price . " \n";
-					$sell = $Adapter->sell( $eth_market['market'], $sell_size, $sell_price, 'limit', array( 'market_id' => $eth_market['market_id'] ) );
+				if( ! isset( $sell['message'] ) ) {
+					echo " -> selling $min_order_size in $market for $sell_price earning " . $min_order_size * $sell_price . " \n";
+					$sell = $Adapter->sell( $market_summary['market'], $min_order_size, $sell_price, 'limit' );
+					echo "\nsell:\n";
+					print_r( $sell );
 				}
-				print_r( $buy );
-				echo "\n";
-				print_r( $sell );
-				echo "\n";
-				if( isset( $buy['message'] ) && $buy['message'] == 'INSUFFICIENT_FUNDS' && isset( $sell['message'] ) && $sell['message'] == 'INSUFFICIENT_FUNDS' ) {
-					if( rand() % 99 == 88 )
+
+
+				if( isset( $buy['message'] ) && isset( $sell['message'] ) ) {
+					if( rand(0,10) == 3 )
 						$Adapter->cancel_all();
+					if( $buy['message'] == 'You cannot place more than 100 limit orders per pair' || $sell['message'] == 'You cannot place more than 100 limit orders per pair' )
+						$Adapter->cancel_all();
+
 					return;
 				}
 

@@ -3,7 +3,8 @@
 	/*
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make a blink show on Poloniex.
+		This is a simple example of a bot that will make a star show on Bittrex in ETH market.
+		See the light_show bot for version that works with all currencies on all exchanges.
 
 		TODO
 		 - a lot
