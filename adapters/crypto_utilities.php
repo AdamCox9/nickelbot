@@ -18,6 +18,10 @@
 				It should also return orderbook volume, but the orderbook volume might be taken care of somewhere else
 			*/
 
+
+			//_____this don't even work right...
+
+			$results = [];
 			$total_volume = 0;
 			foreach( $market_summaries as $market_summary ) {
 				if( strstr( $market_summary['market'], "-BTC" ) !== FALSE ) {
@@ -28,6 +32,7 @@
 					$total_volume += $market_summary['base_volume'];
 					continue;
 				}
+				array_push( $results, array( 'market' => $market_summary['market'], 'base_volume' => $total_volume, 'quote_volume' => $total_volume ) );
 				//TODO calculate then non-BTC markets too...
 				/*$base_volume = $market_summary['base_volume'];
 				$quote_volume = $market_summary['quote_volume'];
@@ -45,7 +50,7 @@
 					continue;
 				}*/
 			}
-			return array( 'total_volume' => $total_volume );
+			return $results;
 		}
 
 		public static function surch( $needles, $haystack ) {

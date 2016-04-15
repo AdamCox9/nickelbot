@@ -106,6 +106,13 @@
 			}
 		}
 
+		private function test_worth( $volumes ) {
+			$keys = array( 'btc_worth' );
+			foreach( $volumes as $volume ) {
+				$this->equal_keys( $keys, $volume );
+			}
+		}
+
 		private function test_deposit_addresses( $addresses ) {
 			foreach( $addresses as $address ) {
 				$this->test_deposit_address( $address );

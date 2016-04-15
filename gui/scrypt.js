@@ -5,7 +5,7 @@
 		$( 'div#div_exchanges_save' ).html( data );
 	});
 
-	$( "a#a_exchanges" ).click(function() {
+	$( "span#a_exchanges" ).click(function() {
 		exchanges = $( 'div#div_exchanges_save' ).html();
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
@@ -13,7 +13,7 @@
 		});
 	});
 
-	$( "a#a_currencies" ).click(function() {
+	$( "span#a_currencies" ).click(function() {
 		exchanges = $( 'div#div_exchanges_save' ).html();
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
@@ -31,7 +31,7 @@
 		});
 	});
 
-	$( "a#a_markets" ).click(function() {
+	$( "span#a_markets" ).click(function() {
 		exchanges = $( 'div#div_exchanges_save' ).html();
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
@@ -49,7 +49,7 @@
 		});
 	});
 
-	$( "a#a_deposit_addresses" ).click(function() {
+	$( "span#a_deposit_addresses" ).click(function() {
 		exchanges = $( 'div#div_exchanges_save' ).html();
 		var obj = JSON.parse( exchanges );
 		$.each(obj, function( index, value ) {
@@ -67,7 +67,7 @@
 		});
 	});
 
-	$( "a#a_open_orders" ).click(function() {
+	$( "span#a_open_orders" ).click(function() {
 		exchanges = $( 'div#div_exchanges_save' ).html();
 
 		//currency = this.currency
@@ -92,7 +92,7 @@
 		});
 	});
 
-	$( "a#a_completed_orders" ).click(function() {
+	$( "span#a_completed_orders" ).click(function() {
 
 		exchanges = $( 'div#div_exchanges_save' ).html();
 		var obj = JSON.parse( exchanges );
@@ -141,12 +141,13 @@
 		});*/
 	});
 
-	$( "a#a_btc_tx_sound" ).click(function() {
+	$( "span#a_btc_tx_sound" ).click(function() {
 		//funny for now
 		init_btc_sounds();
 	});
 
-	$( "a#a_btc_visualizations" ).click(function() {
+	/*$( "span#a_btc_visualizations" ).click(function() {
 		//so much to do
+		//either find a 3rd party visualizer or create on with webgl...
 		$( 'div#div_btc_visualizations' ).html( "<iframe width='33%' src='https://gappleto97.github.io/visualizer/'></iframe>" );
-	});
+	});*/

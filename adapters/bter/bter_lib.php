@@ -93,7 +93,7 @@
 		}
 
 		public function trade_history( $curr_a = "BTC", $curr_b = "USD" ) {
-			return json_decode( file_get_contents( $this->trading_url . '1/trade/' . $curr_a . '_' . $curr_b ), true );
+			return json_decode( file_get_contents( $this->trading_url . '1/trade/' . $curr_a . '_' . $curr_b . '/' . ( time() - 60*60 ) ), true );
 		}
 
 		//Private Functions:

@@ -15,7 +15,7 @@
 		//Get the symbol returned from native lib:
 		private function unget_market_symbol( $market ) {
 			$market = explode( "-", $market );
-			return $market[0] . "_" . $market[1];
+			return strtolower( $market[0] . "_" . $market[1] );
 		}
 
 		public function get_info() {
@@ -183,7 +183,7 @@
 		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) 
 		{
 			$market = $this->get_market_symbol($market);
-			$orders = $this->exch->mytrades( array( 'pair' => $market ) );
+			$orders = $this->exch->mytrades( array( 'pair' => $this->unget_market_symbol( $market ) ) );
 			$results = [];
 
 			if( ! isset( $orders['trades'] ) ) {

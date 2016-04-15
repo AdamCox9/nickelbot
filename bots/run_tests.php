@@ -1,32 +1,26 @@
 <?PHP
 
+	/*****
+
+		@Author Adam Cox
+
+		This bot is used to test the integrity of the Adapter for each exchange.
+
+	 *****/
+
 	function run_tests( $Adapters, $Tester )
 	{
-		/*$exchanges = [];
-		$currencies = [];
-		$markets = [];
-		$market_summaries = [];
-		$balances = [];
-		$open_orders = [];
-		$completed_orders = [];
-		$deposit_addresses = [];
-		$trades = [];
-		$orderbooks = [];
-		$volumes = [];
-		$worths = [];*/
-
 		foreach( $Adapters as $Adapter ) {
 			echo "******* " . get_class( $Adapter ) . " ******\n";
-			array_push( $exchanges, $exchange_name );
 			
 			echo " -> getting currencies\n";
-			$Tester->test( 'currencies', $Adapter->get_currencies() );
+			$Tester->test( 'currencies', array( $Adapter->get_currencies() ) );
 
 			echo " -> getting markets\n";
-			$Tester->test( 'markets', $Adapter->get_markets() );
+			$Tester->test( 'markets', array( $Adapter->get_markets() ) );
 
 			echo " -> getting market summaries\n";
-			$Tester->test( 'market_summaries', $Adapter->get_market_summaries() );
+			$Tester->test( 'market_summaries', array( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting balances\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
@@ -57,7 +51,7 @@
 			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting worths\n";
-			$Tester->test( 'worths', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
+			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
 
 		}
 	}
