@@ -14,3 +14,14 @@ TODO:
     + Maybe it should be renamed to /class/ instead of /adapters/ since that it is misleading.
  - There should be a base Adapter class since there is some duplicate functionality in the Adapters.
  - It would be best to take as much functionality out of each Adapter class and put into the Base Adapter class.
+ - 
+ 
+Links to API's covered so far:
+
+Bitfinex https://www.bitfinex.com/pages/api
+Bitstamp https://www.bitstamp.net/api/
+Bittrex https://bittrex.com/Home/Api
+Btce https://btc-e.com/api/documentation https://btc-e.com/api/3/docs https://btc-e.com/tapi/docs
+Bter https://bter.com/api
+Coinbase https://docs.exchange.coinbase.com/
+Poloniex https://poloniex.com/support/api/
