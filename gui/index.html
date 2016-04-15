@@ -95,7 +95,7 @@
 
 		<h5 id="super_trollbox">Super Trollbox</h5>
 
-		<!--<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>-->
+		<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://yobit.net/?bonus=DkmPL">YoBit</a><div class='trollbox' id="yobit_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://bitcointalk.org/">BitcoinTalk</a><div class='trollbox' id="bitcointalk_box">Loading...</div></div>
@@ -120,7 +120,7 @@
 				An array of all currencies BTC, LTC, BTC-USD, etc...
 			</div>
 			<code>
-				public function get_currencies();
+				public function $Adapter->get_currencies();
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=get_currencies">/api/index.php?exchange=Bitfinex&action=get_currencies</a></div>
@@ -137,7 +137,7 @@
 				An array of all marckets BTC-LTC, BTC-USD, etc...
 			</div>
 			<code>
-				public function get_markets();
+				public function $Adapter->get_markets();
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=get_markets">/api/index.php?exchange=Bitfinex&action=get_markets</a></div>
@@ -154,7 +154,7 @@
 				Get deposit addresses for an exchange.
 			</div>
 			<code>
-				public function deposit_addresses();
+				public function $Adapter->deposit_addresses();
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=deposit_addresses">/api/index.php?exchange=Bitfinex&action=deposit_addresses</a></div>
@@ -171,7 +171,7 @@
 				Cancel one order.
 			</div>
 			<code>
-				public function cancel( $order_id = 1, $opts = array() );
+				public function $Adapter->cancel( $order_id = 1, $opts = array() );
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bter&action=cancel&id=3db01a5c-9df1-4f6a-9273-eeea0f3bdabf">/api/index.php?exchange=Bter&action=cancel&id=3db01a5c-9df1-4f6a-9273-eeea0f3bdabf</a></div>
@@ -182,7 +182,7 @@
 				Cancel all orders.
 			</div>
 			<code>
-				public function cancel_all();
+				public function $Adapter->cancel_all();
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bter&action=cancel_all">/api/index.php?exchange=Bter&action=cancel_all</a></div>
@@ -193,7 +193,7 @@
 				Make a buy order.
 			</div>
 			<code>
-				public function buy( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
+				public function $Adapter->buy( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011">/api/index.php?exchange=Bitfinex&action=buy&market=BTC-USD&price=404&amount=0.011</a></div>
@@ -204,7 +204,7 @@
 				Make a sell order.
 			</div>
 			<code>
-				public function sell( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
+				public function $Adapter->sell( $pair='BTC-LTC', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011">/api/index.php?exchange=Bitfinex&action=sell&market=BTC-USD&price=444&amount=0.011</a></div>
@@ -215,10 +215,10 @@
 				Get all open orders on an exchange.
 			</div>
 			<code>
-				public function get_open_orders();<br/>
+				public function $Adapter->get_open_orders();<br/>
 			</code>
 			<div class="code_resp">
-			<a href="/api/index.php?action=get_open_orders&exchange=Poloniex&market=BTC-ETH">/api/index.php?action=get_open_orders&exchange=Poloniex&market=BTC-ETH</a>
+			<a href="/api/index.php?action=get_open_orders&exchange=Bitfinex&market=BTC-ETH">/api/index.php?action=get_open_orders&exchange=Bitfinex&market=BTC-ETH</a>
 			</div>
 		</div>
 		<div class="code">
@@ -226,10 +226,10 @@
 				Get completed orders for a specific market on an exchange.
 			</div>
 			<code>
-				public function get_completed_orders( $market );<br/>
+				public function $Adapter->get_completed_orders( $market );<br/>
 			</code>
 			<div class="code_resp">
-			<a href="/api/index.php?action=get_completed_orders&exchange=Poloniex&market=BTC-ETH">/api/index.php?action=get_completed_orders&exchange=Poloniex&market=BTC-ETH</a>
+			<a href="/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=BTC-ETH">/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=BTC-ETH</a>
 			</div>
 		</div>
 		<div class="code">
@@ -237,9 +237,10 @@
 				Get order.
 			</div>
 			<code>
-				public function get_order( $id );<br/>
+				public function $Adapter->get_order( $id );<br/>
 			</code>
 			<div class="code_resp">
+			<a href="/api/index.php?action=get_order&exchange=Bitfinex&id=134432">/api/index.php?action=get_order&exchange=Bitfinex&id=134432</a>
 			</div>
 		</div>
 		<div class="code">
@@ -247,7 +248,7 @@
 				Get specific market summary for an exchange.
 			</div>
 			<code>
-				public function get_market_summary( $market="BTC-LTC" );<br/>
+				public function $Adapter->get_market_summary( $market="BTC-LTC" );<br/>
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD</a></div>
@@ -264,7 +265,7 @@
 				Get all market summaries for all markets for an exchange.
 			</div>
 			<code>
-				public function get_market_summaries();
+				public function $Adapter->get_market_summaries();
 			</code>
 			<div class="code_resp">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summaries">/api/index.php?exchange=Bitfinex&action=get_market_summaries</a></div>
@@ -281,9 +282,16 @@
 				Get balance for a specific currency on an exchange.
 			</div>
 			<code>
-				public function get_balance( $currency="BTC" );<br/>
+				public function $Adapter->get_balance( $currency="BTC" );<br/>
 			</code>
 			<div class="code_resp">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=get_balance&currency=BTC">/api/index.php?exchange=Bitfinex&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=get_balance&currency=BTC">/api/index.php?exchange=Bitstamp&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=get_balance&currency=BTC">/api/index.php?exchange=Bittrex&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=get_balance&currency=BTC">/api/index.php?exchange=Btce&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=get_balance&currency=BTC">/api/index.php?exchange=Bter&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=get_balance&currency=BTC">/api/index.php?exchange=Coinbase&amp;action=get_balance&amp;currency=BTC</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=get_balance&currency=BTC">/api/index.php?exchange=Poloniex&amp;action=get_balance&amp;currency=BTC</a></div>
 			</div>
 		</div>
 		<div class="code">
@@ -291,9 +299,16 @@
 				Get all balances for all currencies on an exchange.
 			</div>
 			<code>
-				public function get_balances();
+				public function $Adapter->get_balances();
 			</code>
 			<div class="code_resp">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=get_balances">/api/index.php?exchange=Bitfinex&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=get_balances">/api/index.php?exchange=Bitstamp&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=get_balances">/api/index.php?exchange=Bittrex&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=get_balances">/api/index.php?exchange=Btce&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=get_balances">/api/index.php?exchange=Bter&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=get_balances">/api/index.php?exchange=Coinbase&amp;action=get_balances</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=get_balances">/api/index.php?exchange=Poloniex&amp;action=get_balances</a></div>
 			</div>
 		</div>
 		<!--<div class="code">
@@ -372,11 +387,10 @@
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<p>Thank You for not hacking my server! Come back again!</p>
-
-		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
-
-		<div>&copy; NickelBot? Customize this website and launch a business with it. You own your customizations! <a href="http://validator.w3.org/check?uri=referer">Valid HTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS</a></div>
+		<div>&copy; NickelBot. Customize this website and launch a business with it. You own your customizations! Thank You for not hacking my server!</div>
+		<div>
+			<a href="http://validator.w3.org/check?uri=referer">Valid HTML</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">Valid CSS</a>
+		</div>
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="/gui/scrypt.js"></script>

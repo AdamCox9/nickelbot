@@ -52,6 +52,8 @@
 			case "get_markets": $response = api_markets(); break;
 			case "get_market_summary": $response = api_market_summary(); break;
 			case "get_market_summaries": $response = api_market_summaries(); break;
+			case "get_balance": $response = api_balance(); break;
+			case "get_balances": $response = api_balances(); break;
 			case "get_completed_orders": $response = api_completed_orders(); break;
 			case "get_open_orders": $response = api_open_orders(); break;
 			case "deposit_addresses": $response = api_deposit_addresses(); break;
@@ -145,6 +147,24 @@
 		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
 		if( $exchange == "error" ) return array( "error" => "exchange required" );
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_market_summaries() );
+	}
+	function api_balance()
+	{
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		$currency = isset( $_GET['currency'] ) ? $_GET['currency'] : "error";
+		if( $currency == "error" ) return array( "error" => "currency required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_balance( $currency ) );
+	}
+	function api_balances()
+	{
+		global $Adapters;
+
+		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";
+		if( $exchange == "error" ) return array( "error" => "exchange required" );
+		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->get_balances() );
 	}
 	function api_market_summary()
 	{

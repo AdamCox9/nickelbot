@@ -2,7 +2,7 @@
 
 	function run_tests( $Adapters, $Tester )
 	{
-		$exchanges = [];
+		/*$exchanges = [];
 		$currencies = [];
 		$markets = [];
 		$market_summaries = [];
@@ -13,24 +13,20 @@
 		$trades = [];
 		$orderbooks = [];
 		$volumes = [];
-		$worths = [];
+		$worths = [];*/
 
 		foreach( $Adapters as $Adapter ) {
-			$exchange_name = get_class( $Adapter );
-			echo "******* $exchange_name ******\n";
+			echo "******* " . get_class( $Adapter ) . " ******\n";
 			array_push( $exchanges, $exchange_name );
 			
 			echo " -> getting currencies\n";
-			$currencies[ $exchange_name ] = $Adapter->get_currencies();
-			$Tester->test( 'currencies', $currencies );
+			$Tester->test( 'currencies', $Adapter->get_currencies() );
 
 			echo " -> getting markets\n";
-			$markets[ $exchange_name ] = $Adapter->get_markets();
-			$Tester->test( 'markets', $markets );
+			$Tester->test( 'markets', $Adapter->get_markets() );
 
 			echo " -> getting market summaries\n";
-			$market_summaries[ $exchange_name ] = $Adapter->get_market_summaries();
-			$Tester->test( 'market_summaries', $market_summaries );
+			$Tester->test( 'market_summaries', $Adapter->get_market_summaries() );
 
 			echo " -> getting balances\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
@@ -58,10 +54,10 @@
 			//_____Utilities: they do not directly access native API libraries where as Adapters must access native API or self
 
 			echo " -> getting volumes\n";
-			$volumes[ get_class( $Adapter ) ] = Utilities::get_total_volumes( $Adapter->get_market_summaries() );
+			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting worths\n";
-			$worths[ get_class( $Adapter ) ]= Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() );
+			$Tester->test( 'worths', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
 
 		}
 	}

@@ -30,18 +30,18 @@
 
 		 *****/
 
-		while(1) {
+		/*while(1) {
 			echo "\n\n***************************";
 			sleep(5);
 			echo "\n***************************\n\n";
 			//light_show( $Adapters['Bitstamp'] );
 			//bitfinex_light_show( $Adapters['Bitfinex'] );
-			bittrex_light_show( $Adapters['Bittrex'] );
+			//bittrex_light_show( $Adapters['Bittrex'] );
 			//btce_light_show( $Adapters['Btce'] );
 			//poloniex_light_show( $Adapters['Poloniex'] );
-		}
+		}*/
 		
-		//run_tests( $Adapters, $Tester );
+		run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
