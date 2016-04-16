@@ -1,5 +1,6 @@
 config_safe.php
 /bitcointxsound
+/cache/*
 supertrollbox.php
 cron.out
 out.txt

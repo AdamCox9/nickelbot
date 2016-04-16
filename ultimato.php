@@ -52,9 +52,10 @@
 			//poloniex_light_show( $Adapters['Poloniex'] );
 		}*/
 
+		build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
-		make_min_orders( $Adapters );
+		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...

@@ -47,7 +47,8 @@
 				//_____example 4: (if market is USD-BTC) selling USD for BTC - USD is base and BTC is quote
 				//_____example 5: (if market is XMR-BTC) buying XMR with BTC - XMR is base and BTC is quote
 				//_____example 6: (if market is XMR-BTC) selling XMR for BTC - XMR is base and BTC is quote
-				$curs_bq = explode( "-", $market_summary['market'] );
+				$market = $market_summary['market'];
+				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
 				$base_bal_arr = $Adapter->get_balance( $base_cur, array( 'type' => 'exchange' ) );
@@ -64,80 +65,57 @@
 				echo " -> quote currency balance ($quote_bal) \n";
 
 				//_____calculate some variables that are rather trivial:
-				$price_precision = $market_summary['price_precision'];			//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
-				$epsilon = 1 / pow( 10, $market_summary['price_precision'] );	//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-				$buy_price = $market_summary['bid'] + $epsilon;					//_____try to jump smallest unit possible above highest bid.
-				$sell_price = $market_summary['ask'] - $epsilon;				//_____try to jump smallest unit possible below lowest ask.
-				$spread = $sell_price - $buy_price;								//_____difference between highest bid and lowest ask.
-				$min_diff = 0.01 * $sell_price;									//_____orders should be at-least 1% far apart.
+				$precision = $market_summary['price_precision'];	//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
+				$epsilon = 1 / pow( 10, $precision );				//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
+				$buy_price = $market_summary['bid'];				//_____buy at same price as highest bid.
+				$sell_price = $market_summary['ask'];				//_____sell at same price as lowest ask.
+				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
 
-				echo " -> price precision $price_precision \n";
+				echo " -> precision $precision \n";
 				echo " -> epsilon $epsilon \n";
-				echo " -> buy price 1: $buy_price \n";
-				echo " -> sell price 1: $sell_price \n";
-				echo " -> spread 1: $spread \n";
-				echo " -> minimum difference 1: $min_diff \n";
+				echo " -> buy price: $buy_price \n";
+				echo " -> sell price: $sell_price \n";
+				echo " -> spread: $spread \n";
 
-				//_____widen the spread if not wide enough:
-				/*$z = 0;
-				while ( $spread < $min_diff ) {
-					$z++;
-					//_____buy for z% less than min ask and sell for z% more than max bid:
-					$buy_price = $market_summary['ask'] - ( 0.01 * $z * $market_summary['ask'] );
-					$sell_price = $market_summary['bid'] + ( 0.01 * $z * $market_summary['bid'] );
-					$spread = $sell_price - $buy_price;
-
-					echo " -> buy price $z: $buy_price \n";
-					echo " -> sell price $z: $sell_price \n";
-					echo " -> spread $z: $spread \n";
-
-					if($z > 101) break; //just in case don't want to loop more than 101 times...
-
-					//_____make sure spread is at least two of epsilon far apart so not making market buy or market sell order:
-					if ( $spread > 2 * $epsilon )
-						break;
-					else
-						continue;
-
-					if( $buy_price >= $sell_price )
-						continue;
-
-				}
-				$buy_price = number_format( $buy_price, $price_precision, '.', '' );
-				$sell_price = number_format( $sell_price, $price_precision, '.', '' );*/
-
-				$buy_price = number_format( $market_summary['bid'], $price_precision, '.', '' );
-				$sell_price = number_format( $market_summary['ask'], $price_precision, '.', '' );
+				$buy_price = number_format( $market_summary['bid'], $precision, '.', '' );
+				$sell_price = number_format( $market_summary['ask'], $precision, '.', '' );
 
 				echo " -> final formatted buy price: $buy_price \n";
 				echo " -> final formatted sell price: $sell_price \n";
 
-				if( $buy_price > 0 ) {
-					if( ! isset( $market_summary['minimum_order_size_base'] ) )
-						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + $epsilon, $buy_price, $price_precision );
-					else
-						$order_size = $market_summary['minimum_order_size_base'];
-
+				if( $buy_price > 0 ) { //some currencies have big sell wall at 0.00000001...
+					$order_size = get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
+					echo " -> buying $order_size in $market for $buy_price costing " . $order_size * $buy_price . " \n";
 					if( floatval($order_size * $buy_price) > floatval($quote_bal) )
 						echo " -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price\n";
-					else
-						print_r( $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) ) );
+					else {
+						$buy = $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						if( isset( $buy['message'] ) )
+							print_r( $buy );
+					}
 				}
 
-				if( $sell_price > 0 ) {
-					if( ! isset( $market_summary['minimum_order_size_base'] ) )
-						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + $epsilon, $sell_price, $price_precision );
-					else
-						$order_size = $market_summary['minimum_order_size_base'];
-					
+				if( $sell_price > $buy_price ) { //just in case...
+					$order_size = get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
+					echo " -> selling $order_size in $market for $sell_price earning " . $order_size * $sell_price . " \n";
 					if( floatval($order_size) > floatval($base_bal) )
 						echo " -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price\n";
-					else
-						print_r( $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) ) );
+					else {
+						$sell = $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						if( isset( $sell['message'] ) )
+							print_r( $sell );
+					}
 				}
 				echo "\n";
 			}
 		}
+	}
+
+	function get_min_order_size( $min_order_size_base, $min_order_size_quote, $epsilon, $price, $precision ) {
+		if( is_null( $min_order_size_base ) )
+			return bcdiv( $min_order_size_quote * 1.01, $price, $precision );//why is it always short when converting quote currency to base currency...
+		else
+			return $min_order_size_base;
 	}
 
 	function remove_oldest_order( $Adapter, $order ) {

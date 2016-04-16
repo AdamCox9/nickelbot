@@ -24,7 +24,7 @@
 				var obj = JSON.parse( data );
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
-						$( 'div#div_currencies' ).append( "<div class='currency'>" + index + " - " + value[i] + "</div>" );
+						$( 'div#div_currencies' ).append( "<div class='currency'>" + index.replace("Adapter", "") + " - " + value[i] + "</div>" );
 					}
 				});
 			});
@@ -42,7 +42,7 @@
 				var obj = JSON.parse( data );
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
-						$( 'div#div_markets' ).append( "<div class='market'>" + index + " - " + value[i] + "</div>" );
+						$( 'div#div_markets' ).append( "<div class='market'>" + index.replace("Adapter", "") + " - " + value[i] + "</div>" );
 					}
 				});
 			});
@@ -60,7 +60,7 @@
 				var obj = JSON.parse( data );
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
-						$( 'div#div_deposit_addresses' ).append( "<div class='deposit_address'>" + index + "<br/>" + "<span class='deposit_address'>" + value[i]['currency'] + ": " + value[i]['address'] + "</span><br/>(" + value[i]['wallet_type'] + ")</div>" );
+						$( 'div#div_deposit_addresses' ).append( "<div class='deposit_address'>" + index.replace("Adapter", "") + "<br/>" + "<span class='deposit_address'>" + value[i]['currency'] + ": " + value[i]['address'] + "</span><br/>(" + value[i]['wallet_type'] + ")</div>" );
 					}
 				});
 			});
@@ -78,7 +78,7 @@
 				var obj = JSON.parse( data );
 				$.each( obj, function( index, value ) {
 					for( var i = 0; i < value.length; i++ ) {
-						$( 'div#div_open_orders' ).append( "<div class='open_orders'>" + index + "<br/>" + value[i]['type'] + " " + "<span class='open_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp_created'] + ")" + " (id: " + value[i]['id'] + ")</div>" );
+						$( 'div#div_open_orders' ).append( "<div class='open_orders'>" + index.replace("Adapter", "") + "<br/>" + value[i]['type'] + " " + "<span class='open_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp_created'] + ")" + " (id: " + value[i]['id'] + ")</div>" );
 					}
 				});
 			});
@@ -111,7 +111,7 @@
 									$.each( obj, function( index, value ) {
 										$( 'div#div_completed_orders' ).html( '' );
 										for( var i = 0; i < value.length; i++ ) {
-											$( 'div#div_completed_orders' ).append( "<div class='completed_orders'>" + index + "<br/>" + value[i]['type'] + " " + "<span class='completed_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp'] + ")" + " (id: " + value[i]['id'] + ")</div>" );
+											$( 'div#div_completed_orders' ).append( "<div class='completed_orders'>" + index.replace("Adapter", "") + "<br/>" + value[i]['type'] + " " + "<span class='completed_orders'> at " + value[i]['price'] + " for " + value[i]['amount'] + " " + value[i]['market'] + "</span><br/>(" + value[i]['timestamp'] + ")" + " (id: " + value[i]['id'] + ")</div>" );
 										}
 									});
 								});
