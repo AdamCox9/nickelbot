@@ -81,7 +81,9 @@
 		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
 		if( $market == "error" ) return array( "error" => "market required" );
 
-		$price = "404";
+		//let's not open up the trade api to the public:
+		$exchange = "Bitfinex";
+		$price = "393";
 		$amount = "0.011";
 		$market = "BTC-USD";
 
@@ -100,7 +102,9 @@
 		$market = isset( $_GET['market'] ) ? $_GET['market'] : "error";
 		if( $market == "error" ) return array( "error" => "market required" );
 
-		$price = "444";
+		//let's not open up the trade api to the public:
+		$exchange = "Bitfinex";
+		$price = "484";
 		$amount = "0.011";
 		$market = "BTC-USD";
 
