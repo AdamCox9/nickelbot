@@ -6,6 +6,16 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market )
+		{
+			return strtoupper( $market );
+		}
+
+		private function unget_market_symbol( $market )
+		{
+			return strtolower( $market );
+		}
+
 		public function get_info() {
 			return [];
 		}
@@ -193,11 +203,11 @@
 
 		public function get_markets() {
 			$products = $this->exch->products();
-			$response = [];
+			$results = [];
 			foreach( $products as $product ) {
-				array_push( $response, $product['id'] );
+				array_push( $results, $this->get_market_symbol( $product['id'] ) );
 			}
-			return array_map( 'strtoupper', $response );
+			return $results;
 		}
 
 		public function get_currencies() {
@@ -251,7 +261,11 @@
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {
-			return [];
+			$market_summaries = $this->get_market_summaries();
+			foreach( $market_summaries as $market_summary )
+				if( $market_summary['market'] == $market )
+					return $market_summary;
+			return $market_summary;
 		}
 
 		public function get_market_summaries() {
@@ -267,7 +281,7 @@
 				$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : 0;
 				$market_summary['low'] = isset( $market_summary['low'] ) ? $market_summary['low'] : 0;
 				$market_summary['volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : 0;
-				$market_summary['market'] = $market_summary['id'];
+				$market_summary['market'] = $this->get_market_symbol( $market_summary['id'] );
 				$market_summary['minimum_order_size_base'] = $market_summary['base_min_size'];
 				$market_summary['minimum_order_size_quote'] = null;
 				$market_summary['maximum_order_size'] = $market_summary['base_max_size'];

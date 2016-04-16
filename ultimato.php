@@ -26,6 +26,16 @@
 			It would be a good idea to monitor the process with e-mail alerts, etc...
 			Don't put the while(1) on in a cron or else a new instance will be launched each time that will stay executing... sure to get banhammer on API!!!
 
+			------
+
+			Run a PHP process for each exchange from the terminal like this:
+
+			php ultimato.php Bitfinex > bitfinex_out.txt & php ultimato.php Bitstamp > bitstamp_out.txt & php ultimato.php Bittrex > bittrex_out.txt & php ultimato.php Btce > btce_out.txt & php ultimato.php Coinbase > coinbase_out.txt & php ultimato.php Poloniex > poloniex_out.txt & 
+
+			Kill the processes from the terminal like this:
+
+			pkill -9 php
+
 			Here are some sample bots being used in such a simple way:
 
 		 *****/
@@ -34,16 +44,17 @@
 			echo "\n\n***************************";
 			sleep(5);
 			echo "\n***************************\n\n";
-			//light_show( $Adapters['Bitstamp'] );
-			//bitfinex_light_show( $Adapters['Bitfinex'] );
+
+			$adapter = $argv[1];
+
+			//light_show( $Adapters[ $adapter ] );
 			//bittrex_light_show( $Adapters['Bittrex'] );
-			//btce_light_show( $Adapters['Btce'] );
 			//poloniex_light_show( $Adapters['Poloniex'] );
 		}*/
-		
-		run_tests( $Adapters, $Tester );
+
+		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
-		//make_min_orders( $Adapters );
+		make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...

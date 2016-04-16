@@ -5,6 +5,8 @@
 
 		This is a simple example of a bot that will make minimum buy and sell orders for every currency across every exchange.
 
+		A 1% gap is very large for BTC while very small for some ALTs
+
 		TODO
 		 - a lot
 	*/
@@ -12,6 +14,8 @@
 	function make_min_orders( $Adapters ) {
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
+			if( get_class( $Adapter ) === "PoloniexAdapter" || get_class( $Adapter ) === "BterAdapter" )//ban list
+				continue;
 
 			//_____get open orders, sort them by creation date and remove the oldest orders:
 			$open_orders = $Adapter->get_open_orders();
@@ -53,6 +57,7 @@
 				//print_r( $quote_bal_arr );
 				$quote_bal = $quote_bal_arr['available'];
 
+				echo " -> " . get_class( $Adapter ) . " \n";
 				echo " -> base currency ($base_cur) \n";
 				echo " -> base currency balance ($base_bal) \n";
 				echo " -> quote currency ($quote_cur) \n";
@@ -74,7 +79,7 @@
 				echo " -> minimum difference 1: $min_diff \n";
 
 				//_____widen the spread if not wide enough:
-				$z = 0;
+				/*$z = 0;
 				while ( $spread < $min_diff ) {
 					$z++;
 					//_____buy for z% less than min ask and sell for z% more than max bid:
@@ -98,35 +103,37 @@
 						continue;
 
 				}
-
 				$buy_price = number_format( $buy_price, $price_precision, '.', '' );
-				$sell_price = number_format( $sell_price, $price_precision, '.', '' );
+				$sell_price = number_format( $sell_price, $price_precision, '.', '' );*/
+
+				$buy_price = number_format( $market_summary['bid'], $price_precision, '.', '' );
+				$sell_price = number_format( $market_summary['ask'], $price_precision, '.', '' );
 
 				echo " -> final formatted buy price: $buy_price \n";
 				echo " -> final formatted sell price: $sell_price \n";
 
 				if( $buy_price > 0 ) {
 					if( ! isset( $market_summary['minimum_order_size_base'] ) )
-						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + 1000 * $epsilon, $buy_price, $price_precision );
+						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + $epsilon, $buy_price, $price_precision );
 					else
 						$order_size = $market_summary['minimum_order_size_base'];
 
 					if( floatval($order_size * $buy_price) > floatval($quote_bal) )
 						echo " -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price\n";
 					else
-						$Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						print_r( $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) ) );
 				}
 
 				if( $sell_price > 0 ) {
 					if( ! isset( $market_summary['minimum_order_size_base'] ) )
-						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + 1000 * $epsilon, $sell_price, $price_precision );
+						$order_size = bcdiv( $market_summary['minimum_order_size_quote'] + $epsilon, $sell_price, $price_precision );
 					else
 						$order_size = $market_summary['minimum_order_size_base'];
 					
 					if( floatval($order_size) > floatval($base_bal) )
 						echo " -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price\n";
 					else
-						$Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						print_r( $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) ) );
 				}
 				echo "\n";
 			}

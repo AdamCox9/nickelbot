@@ -4,6 +4,9 @@ supertrollbox.php
 cron.out
 out.txt
 bitfinex_out.txt
+bitstamp_out.txt
 bittrex_out.txt
 btce_out.txt
+bter_out.txt
+coinbase_out.txt
 poloniex_out.txt

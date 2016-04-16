@@ -6,6 +6,14 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market ) {
+			return strtoupper( str_replace( "_", "-", $market ) );
+		}
+
+		private function unget_market_symbol( $market ) {
+			return strtolower( str_replace( "-", "_", $market ) );
+		}
+
 		public function get_info() {
 			return [];
 		}
@@ -28,7 +36,7 @@
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
 			$results = [];
-			$market = str_replace( "-", "_", strtolower( $market ) );
+			$market = $this->unget_market_symbol( $market );
 			$trades = $this->exch->trades( $market );
 			foreach( $trades[$market] as $trade ) {
 				$trade['market'] = $market;
@@ -58,7 +66,7 @@
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
-			$orderbooks = $this->exch->depth( str_replace( "-", "_", strtolower( $market ) ) );
+			$orderbooks = $this->exch->depth( $this->unget_market_symbol( $market ) );
 			$n_orderbooks = [];
 			$m_orderbooks = [];
 			
@@ -93,23 +101,19 @@
 		}
 
 		public function buy($pair='BTC-USD',$amount="0",$price="0",$type="LIMIT",$opts=array()) {
-			$pair = strtolower( $pair );
-			$pair = str_replace( "-", "_", $pair );
-			$buy = $this->exch->Trade( array( 'pair' => $pair, 'type' => 'buy', 'amount' => (float)$amount, 'rate' => (float)$price ) );
+			$buy = $this->exch->Trade( array( 'pair' => $this->unget_market_symbol( $pair ), 'type' => 'buy', 'amount' => (float)$amount, 'rate' => (float)$price ) );
 
 			if( isset( $buy['error'] ) )
-				print_r( $buy );
+				$buy['message'] = 'ERROR';
 
 			return $buy;
 		}
 		
 		public function sell($pair='BTC-USD',$amount="0",$price="0",$type="LIMIT",$opts=array()) {
-			$pair = strtolower( $pair );
-			$pair = str_replace( "-", "_", $pair );
-			$sell = $this->exch->Trade( array( 'pair' => $pair, 'type' => 'sell', 'amount' => (float)$amount, 'rate' => (float)$price ) );
+			$sell = $this->exch->Trade( array( 'pair' => $this->unget_market_symbol( $pair ), 'type' => 'sell', 'amount' => (float)$amount, 'rate' => (float)$price ) );
 
 			if( isset( $sell['error'] ) )
-				print_r( $sell );
+				$sell['message'] = 'ERROR';
 
 			return $sell;
 		}
@@ -124,7 +128,7 @@
 				foreach( $open_orders['return'] as $order_id => $open_order ) {
 					$open_order['id'] = $order_id;
 					$open_order['price'] = $open_order['rate'];
-					$open_order['market'] = $open_order['pair'];
+					$open_order['market'] = $this->get_market_symbol( $open_order['pair'] );
 					$open_order['exchange'] = "Btce";
 					$open_order['avg_execution_price'] = null;
 					$open_order['side'] = $open_order['type'];
@@ -154,7 +158,7 @@
 			$this->completed_orders = [];
 			if( isset( $completed_orders['return'] ) ) {
 				foreach( $completed_orders['return'] as $completed_order ) {
-					$completed_order['market'] = $completed_order['pair'];
+					$completed_order['market'] = $this->get_market_symbol( $completed_order['pair'] );
 					unset( $completed_order['pair'] );
 					unset( $completed_order['rate'] );
 					unset( $completed_order['is_your_order'] );
@@ -289,8 +293,59 @@
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {
-			$market = strtolower( str_replace( "-", "_", $market ) );
-			return $this->exch->ticker( $market );
+			$market_summary = $this->exch->ticker( $this->unget_market_symbol( $market ) );
+
+			$key = array_keys( $market_summary );
+			$key = $key[0];
+			$market_summary = $market_summary[$key];
+			$market_summary['market'] = strtoupper( str_replace( "_", "-", $key ) );
+			$market_summary['exchange'] = "btc-e";
+			$info = $this->exch->info( $market );
+			$market_summary['timestamp'] = $info['server_time'];
+			$info = $info['pairs'][$key];
+			$market_summary = array_merge( $market_summary, $info );
+			$market_summary['ask'] = is_null( $market_summary['buy'] ) ? 0 : $market_summary['buy'];
+			$market_summary['bid'] = is_null( $market_summary['sell'] ) ? 0 : $market_summary['sell'];
+			$market_summary['quote_volume'] = $market_summary['vol'];
+			$market_summary['mid'] = $market_summary['avg'];
+			$market_summary['base_volume'] = bcdiv( $market_summary['quote_volume'], $market_summary['mid'], 32 );
+			$market_summary['btc_volume'] = null;
+			$market_summary['last_price'] = $market_summary['last'];
+			$market_summary['display_name'] = $market_summary['market'];
+			$market_summary['result'] = true;
+			$market_summary['created'] = null;
+			$market_summary['open_buy_orders'] = null;
+			$market_summary['open_sell_orders'] = null;
+			$market_summary['percent_change'] = null;
+			$market_summary['frozen'] = $market_summary['hidden'];
+			$market_summary['verified_only'] = null;
+			$market_summary['initial_margin'] = null;
+			$market_summary['expiration'] = null;
+			$market_summary['maximum_order_size'] = null;
+			$market_summary['price_precision'] = $market_summary['decimal_places'];
+			$market_summary['minimum_order_size_base'] = $market_summary['min_amount'];
+			$market_summary['minimum_order_size_quote'] = null;
+			$market_summary['minimum_margin'] = null;
+			$market_summary['vwap'] = null;
+			$market_summary['market_id'] = null;
+
+			unset( $market_summary['vol'] );
+			unset( $market_summary['avg'] );
+			unset( $market_summary['buy'] );
+			unset( $market_summary['sell'] );
+			unset( $market_summary['last'] );
+			unset( $market_summary['updated'] );
+			unset( $market_summary['vol_cur'] );
+			unset( $market_summary['decimal_places'] );
+			unset( $market_summary['fee'] );
+			unset( $market_summary['hidden'] );
+			unset( $market_summary['max_price'] );
+			unset( $market_summary['min_amount'] );
+			unset( $market_summary['min_price'] );
+
+			ksort( $market_summary );
+
+			return $market_summary;
 		}
 
 		public function get_market_summaries() {
@@ -299,56 +354,6 @@
 			$this->market_summaries = [];
 			foreach( $this->get_markets() as $market ) {
 				$market_summary = $this->get_market_summary( $market );
-				$key = array_keys( $market_summary );
-				$key = $key[0];
-				$market_summary = $market_summary[$key];
-				$market_summary['market'] = strtoupper( str_replace( "_", "-", $key ) );
-				$market_summary['exchange'] = "btc-e";
-				$info = $this->exch->info( $market );
-				$market_summary['timestamp'] = $info['server_time'];
-				$info = $info['pairs'][$key];
-				$market_summary = array_merge( $market_summary, $info );
-				$market_summary['ask'] = is_null( $market_summary['sell'] ) ? 0 : $market_summary['sell'];
-				$market_summary['bid'] = is_null( $market_summary['buy'] ) ? 0 : $market_summary['buy'];
-				$market_summary['quote_volume'] = $market_summary['vol'];
-				$market_summary['mid'] = $market_summary['avg'];
-				$market_summary['base_volume'] = bcdiv( $market_summary['quote_volume'], $market_summary['mid'], 32 );
-				$market_summary['btc_volume'] = null;
-				$market_summary['last_price'] = $market_summary['last'];
-				$market_summary['display_name'] = $market_summary['market'];
-				$market_summary['result'] = true;
-				$market_summary['created'] = null;
-				$market_summary['open_buy_orders'] = null;
-				$market_summary['open_sell_orders'] = null;
-				$market_summary['percent_change'] = null;
-				$market_summary['frozen'] = $market_summary['hidden'];
-				$market_summary['verified_only'] = null;
-				$market_summary['initial_margin'] = null;
-				$market_summary['expiration'] = null;
-				$market_summary['maximum_order_size'] = null;
-				$market_summary['price_precision'] = $market_summary['decimal_places'];
-				$market_summary['minimum_order_size_base'] = $market_summary['min_amount'];
-				$market_summary['minimum_order_size_quote'] = null;
-				$market_summary['minimum_margin'] = null;
-				$market_summary['vwap'] = null;
-				$market_summary['market_id'] = null;
-
-				unset( $market_summary['vol'] );
-				unset( $market_summary['avg'] );
-				unset( $market_summary['buy'] );
-				unset( $market_summary['sell'] );
-				unset( $market_summary['last'] );
-				unset( $market_summary['updated'] );
-				unset( $market_summary['vol_cur'] );
-				unset( $market_summary['decimal_places'] );
-				unset( $market_summary['fee'] );
-				unset( $market_summary['hidden'] );
-				unset( $market_summary['max_price'] );
-				unset( $market_summary['min_amount'] );
-				unset( $market_summary['min_price'] );
-
-				ksort( $market_summary );
-
 				array_push( $this->market_summaries, $market_summary );
 			}
 			return $this->market_summaries;

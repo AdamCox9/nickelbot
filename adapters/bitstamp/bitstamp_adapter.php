@@ -43,7 +43,7 @@
 			$amount = number_format( $amount, 4, ".", "" );
 			$buy = $this->exch->buy( $amount, $price );
 			if( isset( $buy['error'] ) )
-				print_r( $buy );
+				$buy['message'] = 'ERROR';
 			return $buy;
 		}
 		
@@ -52,7 +52,7 @@
 			$amount = number_format( $amount, 4, ".", "" );
 			$sell = $this->exch->sell( $amount, $price );
 			if( isset( $sell['error'] ) )
-				print_r( $sell );
+				$sell['message'] = 'ERROR';
 			return $sell;
 		}
 
@@ -219,15 +219,11 @@
 
 			ksort( $market_summary );
 
-			return array( $market_summary );
+			return $market_summary;
 		}
 
 		public function get_market_summaries() {
-			if( isset( $this->market_summaries ) ) //cache
-				return $this->market_summaries;
-
-			$this->market_summaries = $this->get_market_summary( "BTC-USD" );
-			return $this->market_summaries;
+			return array( $this->get_market_summary( "BTC-USD" ) );
 		}
 
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {

@@ -14,21 +14,21 @@
 
 		//_____get the markets to loop over:
 
-		if( rand(0,20) == 3 )
+		if( rand(0,100) == 3 )
 			$Adapter->cancel_all();
 
 		$markets = $Adapter->get_markets();
+
 		$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];
 		$market_summary = $Adapter->get_market_summary( $market );
 		$price_precision = 5;
 
-		if( $market == "BTC-USD" ) {
-			$min_order_size = "0.01"; // (base) must buy 0.01 BTC
+		if( $market == "BTC-USD" || $market == "BTC-EUR" || $market == "BTC-RUR" ) {
+			$min_order_size = "0.0125"; // (base) must buy 0.01 BTC
 			$epsilon = "0.01";
 		} else {
-			$price_precision = 5;
 			$min_order_size = "0.1"; // (base) must buy 0.1 ETH or LTC
-			$epsilon = "0.0001";
+			$epsilon = "0.00001";
 		}
 
 		$buy_price = $market_summary['bid'];
@@ -36,7 +36,8 @@
 
 		echo "buy price: $buy_price\n";
 		echo "sell price: $sell_price\n";
-
+		echo "epsilon: $epsilon\n";
+		echo "spread: " . ($sell_price - $buy_price) . "\n";
 
 		$buy = array(); 
 		$sell = array(); 

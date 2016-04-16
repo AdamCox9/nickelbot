@@ -1,3 +1,5 @@
+body { font-family: arial; font-size: -1; }
+
 h1 { font-size: 18pt; }
 h2 { font-size: 17pt; }
 h3 { font-size: 16pt; }
@@ -28,7 +30,7 @@ span.open_orders{ font-size: 8pt; color: green; }
 div.completed_orders{ font-size: 10pt; border: 1px solid #88BB36; background: silver; font-weight: bold; color: black; }
 span.completed_orders{ font-size: 8pt; color: red; }
 
-div.nickelbox{ overflow:scroll; height:400px; }
+div.nickelbox{ overflow:scroll; height:200px; }
 
 div.trollbox_wrapper {
 	float:left;
