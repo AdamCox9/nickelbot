@@ -32,6 +32,14 @@ function updateChats(){
 	  if( ! once )
 		  $( "div#bitcointalk_box" ).scrollTop($( "div#bitcointalk_box" )[0].scrollHeight);
 	});
+	$.ajax({
+	  url: "api/trollbox/redditbitcoin.php",
+	  context: document.body
+	}).done(function(data) {
+	  $( "div#redditbitcoin_box" ).html( data );
+	  if( ! once )
+		  $( "div#redditbitcoin_box" ).scrollTop($( "div#redditbitcoin_box" )[0].scrollHeight);
+	});
 }
 updateChats();
 function startUpdatingChats() {

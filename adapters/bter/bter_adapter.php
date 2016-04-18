@@ -273,8 +273,11 @@
 		}
 
 		public function get_market_summary( $market = "BTC-LTC" ) {
-			$market = explode( "-", strtolower( $market ) );
-			return $this->exch->ticker( $market[0], $market[1] );;
+			$market_summaries = $this->get_market_summaries();
+			foreach( $market_summaries as $market_summary )
+				if( $market_summary['market'] = $market )
+					return $market_summary;
+			return [];
 		}
 
 		public function get_market_summaries() {
@@ -295,7 +298,7 @@
 			}
 
 			foreach( $tickers as $key => $market_summary ) {
-				$market_summary['market'] = strtoupper( str_replace( "_", "-", $key ) );
+				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['exchange'] = "bter";
 				$market_summary = array_merge( $market_summary, $markets[$key] );
 				$curs = explode( "_", $key );

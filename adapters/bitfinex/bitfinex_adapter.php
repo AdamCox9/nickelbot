@@ -37,7 +37,7 @@
 		}
 		
 		public function cancel( $orderid="1", $opts = array() ) {
-			return $this->exch->order_cancel( $orderid );
+			return $this->exch->order_cancel( (int)$orderid );
 		}
 
 		public function cancel_all() {

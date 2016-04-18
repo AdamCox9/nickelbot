@@ -1,5 +1,15 @@
 <?PHP
 
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', 'on' );
+	date_default_timezone_set( "UTC" );
+
+	//die( 'BRB' );
+
+	if( file_exists( '../../cache/bitcointalk.txt' ) && rand(0,50) > 1 ) {
+		die( file_get_contents( '../../cache/bitcointalk.txt' ) );
+	}
+
 	$rss = new DOMDocument();
 	$rss->load('http://bitcointalk.org/index.php?type=rss;action=.xml&limit=20');
 
@@ -18,6 +28,9 @@
 	foreach( $feed as $item ) {
 		$output .= "<div><a href='{$item['link']}'>{$item['title']}</a>: {$item['desc']}</div>";
 	}
+
+	if( ! is_null( $output ) )
+		file_put_contents( '../../cache/bitcointalk.txt', $output );
 
 	echo $output;
 

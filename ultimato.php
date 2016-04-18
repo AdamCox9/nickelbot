@@ -52,13 +52,13 @@
 			//poloniex_light_show( $Adapters['Poloniex'] );
 		}*/
 
-		build_cache( $Adapters );
+		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
-		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
+		make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
 		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...
 		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr
 

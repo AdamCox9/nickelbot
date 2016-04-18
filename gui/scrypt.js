@@ -60,7 +60,7 @@ $( "span#a_deposit_addresses" ).click(function() {
 			var obj = JSON.parse( data );
 			$.each( obj, function( index, value ) {
 				for( var i = 0; i < value.length; i++ ) {
-					$( 'div#div_deposit_addresses' ).append( "<div class='deposit_address'>" + index.replace("Adapter", "") + "<br/>" + "<span class='deposit_address'>" + value[i]['currency'] + ": " + value[i]['address'] + "</span><br/>(" + value[i]['wallet_type'] + ")</div>" );
+					$( 'div#div_deposit_addresses' ).append( "<div class='deposit_address'>" + index.replace("Adapter", "") + " (" + value[i]['wallet_type'] + ")<br/>" + "<span class='deposit_address'>" + value[i]['currency'] + ": " + value[i]['address'] + "</span><br/></div>" );
 				}
 			});
 		});

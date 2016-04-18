@@ -9,8 +9,10 @@ h4 { font-size: 15pt; }
 h5 { font-size: 14pt; }
 h6 { font-size: 13pt; }
 
+img { max-width: 250px; }
+
 div.tab { padding-left:2em; }
-#div_exchanges_save{ display: none; }
+div#div_exchanges_save{ display: none; }
 
 div.exchange{ font-size: 11pt; border: 2px dotted #BBAA44; background: black; font-weight: bold; color: yellow; }
 div.currency{ font-size: 11pt; border: 2px ridge #B17A2A; background: red; font-weight: bold; color: orange; }
@@ -25,12 +27,9 @@ span.open_orders{ font-size: 8pt; color: green; }
 div.completed_orders{ font-size: 10pt; border: 1px solid #88BB36; background: silver; font-weight: bold; color: black; }
 span.completed_orders{ font-size: 8pt; color: red; }
 
-div.nickelbox{ height:100px; overflow-x: hidden; overflow-y: scroll; background: #EEEEEE; }
-
 div.trollbox_wrapper { float:left; }
 div.trollbox { font-size:10pt; width:300px; height:200px; border: 1px solid #666; overflow-x: hidden; overflow-y: scroll; }
-
-span.handle { color:blue; }
+div.nickelbox{ height:100px; overflow-x: hidden; overflow-y: scroll; background: #EEEEEE; }
 
 div.code { margin-bottom: 25px; padding: 10px; border: 2px ridge #444; }
 div.code_desc { margin: 8px; border: 1px #666 dashed; padding: 10px; }

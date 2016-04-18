@@ -14,10 +14,10 @@
 		<h1>NickelBot</h1>
 		<img id="logo" alt="NickelBot" src="/gui/img/nickelbot.png"/>
 
-		<h2>Digital currency platform in the cloud</h2>
+		<h2>Cryptocurrency platform in the cloud</h2>
 	
 		<div class="github_link">
-			Fork Me: <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>
+			Fork this website: <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>
 		</div>
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
@@ -55,10 +55,11 @@
 		<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://yobit.net/?bonus=DkmPL">YoBit</a><div class='trollbox' id="yobit_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://bitcointalk.org/">BitcoinTalk</a><div class='trollbox' id="bitcointalk_box">Loading...</div></div>
+		<div class='trollbox_wrapper'><a href="https://www.reddit.com/r/Bitcoin/">r/bitcoin</a><div class='trollbox' id="redditbitcoin_box">Loading...</div></div>
 
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
-		<h4 id="docs">Docs</h4>
+		<h4 id="docs">Cryptocurrency API docs</h4>
 
 		<div class="code">
 			<div class="code_desc">
@@ -68,7 +69,11 @@
 				<div class="tab">
 					&lt;?PHP
 					<div class="tab">
-						echo get_class( $Adapter ) . "\n&lt;br&gt;";
+						foreach( $Adapters as $Adapter ) {
+							<div class="tab">
+								echo get_class( $Adapter ) . "\n&lt;br&gt;";
+							</div>
+						}
 					</div>
 					?&gt;
 				</div>
@@ -119,6 +124,15 @@
 		<div class="code">
 			<div class="code_desc">
 				<b>get_markets</b> - an array of all markets BTC-LTC, BTC-USD, etc...
+				<div>
+					Base currency and quote currency - some examples only to clarify:<br>
+					example 1: (if market is BTC-USD) buying BTC with USD - BTC is base and USD is quote<br>
+					example 2: (if market is BTC-USD) selling BTC for USD - BTC is base and USD is quote<br>
+					example 3: (if market is USD-BTC) buying USD with BTC - USD is base and BTC is quote<br>
+					example 4: (if market is USD-BTC) selling USD for BTC - USD is base and BTC is quote<br>
+					example 5: (if market is XMR-BTC) buying XMR with BTC - XMR is base and BTC is quote<br>
+					example 6: (if market is XMR-BTC) selling XMR for BTC - XMR is base and BTC is quote
+				</div>
 			</div>
 			<div>
 				<div class="tab">
@@ -225,7 +239,7 @@
 				</div>
 			</div>
 			<div class="code_resp">
-				under construction
+				{"BitfinexAdapter":{"success":false,"error":true,"message":{"result":"No order cancellations processed"}}}
 			</div>
 			<div class="code_api">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel_all">/api/index.php?exchange=Bitfinex&action=cancel_all</a></div>
@@ -316,7 +330,7 @@
 				</div>
 			</div>
 			<div class="code_resp">
-				under construction
+				{"BitfinexAdapter":[{"id":698269048,"exchange":"bitfinex","price":"393.0","avg_execution_price":"0.0","side":"buy","type":"exchange limit","is_live":true,"is_cancelled":false,"is_hidden":true,"was_forced":false,"original_amount":"0.011","remaining_amount":"0.011","executed_amount":"0.0","market":"BTC-USD","timestamp_created":"1460889016.0","amount":"0.011"}]}
 			</div>
 			<div class="code_api">
 				<div><a href="/api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD">/api/index.php?action=get_open_orders&exchange=Bitstamp&market=BTC-USD</a></div>
@@ -349,7 +363,7 @@
 				</div>
 			</div>
 			<div class="code_resp">
-				under construction
+				{"BitfinexAdapter":[{"price":"430.0","amount":"0.0125","timestamp":"1460732016.0","type":"Sell","fee_currency":"USD","fee_amount":"-0.01075","tid":16744291,"order_id":696360565,"market":"BTC-USD","exchange":"bitfinex","id":null,"fee":null,"total":null},{"price":"429.5","amount":"0.0125","timestamp":"1460731419.0","type":"Sell","fee_currency":"USD","fee_amount":"-0.0107375","tid":16744191,"order_id":696353727,"market":"BTC-USD","exchange":"bitfinex","id":null,"fee":null,"total":null}]}
 			</div>
 			<div class="code_api">
 				<div><a href="/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC">/api/index.php?action=get_completed_orders&exchange=Bitfinex&market=ETH-BTC</a></div>
@@ -378,6 +392,9 @@
 				</div>
 			</div>
 			<div class="code_resp">
+				under construction
+			</div>
+			<div class="code_api">
 				<div><a href="/api/index.php?action=get_order&exchange=Bitfinex&id=134432">/api/index.php?action=get_order&exchange=Bitstamp&id=134432</a></div>
 				<div><a href="/api/index.php?action=get_order&exchange=Bitstamp&id=134432">/api/index.php?action=get_order&exchange=Bitfinex&id=134432</a></div>
 				<div><a href="/api/index.php?action=get_order&exchange=Bittrex&id=134432">/api/index.php?action=get_order&exchange=Bittrex&id=134432</a></div>
@@ -398,13 +415,13 @@
 				<div class="tab">
 					&lt;?PHP
 					<div class="tab">
-						print_r( $Adapter->get_market_summary( "BTC-USD" );
+						print_r( $Adapter->get_market_summary( "BTC-USD" ) );
 					</div>
 					?&gt;
 				</div>
 			</div>
 			<div class="code_resp">
-				under construction
+				{"PoloniexAdapter":{"ask":"0.02138045","base_volume":"1247270.00827785","bid":"0.02135000","btc_volume":null,"created":null,"display_name":"BTC-ETH","exchange":"poloniex","expiration":null,"frozen":"0","high":"0.02277000","initial_margin":null,"last_price":"0.02135000","low":"0.02090000","market":"BTC-ETH","market_id":null,"maximum_order_size":null,"mid":null,"minimum_margin":null,"minimum_order_size_base":null,"minimum_order_size_quote":"0.00050000","open_buy_orders":null,"open_sell_orders":null,"percent_change":"-0.01443267","price_precision":8,"quote_volume":"27439.54331868","result":true,"timestamp":null,"verified_only":null,"vwap":null}}
 			</div>
 			<div class="code_api">
 				<div><a href="/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD">/api/index.php?exchange=Bitfinex&action=get_market_summary&market=BTC-USD</a></div>

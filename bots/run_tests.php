@@ -12,15 +12,35 @@
 	{
 		foreach( $Adapters as $Adapter ) {
 			echo "******* " . get_class( $Adapter ) . " ******\n";
-			
+
 			echo " -> getting currencies\n";
 			$Tester->test( 'currencies', array( $Adapter->get_currencies() ) );
 
 			echo " -> getting markets\n";
-			$Tester->test( 'markets', array( $Adapter->get_markets() ) );
+			$markets = $Adapter->get_markets();
+			$Tester->test( 'markets', array( $markets ) );
 
 			echo " -> getting market summaries\n";
-			$Tester->test( 'market_summaries', array( $Adapter->get_market_summaries() ) );
+			$market_summaries = $Adapter->get_market_summaries();
+			$Tester->test( 'market_summaries', array( $market_summaries ) );
+			
+			echo " -> getting market to test buy and sell\n";
+			$market = $markets[0];//first market is good enough...
+			$Tester->test( 'markets', array( array( $market ) ) );
+
+			echo " -> getting market summary to test buy and sell\n";
+			$market_summary = $Adapter->get_market_summary( $market );
+			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
+
+			echo " -> making a buy order\n";
+			$buy = $Adapter->buy(  );
+			print_r( $buy );
+			$Tester->test( 'buy', array( $buy ) );
+
+			/*echo " -> making a sell order\n";
+			$sell = $Adapter->sell(  );
+			$Tester->test( 'sell', array( $sell ) );
+			print_r( $sell );
 
 			echo " -> getting balances\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
@@ -51,7 +71,7 @@
 			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting worths\n";
-			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
+			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );*/
 
 		}
 	}
