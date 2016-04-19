@@ -125,14 +125,14 @@
 			$pair = str_replace( "-", "_", strtolower( $pair ) );
 			$buy = $this->exch->placeorder( array('pair' => $pair, 'type' => 'BUY', 'rate' => $price, 'amount' => $amount ) );
 			if( $buy['message'] != "Success" )
-				print_r( $buy );
+				return array( 'message' => array( $buy ) );
 		}
 		
 		public function sell( $pair='BTC-LTC', $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
 			$pair = str_replace( "-", "_", strtolower( $pair ) );
 			$sell = $this->exch->placeorder( array('pair' => $pair, 'type' => 'SELL', 'rate' => $price, 'amount' => $amount ) );
 			if( $sell['message'] != "Success" )
-				print_r( $sell );
+				return array( 'message' => array( $sell ) );
 		}
 
 		public function get_open_orders( $market = "BTC-USD" ) {
@@ -243,8 +243,8 @@
 		}
 
 		public function get_balances() {
-			if( isset( $this->balances ) )//internal cache
-				return $this->balances;
+			/*if( isset( $this->balances ) )//internal cache
+				return $this->balances;*/
 
 			$balances = $this->exch->getfunds();
 			$response = [];

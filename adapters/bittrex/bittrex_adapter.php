@@ -208,8 +208,8 @@
 		}
 
 		public function get_balances() {
-			if( isset( $this->balances ) )//internal cache
-				return $this->balances;
+			/*if( isset( $this->balances ) )//internal cache
+				return $this->balances;*/
 
 			$balances = $this->exch->account_getbalances();
 			if( $balances['success'] == 1 )

@@ -237,8 +237,8 @@
 		}
 
 		public function get_balances() {
-			if( isset( $this->balances ) )
-				return $this->balances;
+			/*if( isset( $this->balances ) )
+				return $this->balances;*/
 
 			$balances = $this->exch->getInfo();
 

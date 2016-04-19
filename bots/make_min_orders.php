@@ -59,11 +59,11 @@
 				echo " -> quote currency balance ($quote_bal) \n";
 
 				//_____calculate some variables that are rather trivial:
-				$precision = $market_summary['price_precision'];	//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
-				$epsilon = 1 / pow( 10, $precision );				//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-				$buy_price = $market_summary['bid'];				//_____buy at same price as highest bid.
-				$sell_price = $market_summary['ask'];				//_____sell at same price as lowest ask.
-				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
+				$precision = $market_summary['price_precision'] + 2;	//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
+				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
+				$buy_price = $market_summary['bid'];					//_____buy at same price as highest bid.
+				$sell_price = $market_summary['ask'];					//_____sell at same price as lowest ask.
+				$spread = $sell_price - $buy_price;						//_____difference between highest bid and lowest ask.
 
 				echo " -> precision $precision \n";
 				echo " -> epsilon $epsilon \n";
@@ -77,27 +77,31 @@
 				echo " -> final formatted buy price: $buy_price \n";
 				echo " -> final formatted sell price: $sell_price \n";
 
-				if( $buy_price > 0 ) { //some currencies have big sell wall at 0.00000001...
+				if( floatval($buy_price) > 0 ) { //some currencies have big sell wall at 0.00000001...
 					$order_size = Utilities::get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
-					echo " -> buying $order_size in $market for $buy_price costing " . $order_size * $buy_price . " \n";
+					echo " -> buying $order_size in $market for $buy_price costing " . $order_size * $buy_price . " with balance of $quote_bal \n";
 					if( floatval($order_size * $buy_price) > floatval($quote_bal) )
-						echo " -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price\n";
+						echo "\n\n -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price \n\n";
 					else {
 						$buy = $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						if( isset( $buy['message'] ) )
+						if( isset( $buy['message'] ) ) {
 							print_r( $buy );
+							die('test');
+						}
 					}
 				}
 
-				if( $sell_price > $buy_price ) { //just in case...
+				if( floatval($sell_price) > floatval($buy_price) ) { //just in case...
 					$order_size = Utilities::get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
 					echo " -> selling $order_size in $market for $sell_price earning " . $order_size * $sell_price . " \n";
 					if( floatval($order_size) > floatval($base_bal) )
-						echo " -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price\n";
+						echo "\n\n -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price \n\n";
 					else {
 						$sell = $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						if( isset( $sell['message'] ) )
+						if( isset( $sell['message'] ) ){
 							print_r( $sell );
+							die('test');
+						}
 					}
 				}
 				echo "\n";

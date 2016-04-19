@@ -9,13 +9,13 @@
 		//Get the symbol returned from Adapter:
 		private function get_market_symbol( $market ) {
 			$market = explode( "_", $market );
-			return $market[0] . "-" . $market[1];
+			return $market[1] . "-" . $market[0];
 		}
 		
 		//Get the symbol returned from native lib:
 		private function unget_market_symbol( $market ) {
 			$market = explode( "-", $market );
-			return $market[0] . "_" . $market[1];
+			return $market[1] . "_" . $market[0];
 		}
 
 		public function get_info() {
@@ -93,7 +93,7 @@
 			$market = $this->unget_market_symbol( $market );
 			$buy = $this->exch->buy( $market, $price, $amount );
 			if( isset( $buy['error'] ) )
-				print_r( $buy );
+				return array( 'message' => array( $buy ) );
 			return $buy;
 		}
 		
@@ -101,7 +101,7 @@
 			$market = $this->unget_market_symbol( $market );
 			$sell = $this->exch->sell( $market, $price, $amount );
 			if( isset( $sell['error'] ) )
-				print_r( $sell );
+				return array( 'message' => array( $sell ) );
 			return $sell;
 		}
 
@@ -189,7 +189,7 @@
 
 		//BTC, LTC, USD, etc...
 		public function get_currencies() {
-			return array_map( 'strtoupper', array_keys( $this->exch->returnCurrencies() ) );
+			 return $this->exch->returnCurrencies();
 		}
 		
 		public function deposit_address( $currency = "BTC" ){
@@ -219,8 +219,8 @@
 		}
 
 		public function get_balances() {
-			if( isset( $this->balances ) )//internal cache
-				return $this->balances;
+			/*if( isset( $this->balances ) )//internal cache
+				return $this->balances;*/
 
 			$balances = $this->exch->returnCompleteBalances();
 			$response = [];

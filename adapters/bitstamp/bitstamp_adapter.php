@@ -145,8 +145,8 @@
 		}
 
 		public function get_balances() {
-			if( isset( $this->balances ) )//internal cache
-				return $this->balances;
+			/*if( isset( $this->balances ) )//internal cache
+				return $this->balances;*/
 
 			$balances = $this->exch->balance();
 
