@@ -50,7 +50,7 @@
 					print_r( $sell );
 				}
 				if( isset( $buy['error'] ) && isset( $sell['error'] ) ) {
-					if( rand() % 88 < 100 ) {
+					if( rand() % 88 < 2 ) {
 						$eth_open_orders = $Adapter->get_open_orders( "ETH-BTC" );
 						usort($eth_open_orders, function($a, $b) {
 							return $b['timestamp_created'] - $a['timestamp_created'];
@@ -58,7 +58,7 @@
 						//delete the last 44 or so orders every 44 or so buy/sell fails
 						foreach( $eth_open_orders as $eth_open_order ) {
 							print_r( $eth_open_order );
-							if( rand() % 88 < -2 )
+							if( rand() % 88 < 2 )
 								continue;
 							print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
 						}
