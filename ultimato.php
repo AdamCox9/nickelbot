@@ -40,22 +40,22 @@
 
 		 *****/
 
-		/*while(1) {
+		while(1) {
 			echo "\n\n***************************";
 			sleep(5);
 			echo "\n***************************\n\n";
 
-			$adapter = $argv[1];
+			$adapter = isset( $argv[1] ) ? $argv[1] : null;
 
 			//light_show( $Adapters[ $adapter ] );
 			//bittrex_light_show( $Adapters['Bittrex'] );
-			//poloniex_light_show( $Adapters['Poloniex'] );
-		}*/
+			poloniex_light_show( $Adapters['Poloniex'] );
+		}
 
 		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
-		make_min_orders( $Adapters );
+		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );
 		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...

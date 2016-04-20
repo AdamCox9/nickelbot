@@ -93,7 +93,7 @@
 			$market = $this->unget_market_symbol( $market );
 			$buy = $this->exch->buy( $market, $price, $amount );
 			if( isset( $buy['error'] ) )
-				return array( 'message' => array( $buy ) );
+				return array( 'message' => array( $buy ), 'error' => true );
 			return $buy;
 		}
 		
@@ -101,7 +101,7 @@
 			$market = $this->unget_market_symbol( $market );
 			$sell = $this->exch->sell( $market, $price, $amount );
 			if( isset( $sell['error'] ) )
-				return array( 'message' => array( $sell ) );
+				return array( 'message' => array( $sell ), 'error' => true );
 			return $sell;
 		}
 

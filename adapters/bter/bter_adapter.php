@@ -343,6 +343,9 @@
 
 				ksort( $market_summary );
 
+				if( $market_summary['bid'] == 0 || $market_summary['ask'] == 0 || $market_summary['base_volume'] == 0 || $market_summary['quote_volume'] == 0 )
+					continue;
+
 				array_push( $this->market_summaries, $market_summary );
 			}
 			return $this->market_summaries;

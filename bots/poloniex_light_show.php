@@ -14,7 +14,7 @@
 
 		//_____get the markets to loop over:
 
-		$eth_market = $Adapter->get_market_summary( "BTC-ETH" );
+		$eth_market = $Adapter->get_market_summary( "ETH-BTC" );
 
 		$price_precision = 8;
 		
@@ -24,7 +24,7 @@
 		echo "buy price: $buy_price\n";
 		echo "sell price: $sell_price\n";
 
-		$epsilon = "0.00000005";
+		$epsilon = "0.00000001";
 
 		$buy = array( 'message' => null ); 
 		$sell = array( 'message' => null ); 
@@ -51,7 +51,7 @@
 				}
 				if( isset( $buy['error'] ) && isset( $sell['error'] ) ) {
 					if( rand() % 99 == 88 ) {
-						$eth_open_orders = $Adapter->get_open_orders( "BTC-ETH" );
+						$eth_open_orders = $Adapter->get_open_orders( "ETH-BTC" );
 						foreach( $eth_open_orders as $eth_open_order ) {
 							print_r( $Adapter->cancel($eth_open_order['id'], array( 'market' => $eth_open_order['market'] ) ) );
 						}

@@ -47,13 +47,20 @@
 		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
 			$pair = explode( "-", $pair );
 			$pair = $pair[1] . "-" . $pair[0];
-			return $this->exch->market_buylimit( array( 'market' => strtoupper($pair), 'quantity' => $amount, 'rate' => $price ) );
+			$buy = $this->exch->market_buylimit( array( 'market' => strtoupper($pair), 'quantity' => $amount, 'rate' => $price ) );
+			if( $buy['success'] == 1 )
+				unset( $buy['message'] );
+			return $buy;
 		}
 		
 		public function sell( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
 			$pair = explode( "-", $pair );
 			$pair = $pair[1] . "-" . $pair[0];
-			return $this->exch->market_selllimit( array( 'market' => strtoupper($pair), 'quantity' => $amount, 'rate' => $price ) );
+			$sell = $this->exch->market_selllimit( array( 'market' => strtoupper($pair), 'quantity' => $amount, 'rate' => $price ) );
+			if( $sell['success'] == 1 )
+				unset( $sell['message'] );
+			return $sell;
+
 		}
 
 		public function get_open_orders() {
