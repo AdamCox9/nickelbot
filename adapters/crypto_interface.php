@@ -54,6 +54,14 @@
 		public function get_balance( $currency = "BTC" );
 		public function get_balances();
 
+		public function get_deposits_withdrawals();
+
+		public function get_deposits();
+
+		public function get_deposit( $deposit_id="1", $opts = array() );
+
+		public function get_withdrawals();
+
 		//supertrollbox would be a bot
 		//public function get_trollbox(); //maybe forum if no trollbox?
 

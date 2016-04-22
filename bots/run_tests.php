@@ -20,7 +20,10 @@
 			$markets = $Adapter->get_markets();
 			$Tester->test( 'markets', array( $markets ) );
 
-			echo " -> getting market summaries\n";
+			echo " -> getting deposits and withdrawals\n";
+			$Tester->test( 'deposits_withdrawals', $Adapter->get_deposits_withdrawals() );
+
+			/*echo " -> getting market summaries\n";
 			$market_summaries = $Adapter->get_market_summaries();
 			$Tester->test( 'market_summaries', array( $market_summaries ) );
 			
@@ -37,7 +40,7 @@
 			print_r( $buy );
 			$Tester->test( 'buy', array( $buy ) );
 
-			/*echo " -> making a sell order\n";
+			echo " -> making a sell order\n";
 			$sell = $Adapter->sell(  );
 			$Tester->test( 'sell', array( $sell ) );
 			print_r( $sell );

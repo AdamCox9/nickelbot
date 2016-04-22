@@ -26,29 +26,6 @@
 			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you here in the cloud! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
 		</p>
 
-		<!--<div class="nickelbox" id="div_deposits_withdrawals">
-			<span id="a_deposits_withdrawals">load latest deposits and withdrawals - broken</span>
-		</div>
-
-		<div class="nickelbox" id="div_btc_visualizations">
-			<span id="a_btc_visualizations">load BTC visualizations - broken</span><br>
-		</div>
-		
-		<div class="nickelbox" id="div_deposits_withdrawals">
-			<span id="a_payment_processor">Load payment processor...</span><br>
-		</div>
-
-		<div class="nickelbox" id="div_btc_visualizations">
-			<span id="a_sound_alerter">Load sound alerter...</span><br>
-		</div>
-
-		<div class="nickelbox" id="div_btc_tx_sound">
-			<span id="a_bot_shop">Load bot shop...</span><br>
-			<span id="a_voting_booth">Load voting booth...</span><br>
-			<span id="a_other_sample_nickelbox">Load other sample NickelBox...</span><br>
-			<span id="a_etcetera">Load etcetera...</span><br>
-		</div>-->
-
 		<h3 id="super_trollbox">Super Trollbox</h3>
 
 		<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>
@@ -198,64 +175,6 @@
 		</div>
 		<div class="code">
 			<div class="code_desc">
-				<b>cancel</b> - cancel one order.
-			</div>
-			<div>
-				<div class="tab">
-					&lt;?PHP
-					<div class="tab">
-						$Adapter->cancel( $order_id = 1, $opts = array() );
-					</div>
-					?&gt;
-				</div>
-			</div>
-			<div class="code_resp">
-				under construction
-			</div>
-			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel&id=1">/api/index.php?exchange=Bitfinex&action=cancel&id=1</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel&id=2">/api/index.php?exchange=Bitstamp&action=cancel&id=2</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=cancel&id=3">/api/index.php?exchange=Bittrex&action=cancel&id=3</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=cancel&id=4">/api/index.php?exchange=Btce&action=cancel&id=4</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=cancel&id=5">/api/index.php?exchange=Bter&action=cancel&id=5</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=cancel&id=6">/api/index.php?exchange=Coinbase&action=cancel&id=6</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=cancel&id=7">/api/index.php?exchange=Poloniex&action=cancel&id=7</a></div>
-			</div>
-			<div class="nickelbox" id="div_cancel">
-				<span class="clicker" id="a_cancel">load open orders to cancel</span>
-			</div>
-		</div>
-		<div class="code">
-			<div class="code_desc">
-				<b>cancel_all</b> - cancel all orders.
-			</div>
-			<div>
-				<div class="tab">
-					&lt;?PHP
-					<div class="tab">
-						$Adapter->cancel_all( $order_id = 1, $opts = array() );
-					</div>
-					?&gt;
-				</div>
-			</div>
-			<div class="code_resp">
-				{"BitfinexAdapter":{"success":false,"error":true,"message":{"result":"No order cancellations processed"}}}
-			</div>
-			<div class="code_api">
-				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel_all">/api/index.php?exchange=Bitfinex&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel_all">/api/index.php?exchange=Bitstamp&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bittrex&action=cancel_all">/api/index.php?exchange=Bittrex&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Btce&action=cancel_all">/api/index.php?exchange=Btce&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Bter&action=cancel_all">/api/index.php?exchange=Bter&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Coinbase&action=cancel_all">/api/index.php?exchange=Coinbase&action=cancel_all</a></div>
-				<div><a href="/api/index.php?exchange=Poloniex&action=cancel_all">/api/index.php?exchange=Poloniex&action=cancel_all</a></div>
-			</div>
-			<div class="nickelbox" id="div_cancel_all">
-				<span class="clicker" id="a_cancel_all">click to load exchanges to cancel all</span>
-			</div>
-		</div>
-		<div class="code">
-			<div class="code_desc">
 				<b>buy</b> - create a buy order.
 			</div>
 			<div>
@@ -310,6 +229,64 @@
 			</div>
 			<div class="nickelbox" id="div_sell">
 				<span class="clicker" id="a_sell">under construction</span>
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				<b>cancel</b> - cancel one order.
+			</div>
+			<div>
+				<div class="tab">
+					&lt;?PHP
+					<div class="tab">
+						$Adapter->cancel( $order_id = 1, $opts = array() );
+					</div>
+					?&gt;
+				</div>
+			</div>
+			<div class="code_resp">
+				under construction
+			</div>
+			<div class="code_api">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel&id=1">/api/index.php?exchange=Bitfinex&action=cancel&id=1</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel&id=2">/api/index.php?exchange=Bitstamp&action=cancel&id=2</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=cancel&id=3">/api/index.php?exchange=Bittrex&action=cancel&id=3</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=cancel&id=4">/api/index.php?exchange=Btce&action=cancel&id=4</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=cancel&id=5">/api/index.php?exchange=Bter&action=cancel&id=5</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=cancel&id=6">/api/index.php?exchange=Coinbase&action=cancel&id=6</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=cancel&id=7">/api/index.php?exchange=Poloniex&action=cancel&id=7</a></div>
+			</div>
+			<div class="nickelbox" id="div_cancel">
+				<span class="clicker" id="a_cancel">load open orders to cancel</span>
+			</div>
+		</div>
+		<div class="code">
+			<div class="code_desc">
+				<b>cancel_all</b> - cancel all orders.
+			</div>
+			<div>
+				<div class="tab">
+					&lt;?PHP
+					<div class="tab">
+						$Adapter->cancel_all( $order_id = 1, $opts = array() );
+					</div>
+					?&gt;
+				</div>
+			</div>
+			<div class="code_resp">
+				{"BitfinexAdapter":{"success":false,"error":true,"message":{"result":"No order cancellations processed"}}}
+			</div>
+			<div class="code_api">
+				<div><a href="/api/index.php?exchange=Bitfinex&action=cancel_all">/api/index.php?exchange=Bitfinex&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Bitstamp&action=cancel_all">/api/index.php?exchange=Bitstamp&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Bittrex&action=cancel_all">/api/index.php?exchange=Bittrex&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Btce&action=cancel_all">/api/index.php?exchange=Btce&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Bter&action=cancel_all">/api/index.php?exchange=Bter&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Coinbase&action=cancel_all">/api/index.php?exchange=Coinbase&action=cancel_all</a></div>
+				<div><a href="/api/index.php?exchange=Poloniex&action=cancel_all">/api/index.php?exchange=Poloniex&action=cancel_all</a></div>
+			</div>
+			<div class="nickelbox" id="div_cancel_all">
+				<span class="clicker" id="a_cancel_all">click to load exchanges to cancel all</span>
 			</div>
 		</div>
 		<div class="code">

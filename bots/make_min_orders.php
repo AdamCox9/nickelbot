@@ -106,7 +106,6 @@
 						}
 					}
 				}
-				print_r( $bal );
 				echo "\n";
 			}
 		}

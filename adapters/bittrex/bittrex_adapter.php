@@ -1,6 +1,6 @@
 <?PHP
 
-	class BittrexAdapter extends CryptoBase implements CryptoExchange {
+	class BittrexAdapter /*extends CryptoBase*/ implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;
@@ -30,6 +30,38 @@
 			return $this->exch->market_cancel( array("uuid" => $orderid ) );
 		}
 		
+		public function get_deposits_withdrawals() {
+			$results = [];
+
+			//_____Withdrawals:
+			$transactions = $this->exch->account_getwithdrawalhistory( array() );
+			foreach( $transactions['result'] as $transaction ) {
+				$transaction['exchange'] = "Bittrex";
+				array_push( $results, $transaction );
+			}
+
+			//_____Deposits:
+			$transactions = $this->exch->account_getdeposithistory( array() );
+			foreach( $transactions as $transaction ) {
+				$transaction['exchange'] = "Bittrex";
+				array_push( $results, $transaction );
+			}
+
+			return $results;
+		}
+
+		public function get_deposits() {
+			return $this->exch->order_cancel( (int)$orderid );
+		}
+
+		public function get_deposit( $deposit_id="1", $opts = array() ) {
+			return $this->exch->order_cancel( (int)$deposit_id );
+		}
+
+		public function get_withdrawals() {
+			return $this->exch->order_cancel( (int)$orderid );
+		}
+
 		public function cancel_all() {
 			$result = $this->get_open_orders();
 			$response = array();

@@ -1,6 +1,6 @@
 <?PHP
 
-	class BitstampAdapter extends CryptoBase implements CryptoExchange {
+	class BitstampAdapter /*extends CryptoBase*/ implements CryptoExchange {
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;
@@ -28,6 +28,44 @@
 		
 		public function cancel( $orderid="1", $opts = array() ) {
 			return $this->exch->cancel_order($orderid);
+		}
+
+		public function get_deposits_withdrawals() {
+			$currencies = $this->get_currencies();
+			$results = [];
+			foreach( $currencies as $currency ) {
+				$transactions = $this->get_completed_orders( $market="BTC-USD", $limit=100 );
+				foreach( $transactions as $transaction ) {
+					if( $transaction['type'] == 0 || $transaction['type'] == 1 ) {
+						$transaction['type'] = $transaction['type'] == 0 ? "DEPOSIT" : "WITHDRAWAL"; 
+						$transaction['exchange'] = "Bitstamp";
+
+						/*unset( $transaction['order_id'] );
+						unset( $transaction['fee'] );
+						unset( $transaction['market'] );
+						unset( $transaction['price'] );
+						unset( $transaction['to'] );
+						unset( $transaction[''] );
+						unset( $transaction[''] );
+						unset( $transaction[''] );*/
+						array_push( $results, $transaction );
+					}
+					sleep( 1 );
+				}
+			}
+			return $results;
+		}
+
+		public function get_deposits() {
+			return $this->exch->order_cancel( (int)$orderid );
+		}
+
+		public function get_deposit( $deposit_id="1", $opts = array() ) {
+			return $this->exch->order_cancel( (int)$deposit_id );
+		}
+
+		public function get_withdrawals() {
+			return $this->exch->order_cancel( (int)$orderid );
 		}
 
 		public function cancel_all() {

@@ -122,7 +122,7 @@
 	}
 	function api_cancel_all()
 	{
-		return array( "error" => "lets not start with that" );
+		//return array( "error" => "lets not start with that" );
 		global $Adapters;
 
 		$exchange = isset( $_GET['exchange'] ) ? $_GET['exchange'] : "error";

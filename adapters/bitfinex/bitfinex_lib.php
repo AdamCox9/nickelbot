@@ -130,7 +130,7 @@
 		}
 
 		public function order_status( $order_id ) {
-			return $this->query( "/order/cancel", array( 'order_id' => $order_id ) );
+			return $this->query( "/order/status", array( 'order_id' => $order_id ) );
 		}
 
 		public function orders() {
@@ -149,8 +149,15 @@
 			return $this->query( "/history" );
 		}
 
-		public function history_movements() {
-			return $this->query( "/history/movements" );
+		/*****
+			currency	[string]	The currency to look for.
+			method		[string]	Optional. The method of the deposit/withdrawal (can be “bitcoin”, “litecoin”, “darkcoin”, “wire”).
+			since		[time]		Optional. Return only the history after this timestamp.
+			until		[time]		Optional. Return only the history before this timestamp.
+			limit		[int]		Optional. Limit the number of entries to return. Default is 500.
+		*****/
+		public function history_movements( $currency = "BTC" ) {
+			return $this->query( "/history/movements", array( 'currency' => $currency )  );
 		}
 
 		public function mytrades( $arr = array() ) {

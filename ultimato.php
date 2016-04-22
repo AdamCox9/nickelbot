@@ -40,20 +40,20 @@
 
 		 *****/
 
-		while(1) {
+		/*while(1) {
 			echo "\n\n***************************";
-			sleep(5);
+			//sleep(5);
 			echo "\n***************************\n\n";
 
-			$adapter = isset( $argv[1] ) ? $argv[1] : null;
-
+			//$adapter = isset( $argv[1] ) ? $argv[1] : null;
 			//light_show( $Adapters[ $adapter ] );
-			//bittrex_light_show( $Adapters['Bittrex'] );
-			poloniex_light_show( $Adapters['Poloniex'] );
-		}
+			poloniex_light_show( $Adapters['Bitfinex'], "ETH-BTC" );
+			//make_min_orders( $Adapters );
+
+		}*/
 
 		//build_cache( $Adapters );
-		//run_tests( $Adapters, $Tester );
+		run_tests( $Adapters, $Tester );
 		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_extreme_orders( $Adapters );

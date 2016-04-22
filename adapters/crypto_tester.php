@@ -163,6 +163,13 @@
 			}
 		}
 
+		private function test_deposits_withdrawals( $deposits_withdrawals ) {
+			$keys = array( 'id', 'currency', 'method', 'type', 'amount', 'description', 'status', 'timestamp', 'exchange' );
+			foreach( $deposits_withdrawals as $transaction ) {
+				$this->equal_keys( $keys, $transaction );
+			}
+		}
+
 		/***********************
 
 			Test Utility Methods

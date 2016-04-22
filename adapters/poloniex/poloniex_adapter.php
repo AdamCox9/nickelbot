@@ -1,6 +1,6 @@
 <?PHP
 
-	class PoloniexAdapter extends CryptoBase implements CryptoExchange {
+	class PoloniexAdapter /*extends CryptoBase*/ implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;
@@ -87,6 +87,57 @@
 				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
 
 			return $results;
+		}
+
+		public function get_deposits_withdrawals() {
+			$currencies = $this->get_currencies();
+			$results = [];
+			foreach( $currencies as $currency ) {
+				$transactions = $this->exch->history_movements( $currency );
+				foreach( $transactions as $transaction ) {
+					$transaction['exchange'] = "Bitfinex";
+					array_push( $results, $transaction );
+				}
+			}
+			return $results;
+		}
+
+		public function get_deposits() {
+			return $this->exch->order_cancel( (int)$orderid );
+		}
+
+		public function get_deposit( $deposit_id="1", $opts = array() ) {
+			return $this->exch->order_cancel( (int)$deposit_id );
+		}
+
+		public function get_withdrawals() {
+			return $this->exch->order_cancel( (int)$orderid );
+		}
+
+		public function cancel( $orderid="1", $opts = array( 'market' => "BTC-USD" ) ) {//requires market to be passed in
+			return $this->exch->cancelOrder( $this->unget_market_symbol( $opts['market'] ), $orderid );
+		}
+
+		//_____Cancel all orders:
+		function cancel_all() {
+			$markets = $this->get_markets();
+
+			$results = [];
+			foreach( $markets as $market ) {
+				$orders = $this->get_open_orders( $market );
+				if( ! is_array( $orders ) ) continue;
+				if( isset( $orders['error'] ) ) {
+					array_push( $results, array( 'ERROR' => $orders['error'] ) );
+					continue;
+				}
+				foreach( $orders as $order ) {
+					if( isset( $order['id'] ) )
+						array_push( $results, $this->cancel($order['id'], array( 'market' => $market ) ) );
+					else
+						array_push( $results, array( 'ERROR' => array( $order ) ) );
+				}
+			}
+			return array( 'success' => true, 'error' => false, 'message' => array( $results ) );
 		}
 
 		public function buy( $market = 'LTC-BTC', $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) {
@@ -315,32 +366,6 @@
 				array_push( $this->market_summaries, $market_summary );
 			}
 			return $this->market_summaries;
-		}
-
-		//_____Cancel all orders:
-		function cancel_all() {
-			$markets = $this->get_markets();
-
-			$results = [];
-			foreach( $markets as $market ) {
-				$orders = $this->get_open_orders( $market );
-				if( ! is_array( $orders ) ) continue;
-				if( isset( $orders['error'] ) ) {
-					array_push( $results, array( 'ERROR' => $orders['error'] ) );
-					continue;
-				}
-				foreach( $orders as $order ) {
-					if( isset( $order['id'] ) )
-						array_push( $results, $this->cancel($order['id'], array( 'market' => $market ) ) );
-					else
-						array_push( $results, array( 'ERROR' => array( $order ) ) );
-				}
-			}
-			return array( 'success' => true, 'error' => false, 'message' => array( $results ) );
-		}
-
-		public function cancel( $orderid="1", $opts = array( 'market' => "BTC-USD" ) ) {//requires market to be passed in
-			return $this->exch->cancelOrder( $this->unget_market_symbol( $opts['market'] ), $orderid );
 		}
 
 	}
