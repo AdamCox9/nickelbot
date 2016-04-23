@@ -47,6 +47,9 @@
 				$transactions = $this->exch->history_movements( $currency );
 				foreach( $transactions as $transaction ) {
 					$transaction['exchange'] = "Bitfinex";
+					$transaction['fee'] = 0;
+					$transaction['address'] = null;
+					$transaction['confirmations'] = null;
 					array_push( $results, $transaction );
 				}
 			}

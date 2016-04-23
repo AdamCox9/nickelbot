@@ -39,18 +39,22 @@
 					if( $transaction['type'] == 0 || $transaction['type'] == 1 ) {
 						$transaction['type'] = $transaction['type'] == 0 ? "DEPOSIT" : "WITHDRAWAL"; 
 						$transaction['exchange'] = "Bitstamp";
+						$transaction['currency'] = $transaction['market'];
+						$transaction['method'] = $transaction['market'];
+						$transaction['description'] = $transaction['market'];
+						$transaction['status'] = 'COMPLETED';
+						$transaction['address'] = null;
+						$transaction['confirmations'] = null;
 
-						/*unset( $transaction['order_id'] );
-						unset( $transaction['fee'] );
+						unset( $transaction['order_id'] );
 						unset( $transaction['market'] );
 						unset( $transaction['price'] );
-						unset( $transaction['to'] );
-						unset( $transaction[''] );
-						unset( $transaction[''] );
-						unset( $transaction[''] );*/
+						unset( $transaction['total'] );
+						unset( $transaction['tid'] );
+						unset( $transaction['fee_amount'] );
+						unset( $transaction['fee_currency'] );
 						array_push( $results, $transaction );
 					}
-					sleep( 1 );
 				}
 			}
 			return $results;

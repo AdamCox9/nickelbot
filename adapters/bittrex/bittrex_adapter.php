@@ -35,19 +35,71 @@
 
 			//_____Withdrawals:
 			$transactions = $this->exch->account_getwithdrawalhistory( array() );
+
 			foreach( $transactions['result'] as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
+				$transaction['type'] = 'WITHDRAWAL';
 				array_push( $results, $transaction );
 			}
 
 			//_____Deposits:
 			$transactions = $this->exch->account_getdeposithistory( array() );
-			foreach( $transactions as $transaction ) {
+			foreach( $transactions['result'] as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
+				$transaction['type'] = 'DEPOSIT';
 				array_push( $results, $transaction );
 			}
 
-			return $results;
+			$return = [];
+			foreach( $results as $result ) {
+
+				if( isset( $result['PaymentUuid'] ) ) {
+					$result['id'] = $result['PaymentUuid'];
+				} else if ( isset( $result['Id'] ) ) {
+					$result['id'] = $result['Id'];
+				} else {
+					$result['id'] = null;
+				}
+
+				$result['currency'] = $result['Currency'];
+				$result['method'] = $result['Currency'];
+				$result['amount'] = $result['Amount'];
+				$result['description'] = $result['Currency'];
+				$result['status'] = isset( $result['PendingPayment'] ) ? $result['PendingPayment'] : null;
+				$result['fee'] = isset( $result['TxCost'] ) ? $result['TxCost'] : null;
+				$result['address'] = isset( $result['CryptoAddress'] ) ? $result['CryptoAddress'] : null;
+				$result['fee'] = isset( $result['TxCost'] ) ? $result['TxCost'] : null;
+
+				if( isset( $result['LastUpdated'] ) ) {
+					$result['timestamp'] = $result['LastUpdated'];
+				} else if ( isset( $result['Opened'] ) ) {
+					$result['timestamp'] = $result['Opened'];
+				} else {
+					$result['timestamp'] = null;
+				}
+
+				$result['confirmations'] = isset( $result['Confirmations'] ) ? $result['Confirmations'] : null;
+
+				unset( $result['PaymentUuid'] );
+				unset( $result['Currency'] );
+				unset( $result['Amount'] );
+				unset( $result['Address'] );
+				unset( $result['Opened'] );
+				unset( $result['Authorized'] );
+				unset( $result['PendingPayment'] );
+				unset( $result['TxCost'] );
+				unset( $result['TxId'] );
+				unset( $result['Canceled'] );
+				unset( $result['InvalidAddress'] );
+				unset( $result['Id'] );
+				unset( $result['Confirmations'] );
+				unset( $result['LastUpdated'] );
+				unset( $result['CryptoAddress'] );
+
+				array_push( $return, $result );
+			}
+
+			return $return;
 		}
 
 		public function get_deposits() {
