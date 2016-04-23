@@ -467,11 +467,11 @@
 			return $n_trades;
 		}
 
-		public function get_trades( $market = 'BTC-USD', $time = 0 ) {
+		public function get_trades( $market = 'BTC-USD', $time = 10 ) {
 			return $this->exch->getmarkethistory( array( 'market' => $market, 'count' => 20 ) );
 		}
 
-		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {
+		public function get_orderbook( $market = "BTC-USD", $depth = 10 ) {
 			$orderbooks = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
 			$orderbooks = $orderbooks['result'];
 			$n_orderbooks = [];
@@ -501,14 +501,6 @@
 			}
 
 			return $o_orderbooks;
-		}
-
-		public function get_orderbooks( $depth = 20 ) {
-			$results = [];
-			foreach( $this->get_markets() as $market )
-				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
-
-			return $results;
 		}
 
 	}

@@ -31,7 +31,6 @@
 		public function cancel_all();
 
 		//Public Orders
-		public function get_orderbooks( $depth = 20 );
 		public function get_orderbook( $market = "BTC-USD", $depth = 20 );
 		public function get_all_trades( $time = 0 );
 		public function get_trades( $market = "BTC-USD", $time = 0 );

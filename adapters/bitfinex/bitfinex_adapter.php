@@ -269,14 +269,6 @@
 			return $this->trades;
 		}
 
-		public function get_orderbooks( $depth = 20 ) {
-			$results = [];
-			foreach( $this->get_markets() as $market )
-				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
-
-			return $results;
-		}
-
 		public function get_orderbook( $market = 'BTC-USD', $depth = 20 ) {
 			$book = $this->exch->book( $this->unget_market_symbol( $market ) );
 			$results = [];

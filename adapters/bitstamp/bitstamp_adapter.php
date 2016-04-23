@@ -317,11 +317,6 @@
 			return $results;
 		}
 
-		public function get_orderbooks( $depth = 0 ) {
-			$result = $this->get_orderbook( "BTC-USD", $depth );
-			return $result;
-		}
-
 	}
 
 ?>

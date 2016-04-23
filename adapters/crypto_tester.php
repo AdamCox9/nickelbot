@@ -150,17 +150,15 @@
 		//Time or Quantity?
 		private function test_trades( $trades ) {
 			$keys = array( 'market', 'price', 'amount', 'timestamp', 'exchange', 'tid', 'type' );
-			foreach( $trades as $trade ) {
+			foreach( $trades as $trade )
 				$this->equal_keys( $keys, $trade );
-			}
 		}
 
 		//Depth?
-		private function test_orderbooks( $orderbooks ) {
+		private function test_orderbook( $orderbook ) {
 			$keys = array( 'market', 'price', 'amount', 'timestamp', 'exchange', 'type' );
-			foreach( $orderbooks as $orderbook ) {
-				$this->equal_keys( $keys, $orderbook );
-			}
+			foreach( $orderbook as $order )
+				$this->equal_keys( $keys, $order );
 		}
 
 		private function test_deposits_withdrawals( $deposits_withdrawals ) {

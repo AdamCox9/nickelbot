@@ -98,41 +98,24 @@
 			return $n_orderbook;
 		}
 
-		public function get_orderbooks( $depth = 20 ) {
-			$results = [];
-			foreach( $this->get_markets() as $market )
-				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
-
-			return $results;
-		}
-
 		public function cancel( $orderid="1", $opts = array() ) {
 			return $this->exch->cancelorder( array( 'order_id' => $orderid ) );
 		}
 
 		public function get_deposits_withdrawals() {
-			$currencies = $this->get_currencies();
-			$results = [];
-			foreach( $currencies as $currency ) {
-				$transactions = $this->exch->history_movements( $currency );
-				foreach( $transactions as $transaction ) {
-					$transaction['exchange'] = "Bitfinex";
-					array_push( $results, $transaction );
-				}
-			}
-			return $results;
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_deposits() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_deposit( $deposit_id="1", $opts = array() ) {
-			return $this->exch->order_cancel( (int)$deposit_id );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_withdrawals() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel_all() {

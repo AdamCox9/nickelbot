@@ -81,37 +81,20 @@
 			return $results;
 		}
 
-		public function get_orderbooks( $depth = 20 ) {
-			$results = [];
-			foreach( $this->get_markets() as $market )
-				$results = array_merge( $results, $this->get_orderbook( $market, $depth ) );
-
-			return $results;
-		}
-
 		public function get_deposits_withdrawals() {
-			$currencies = $this->get_currencies();
-			$results = [];
-			foreach( $currencies as $currency ) {
-				$transactions = $this->exch->history_movements( $currency );
-				foreach( $transactions as $transaction ) {
-					$transaction['exchange'] = "Bitfinex";
-					array_push( $results, $transaction );
-				}
-			}
-			return $results;
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_deposits() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_deposit( $deposit_id="1", $opts = array() ) {
-			return $this->exch->order_cancel( (int)$deposit_id );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_withdrawals() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel( $orderid="1", $opts = array( 'market' => "BTC-USD" ) ) {//requires market to be passed in
@@ -240,7 +223,7 @@
 
 		//BTC, LTC, USD, etc...
 		public function get_currencies() {
-			 return $this->exch->returnCurrencies();
+			 return array_map( 'strtoupper', array_keys( $this->exch->returnCurrencies() ) );
 		}
 		
 		public function deposit_address( $currency = "BTC" ){
