@@ -100,7 +100,28 @@
 		}
 
 		public function get_deposits_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$accounts = $this->exch->accounts();
+			$results = [];
+			foreach( $accounts as $account ) {
+				$transactions = $this->exch->account_ledger( $account['id'] );
+				foreach( $transactions as $transaction ) {
+					$transaction['exchange'] = 'Coinbase';
+					$transaction['method'] = 'BTC';
+					$transaction['currency'] = 'BTC';
+					$transaction['confirmations'] = 6;
+					$transaction['description'] = $transaction['details'];
+					$transaction['status'] = 'COMPLETE';
+					$transaction['address'] = null;
+					$transaction['fee'] = 0;
+					$transaction['timestamp'] = $transaction['created_at'];
+
+					unset( $transaction['created_at'] );
+					unset( $transaction['balance'] );
+					unset( $transaction['details'] );
+					array_push( $results, $transaction );
+				}
+			}
+			return $results;
 		}
 
 		public function get_deposits() {

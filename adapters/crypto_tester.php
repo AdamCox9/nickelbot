@@ -168,6 +168,14 @@
 			}
 		}
 
+		private function test_deposits( $deposits ) {
+			$this->test_deposits_withdrawals( $deposits );
+		}
+
+		private function test_withdrawals( $withdrawals ) {
+			$this->test_deposits_withdrawals( $withdrawals );
+		}
+
 		/***********************
 
 			Test Utility Methods

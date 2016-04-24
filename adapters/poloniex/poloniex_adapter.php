@@ -82,11 +82,58 @@
 		}
 
 		public function get_deposits_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$transactions = $this->exch->returnDepositsWithdrawals();
+
+			$results = [];
+
+			$deposits = $transactions['deposits'];
+			foreach( $deposits as $deposit ) {
+				$deposit['id'] = $deposit['txid'];
+				$deposit['method'] = $deposit['currency'];
+				$deposit['type'] = 'DEPOSIT';
+				$deposit['description'] = $deposit['currency'];
+				$deposit['fee'] = 0;
+				$deposit['exchange'] = 'Poloniex';
+
+				unset( $deposit['txid'] );
+				array_push( $results, $deposit );
+			}
+
+			$withdrawals = $transactions['withdrawals'];
+			foreach( $withdrawals as $withdrawal ) {
+				$withdrawal['id'] = $withdrawal['withdrawalNumber'];
+				$withdrawal['method'] = $withdrawal['currency'];
+				$withdrawal['type'] = 'WITHDRAWAL';
+				$withdrawal['description'] = $withdrawal['ipAddress'];
+				$withdrawal['fee'] = 0;
+				$withdrawal['exchange'] = 'Poloniex';
+
+				unset( $withdrawal['withdrawalNumber'] );
+				array_push( $results, $withdrawal );
+			}
+
+			return $results;
 		}
 
 		public function get_deposits() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$transactions = $this->exch->returnDepositsWithdrawals();
+
+			$results = [];
+
+			$deposits = $transactions['deposits'];
+			foreach( $deposits as $deposit ) {
+				$deposit['id'] = $deposit['txid'];
+				$deposit['method'] = $deposit['currency'];
+				$deposit['type'] = 'DEPOSIT';
+				$deposit['description'] = $deposit['currency'];
+				$deposit['fee'] = 0;
+				$deposit['exchange'] = 'Poloniex';
+
+				unset( $deposit['txid'] );
+				array_push( $results, $deposit );
+			}
+
+			return $results;
 		}
 
 		public function get_deposit( $deposit_id="1", $opts = array() ) {
@@ -94,7 +141,24 @@
 		}
 
 		public function get_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$transactions = $this->exch->returnDepositsWithdrawals();
+
+			$results = [];
+
+			$withdrawals = $transactions['withdrawals'];
+			foreach( $withdrawals as $withdrawal ) {
+				$withdrawal['id'] = $withdrawal['withdrawalNumber'];
+				$withdrawal['method'] = $withdrawal['currency'];
+				$withdrawal['type'] = 'WITHDRAWAL';
+				$withdrawal['description'] = $withdrawal['ipAddress'];
+				$withdrawal['fee'] = 0;
+				$withdrawal['exchange'] = 'Poloniex';
+
+				unset( $withdrawal['withdrawalNumber'] );
+				array_push( $results, $withdrawal );
+			}
+
+			return $results;
 		}
 
 		public function cancel( $orderid="1", $opts = array( 'market' => "BTC-USD" ) ) {//requires market to be passed in

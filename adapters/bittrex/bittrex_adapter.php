@@ -103,15 +103,15 @@
 		}
 
 		public function get_deposits() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_deposit( $deposit_id="1", $opts = array() ) {
-			return $this->exch->order_cancel( (int)$deposit_id );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_withdrawals() {
-			return $this->exch->order_cancel( (int)$orderid );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel_all() {

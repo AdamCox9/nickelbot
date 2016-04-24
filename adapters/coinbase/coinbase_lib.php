@@ -100,12 +100,12 @@
 			return $this->query('/accounts/'.$order_id);
 		}
 
-		public function account_ledger($order_id) {
-			return $this->query('/accounts/'.$order_id.'/ledger');
+		public function account_ledger($account_id) {
+			return $this->query('/accounts/'.$account_id.'/ledger');
 		}
 
-		public function account_holds($order_id) {
-			return $this->query('/accounts/'.$order_id.'/holds');
+		public function account_holds($account_id) {
+			return $this->query('/accounts/'.$account_id.'/holds');
 		}
 
 		public function create_order( $arr = array() ) {

@@ -21,66 +21,71 @@
 			$markets = $Adapter->get_markets();
 			$Tester->test( 'markets', array( $markets ) );
 
-			echo " -> getting 20 entries from each orderbook\n";
-			foreach( $markets as $market )
-				$Tester->test( 'orderbook', $Adapter->get_orderbook( $market, $depth = 20 ) );
-
-/*
-
-			echo " -> getting deposits and withdrawals\n";
-			$Tester->test( 'deposits_withdrawals', $Adapter->get_deposits_withdrawals() );
-
-			echo " -> getting market summaries\n";
-			$market_summaries = $Adapter->get_market_summaries();
-			$Tester->test( 'market_summaries', array( $market_summaries ) );
-			
-			echo " -> getting market to test buy and sell\n";
-			$market = $markets[0];//first market is good enough...
+			echo " -> getting first market to test with\n";
+			$market = $markets[0];//first market is good enough for some tests...
 			$Tester->test( 'markets', array( array( $market ) ) );
 
-			echo " -> getting market summary to test buy and sell\n";
+			echo " -> getting first market summary to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
 
+			echo " -> getting 5 entries from first orderbook\n";
+			$Tester->test( 'orderbook', $Adapter->get_orderbook( $market, 5 ) );
+
+			echo " -> getting deposit and withdrawal history\n";
+			$Tester->test( 'deposits_withdrawals', $Adapter->get_deposits_withdrawals() );
+
+			echo " -> getting deposit history\n";
+			$Tester->test( 'deposits', $Adapter->get_deposits() );
+
+			echo " -> getting withdrawal history\n";
+			$Tester->test( 'withdrawals', $Adapter->get_withdrawals() );
+
+
+			//_____TOO SLOW: ff get_market_summary passes, then this should...
+			//echo " -> getting market summaries\n";
+			//$market_summaries = $Adapter->get_market_summaries();
+			//$Tester->test( 'market_summaries', array( $market_summaries ) );
+
+			//_____TOO SLOW: just test cancelling 1 order
+			//echo " -> cancelling all orders\n";
+			//$Tester->test( 'cancel_all', $Adapter->cancel_all() );
+
+			//_____TODO: test a buy order then cancel it
 			//echo " -> making a buy order\n";
 			//$buy = $Adapter->buy(  );
 			//print_r( $buy );
 			//$Tester->test( 'buy', array( $buy ) );
 
+			//_____TODO: test a sell order then cancel it
 			//echo " -> making a sell order\n";
 			//$sell = $Adapter->sell(  );
 			//$Tester->test( 'sell', array( $sell ) );
 			//print_r( $sell );
 
-			echo " -> getting balances\n";
+			//_____TODO: make it so this only gets trades for one market
+			//echo " -> getting all recent trades\n";
+			//$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );
+
+			echo " -> getting balances for all currencies\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
 
 			echo " -> generating deposit addresses\n";
 			$Tester->test( 'deposit_addresses', $Adapter->deposit_addresses() );
 			
-			echo " -> getting open orders\n";
-			foreach( $markets as $market )
-				$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
+			echo " -> getting open orders for test market\n";
+			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
 
-			echo " -> getting completed orders\n";
-			foreach( $markets as $market )
-				$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
+			echo " -> getting completed orders for test market\n";
+			$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
 
-			echo " -> cancelling all orders\n";
-			$Tester->test( 'cancel_all', $Adapter->cancel_all() );
-
-			echo " -> getting all recent trades\n";
-			$Tester->test( 'trades', $Adapter->get_all_trades( $time = 0 ) );
-
-			//_____Utilities: they do not directly access native API libraries where as Adapters must access native API or self
+			//_____Utilities: they do not directly access native API libraries where as Adapters must access lower level library class or its' self
 
 			echo " -> getting volumes\n";
 			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting worths\n";
 			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
-
-*/
 
 		}
 	}
