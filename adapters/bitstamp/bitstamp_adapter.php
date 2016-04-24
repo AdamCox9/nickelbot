@@ -268,7 +268,15 @@
 			return array( $this->get_market_summary( "BTC-USD" ) );
 		}
 
-		public function get_trades( $market = "BTC-USD", $time = 0 ) {
+		public function get_trades( $market = "BTC-USD", $time = 60 ) {
+
+			if( $time <= 60 )
+				$time = 'minute';
+			if( $time <= 3600 && $time > 60 )
+				$time = 'hour';
+			if( $time <= 3600*24 && $time > 3600 )
+				$time = 'day';
+
 			$trades = $this->exch->transactions( $time );
 			$results = [];
 			foreach( $trades as $trade ) {
@@ -279,11 +287,6 @@
 				array_push( $results, $trade );
 			}
 			return $results;
-		}
-
-		public function get_all_trades( $time = 0 ) {
-			$result = $this->get_trades( "BTC-USD", $time );
-			return $result;
 		}
 
 		public function get_orderbook( $market = 'BTC-USD', $depth = 0 ) {

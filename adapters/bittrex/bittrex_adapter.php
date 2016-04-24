@@ -451,24 +451,15 @@
 			return $this->market_summaries;
 		}
 
-		//TODO convert the $time to $count
-		public function get_all_trades( $time = 0 ) {
-			$n_trades = [];
-			foreach( $this->get_markets() as $market ) {
-				$trades = $this->get_trades( $market, $time );
-				if( isset( $trades['success'] ) && $trades['success'] == 1 ) {
-					if( is_array( $trades['result'] ) ) {
-						foreach( $trades['result'] as $trade ) {
-							array_push( $n_trades, $trade );
-						}
-					}
-				}
-			}
-			return $n_trades;
-		}
+		public function get_trades( $market = 'BTC-USD', $opts = array( 'limit' => 10 ) ) {
+			$trades = $this->exch->getmarkethistory( array( 'market' => $market, 'count' => $opts['limit'] ) );
 
-		public function get_trades( $market = 'BTC-USD', $time = 10 ) {
-			return $this->exch->getmarkethistory( array( 'market' => $market, 'count' => 20 ) );
+			$results = [];
+			foreach( $trades['result'] as $trade ) {
+				array_push( $results, $trade );
+			}
+
+			return $results;
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 10 ) {

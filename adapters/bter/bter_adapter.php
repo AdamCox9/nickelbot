@@ -38,20 +38,10 @@
 			return [];
 		}
 
-		public function get_all_trades( $time = 0 ) {
-			if( isset( $this->trades ) )
-				return $this->trades;
-			$this->trades = [];
-			foreach( $this->get_markets() as $market ) {
-				$this->trades = array_merge( $this->trades, $this->get_trades( $market, $time ) );
-			}
-			return $this->trades;
-		}
-
-		public function get_trades( $market = "BTC-USD", $time = 0 ) {
+		public function get_trades( $market = "BTC-USD", $opts = array( 'time' => 60 ) ) {
 			$results = [];
 			$curs = explode( "-", $market );
-			$trades = $this->exch->trade_history( $curs[0], $curs[1] );
+			$trades = $this->exch->trade_history( $curs[0], $curs[1], $opts['time'] );
 
 			if( $trades['result'] ) {
 				foreach( $trades['data'] as $trade ) {

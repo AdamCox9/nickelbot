@@ -83,8 +83,8 @@
 			return json_decode( file_get_contents( $this->trading_url . "/book/" . $symbol ), true );
 		}
 		
-		public function trades( $symbol = "btcusd" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/trades/" . $symbol ), true );
+		public function trades( $symbol = "btcusd", $limit = 10 ) {
+			return json_decode( file_get_contents( $this->trading_url . "/trades/" . $symbol . "?limit_trades=" . $limit ), true );
 		}
 		
 		public function lends( $currency = "btc" ) {

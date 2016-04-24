@@ -34,27 +34,17 @@
 			return [];
 		}
 
-		public function get_trades( $market = "BTC-USD", $time = 0 ) {
+		public function get_trades( $market = "BTC-USD", $opts = array(  ) ) {
 			$results = [];
 			$market = $this->unget_market_symbol( $market );
-			$trades = $this->exch->trades( $market );
+			$trades = $this->exch->trades( $market, $opts['limit'] );
 			foreach( $trades[$market] as $trade ) {
 				$trade['market'] = $market;
-				$trade['exchange'] = null;
+				$trade['exchange'] = "Btce";
 				array_push( $results, $trade );
 			}
 
 			return $results;
-		}
-
-		public function get_all_trades( $time = 0 ) {
-			if( isset( $this->trades ) )
-				return $this->trades;
-			$this->trades = [];
-			foreach( $this->get_markets() as $market ) {
-				$this->trades = $this->get_trades( $market, $time );
-			}
-			return $this->trades;
 		}
 
 		public function get_orderbook( $market = "BTC-USD", $depth = 0 ) {

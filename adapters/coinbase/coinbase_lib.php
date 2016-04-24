@@ -144,8 +144,9 @@
 			return $this->query('/products/'.$product_id.'/ticker');
 		}
 
-		public function products_trades( $product_id ) {
-			return $this->query('/products/'.$product_id.'/trades');
+		//need to get pagination working...
+		public function products_trades( $product_id, $limit = 10 ) {
+			return $this->query('/products/'.$product_id.'/trades?limit=' . $limit);
 		}
 
 		public function products_candles( $product_id ) {

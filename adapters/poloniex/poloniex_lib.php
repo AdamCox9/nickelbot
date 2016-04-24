@@ -91,8 +91,9 @@
 			return $this->retrieveJSON( $this->public_url . "?command=returnOrderBook&currencyPair=$pair" );
 		}
 		
-		public function returnPublicTradeHistory( $pair ) {
-			return $this->retrieveJSON( $this->public_url . "?command=returnTradeHistory&currencyPair=$pair" );
+		//https://poloniex.com/public?command=returnTradeHistory&currencyPair=BTC_NXT&start=1410158341&end=1410499372
+		public function returnPublicTradeHistory( $pair, $time = 60 ) {
+			return $this->retrieveJSON( $this->public_url . "?command=returnTradeHistory&currencyPair=$pair&start=" . ( time() - $time ) . "&end=" . time() );
 		}
 		
 		public function returnChartData($pair) {
