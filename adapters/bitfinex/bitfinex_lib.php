@@ -101,6 +101,10 @@
 
 		//Authenticated Functions:
 
+		public function account_infos() {
+			return $this->query( "/account_infos" );
+		}
+
 		public function deposit_new( $method = "bitcoin", $wallet_name = "exchange", $renew = 0 ) {
 			return $this->query( "/deposit/new", array( "method" => $method, "wallet_name" => $wallet_name, "renew" => $renew ) );
 		}
@@ -176,23 +180,23 @@
 			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
-		public function offers() {
-			return array( 'error' => 'NOT_IMPLEMENTED' );
-		}
-
 		public function credits() {
 			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
-		public function taken_swaps() {
+		public function taken_funds() {
 			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
-		public function total_taken_swaps() {
+		public function unused_taken_funds() {
 			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
-		public function close_swap() {
+		public function total_taken_funds() {
+			return array( 'error' => 'NOT_IMPLEMENTED' );
+		}
+
+		public function funding_close() {
 			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
@@ -200,12 +204,20 @@
 			return $this->query( "/balances" );
 		}
 
-		public function account_infos() {
-			return $this->query( "/account_infos" );
-		}
-
 		public function margin_infos() {
 			return $this->query( "/margin_infos" );
+		}
+
+		public function transfer() {
+			return array( 'error' => 'NOT_IMPLEMENTED' );
+		}
+
+		public function withdraw() {
+			return array( 'error' => 'NOT_IMPLEMENTED' );
+		}
+
+		public function key_info() {
+			return array( 'error' => 'NOT_IMPLEMENTED' );
 		}
 
 	}

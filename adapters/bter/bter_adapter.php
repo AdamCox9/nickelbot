@@ -1,6 +1,6 @@
 <?PHP
 
-	class BterAdapter /*extends CryptoBase*/ implements CryptoExchange {
+	class BterAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;

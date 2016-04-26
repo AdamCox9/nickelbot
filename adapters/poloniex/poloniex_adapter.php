@@ -1,6 +1,6 @@
 <?PHP
 
-	class PoloniexAdapter /*extends CryptoBase*/ implements CryptoExchange {
+	class PoloniexAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;

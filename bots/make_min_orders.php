@@ -82,7 +82,7 @@
 						echo "\n\n -> quote balance of $quote_bal is too low for min buy order size of $order_size at buy price of $buy_price \n\n";
 					else {
 						$buy = $Adapter->buy( $market_summary['market'], $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						if( isset( $buy['message'] ) ) {
+						if( isset( $buy['message'] ) && $buy['message'] != 'MARKET_OFFLINE' ) {
 							print_r( $buy );
 							die('test');
 						} else {
@@ -98,7 +98,7 @@
 						echo "\n\n -> base balance of $base_bal is too low for min sell order size of $order_size at sell price of $sell_price \n\n";
 					else {
 						$sell = $Adapter->sell( $market_summary['market'], $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						if( isset( $sell['message'] ) ){
+						if( isset( $sell['message'] ) && $sell['message'] != 'MARKET_OFFLINE' ){
 							print_r( $sell );
 							die('test');
 						} else {

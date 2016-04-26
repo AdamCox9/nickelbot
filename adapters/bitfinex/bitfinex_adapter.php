@@ -1,6 +1,6 @@
 <?PHP
 
-	class BitfinexAdapter /*extends CryptoBase*/ implements CryptoExchange {
+	class BitfinexAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;
@@ -54,18 +54,6 @@
 				}
 			}
 			return $results;
-		}
-
-		public function get_deposits() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
-		}
-
-		public function get_deposit( $deposit_id="1", $opts = array() ) {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
-		}
-
-		public function get_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel_all() {

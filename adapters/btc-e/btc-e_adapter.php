@@ -1,6 +1,6 @@
 <?PHP
 
-	class BtceAdapter /*extends CryptoBase*/ implements CryptoExchange {
+	class BtceAdapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct($Exch) {
 			$this->exch = $Exch;
@@ -70,22 +70,6 @@
 
 		public function cancel($orderid="1", $opts = array() ) {
 			return $this->exch->CancelOrder( $arr = array( 'order_id' => $orderid ) );
-		}
-
-		public function get_deposits_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
-		}
-
-		public function get_deposits() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
-		}
-
-		public function get_deposit( $deposit_id="1", $opts = array() ) {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
-		}
-
-		public function get_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel_all() {

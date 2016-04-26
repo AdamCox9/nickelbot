@@ -8,15 +8,10 @@
 		//Withdraw funds to $address
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 );
 
-		//Analysis EMA, Change, Trades Per Minute, etc...
-		//Try to calculate percentile so an order can be set behind 20% or 10% of other volume...
-
-		//Make a buy order
-		//$type: limit, market, stop, margin, trigger, etc...
+		//Make a buy order - $type: limit, market, stop, margin, trigger, etc...
 		public function buy( $pair='BTC-USD', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
 
-		//Make a sell order
-		//$type: limit, market, stop, margin, trigger, etc...
+		//Make a sell order - $type: limit, market, stop, margin, trigger, etc...
 		public function sell( $pair='BTC-USD', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
 		
 		//Private Orders
@@ -50,20 +45,37 @@
 		public function get_market_summary( $market = "BTC-USD" );
 		public function get_market_summaries();
 
-		//Balances: confirmed, reserved, available, pending, total, btc_worth, usd_worth etc???
+		//Balances: confirmed, reserved, available, pending, total
 		public function get_balance( $currency = "BTC" );
 		public function get_balances();
+		public function transfer_balance(); //between Exchange, Trading & Deposit wallets
 
+		//Get deposits to and from the exchange:
 		public function get_deposits_withdrawals();
-
 		public function get_deposits();
-
 		public function get_deposit( $deposit_id="1", $opts = array() );
-
 		public function get_withdrawals();
 
-		//supertrollbox would be a bot
-		//public function get_trollbox(); //maybe forum if no trollbox?
+		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...
+		public function get_trollbox();
+
+		//Margin trading
+		public function margin_history();
+		public function margin_info();
+		
+		//lending:
+		public function loan_offer();
+		public function cancel_loan_offer();
+		public function loan_offer_status();
+		public function active_loan_offers();
+
+		//borrowing:
+		public function get_positions();
+		public function claim_position();
+		public function close_position();
+		public function active_loan();
+		public function inactive_loan();
+
 
 	}
 ?>
