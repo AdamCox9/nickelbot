@@ -25,9 +25,19 @@
 			$market = $markets[0];//first market is good enough for some tests...
 			$Tester->test( 'markets', array( array( $market ) ) );
 
-			/*echo " -> getting first market summary to test with\n";
+			echo " -> getting all positions\n";
+			$Tester->test( 'positions', $Adapter->get_positions() );
+
+			echo " -> getting first market summary to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
+
+			//TODO handle all error cases
+			foreach( $markets as $market ) {
+				echo $market;
+				print_r( $Adapter->buy( $market, '0.01', '0.01', 'LIMIT' ) );
+				print_r( $Adapter->sell( $market, '0.01', '500', 'LIMIT' ) );
+			}
 
 			echo " -> getting 5 entries from first orderbook\n";
 			$Tester->test( 'orderbook', $Adapter->get_orderbook( $market, 5 ) );
@@ -39,8 +49,7 @@
 			$Tester->test( 'deposits', $Adapter->get_deposits() );
 
 			echo " -> getting withdrawal history\n";
-			$Tester->test( 'withdrawals', $Adapter->get_withdrawals() );*/
-
+			$Tester->test( 'withdrawals', $Adapter->get_withdrawals() );
 
 			//_____TOO SLOW: ff get_market_summary passes, then this should...
 			//echo " -> getting market summaries\n";
@@ -67,7 +76,7 @@
 			echo " -> getting all recent trades for test market\n";
 			$Tester->test( 'trades', $Adapter->get_trades( $market, array( 'time' => 60, 'limit' => 10  ) ) );
 
-			/*echo " -> getting balances for all currencies\n";
+			echo " -> getting balances for all currencies\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
 
 			echo " -> generating deposit addresses\n";
@@ -85,7 +94,7 @@
 			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
 			echo " -> getting worths\n";
-			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );*/
+			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
 
 		}
 	}

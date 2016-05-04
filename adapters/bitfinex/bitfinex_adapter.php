@@ -6,34 +6,32 @@
 			$this->exch = $Exch;
 		}
 
-		private function get_market_symbol( $market )
-		{
+		private function get_market_symbol( $market ) {
 			return strtoupper( substr_replace($market, '-', 3, 0) );
 		}
 
-		private function unget_market_symbol( $market )
-		{
+		private function unget_market_symbol( $market ) {
 			return str_replace( "-", "", strtolower( $market ) );
 		}
 
 		public function get_info() {
-			return [];
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 ) {
-			return [];
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function get_currency_summary( $currency = "BTC" ) {
-			return [];
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function get_currency_summaries( $currency = "BTC" ) {
-			return [];
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function get_order( $orderid = "1" ) {
-			return [];
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 		
 		public function cancel( $orderid="1", $opts = array() ) {
@@ -265,6 +263,63 @@
 				array_push( $results, $ask );
 			}
 			return $results;
+		}
+
+		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...
+		public function get_trollbox() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		//Margin trading
+		public function margin_history() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+		public function margin_info() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+		
+		//lending:
+		public function loan_offer() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+		
+		public function cancel_loan_offer() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+		
+		public function loan_offer_status() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		public function active_loan_offers() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		//borrowing:
+
+		public function get_positions() {
+			$positions = $this->exch->positions();
+			$results = [];
+			foreach( $positions as $position ) {
+				array_push( $results, $position );
+			}
+			return $results;
+		}
+
+		public function claim_position() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		public function close_position() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		public function active_loan() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		public function inactive_loan() {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 	}

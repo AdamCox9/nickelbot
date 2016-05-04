@@ -2,6 +2,11 @@
 
 	class CryptoBase {
 
+		//This could have exchange info such as name, url, location, total volume, etc???
+		public function get_info() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_currency_summary( $currency = "BTC" ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_currency_summaries() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+
 		//Deposits & Withdrawals
 		public function get_deposits_withdrawals() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_deposits() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }

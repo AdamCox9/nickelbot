@@ -8,13 +8,15 @@
 				switch( $data['ERROR'] ) {
 					case 'METHOD_NOT_AVAILABLE':
 						return;
+					case 'METHOD_NOT_IMPLEMENTED':
+						return;
 					default:
 						die( "UNKNOWN ERROR" );
 				}
 			}
 
 			if( ! is_array( $data ) )
-				die( "UNKNOWN ERROR" );
+				die( "ERROR: Expecting array." );
 
 			$method = 'test_' . $method;
 			return $this->$method( $data );
@@ -36,14 +38,14 @@
 			foreach( $markets as $market_exchange ) {
 				foreach( $market_exchange as $market ) {
 					if( strtoupper( $market ) !== $market )
-						die( "Currency must be uppercase: $currency" );
+						die( "Market must be uppercase: $market" );
 					$curs = explode( "-", $market );
 					if( sizeof( $curs ) !== 2 )
-						die( "invalid market format: $market" );
+						die( "Invalid market format: $market" );
 					if( strlen( $curs[0] ) < 1 || strlen( $curs[0] ) > 6 )
-						die( "Currency must be 1-6 characters: {$curs[0]}" );
+						die( "Base Currency must be 1-6 characters: {$curs[0]}" );
 					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 6 )
-						die( "Currency must be 1-6 characters: {$curs[1]}" );
+						die( "Quote Currency must be 1-6 characters: {$curs[1]}" );
 				}
 				//Could further test this market by creating an order and cancelling it.
 				//Use the Adapter->get_market_symbol and Adapter->unget_market_symbol
@@ -65,6 +67,7 @@
 							'minimum_order_size_base', 'minimum_order_size_quote', 'open_buy_orders',
 							'open_sell_orders', 'percent_change', 'price_precision', 
 							'quote_volume', 'result', 'timestamp', 'verified_only', 'vwap' );
+
 			$numbers = array( 'ask', 'base_volume', 'bid', 'high', 'last_price', 'low', 'quote_volume' );
 			$strings = array( 'display_name', 'exchange' );
 			$above_zero = array( );
@@ -147,18 +150,22 @@
 			$this->equal_keys( $keys, $sell_order );
 		}
 
-		//Time or Quantity?
 		private function test_trades( $trades ) {
 			$keys = array( 'market', 'price', 'amount', 'timestamp', 'exchange', 'tid', 'type' );
 			foreach( $trades as $trade )
 				$this->equal_keys( $keys, $trade );
 		}
 
-		//Depth?
 		private function test_orderbook( $orderbook ) {
 			$keys = array( 'market', 'price', 'amount', 'timestamp', 'exchange', 'type' );
 			foreach( $orderbook as $order )
 				$this->equal_keys( $keys, $order );
+		}
+
+		private function test_positions( $positions ) {
+			$keys = array( 'market', 'price', 'amount', 'timestamp', 'exchange', 'type' );
+			foreach( $positions as $position )
+				$this->equal_keys( $keys, $position );
 		}
 
 		private function test_deposits_withdrawals( $deposits_withdrawals ) {

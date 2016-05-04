@@ -11,18 +11,14 @@
 
 	//_____Bots:
 
+	require_once( "bots/build_cache.php" );
 	require_once( "bots/human_readable_summary.php" );
 	require_once( "bots/disperse_funds.php" );
 	require_once( "bots/make_deposit_addresses.php" );
-	require_once( "bots/make_ema_orders.php" );
-	require_once( "bots/make_extreme_orders.php" );
 	require_once( "bots/make_max_orders.php" );
 	require_once( "bots/make_min_orders.php" );
 	require_once( "bots/run_tests.php" );
-	require_once( "bots/light_show.php" );
 	require_once( "bots/poloniex_light_show.php" );
-	require_once( "bots/bittrex_light_show.php" );
-	require_once( "bots/btce_light_show.php" );
 
 	//_____Wrapper libraries for native API's:
 
@@ -32,6 +28,7 @@
 	require_once( "adapters/btc-e/btc-e_lib.php" );
 	require_once( "adapters/bter/bter_lib.php" );
 	require_once( "adapters/coinbase/coinbase_lib.php" );
+	require_once( "adapters/kraken/kraken_lib.php" );
 	require_once( "adapters/poloniex/poloniex_lib.php" );
 
 	//_____Facades for wrapper libraries:
@@ -42,6 +39,7 @@
 	require_once( "adapters/btc-e/btc-e_adapter.php" );
 	require_once( "adapters/bter/bter_adapter.php" );
 	require_once( "adapters/coinbase/coinbase_adapter.php" );
+	require_once( "adapters/kraken/kraken_adapter.php" );
 	require_once( "adapters/poloniex/poloniex_adapter.php" );
 
 	//_____Globals are the best
@@ -81,13 +79,14 @@
 	//_____Make a structure or use some design pattern?
 
 	$Adapters = array();
-	$Adapters['Bitfinex'] = new BitfinexAdapter( new Bitfinex( $bitfinex_api_key, $bitfinex_api_secret ) );
-	$Adapters['Bitstamp'] = new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );
-	$Adapters['Bittrex'] = new BittrexAdapter( new Bittrex( $bittrex_api_key, $bittrex_api_secret ) );
-	$Adapters['Btce'] = new BtceAdapter( new Btce( $btce_api_key, $btce_api_secret ) );
-	$Adapters['Bter'] = new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
-	$Adapters['Coinbase'] = new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret, $coinbase_api_passphrase ) );
-	$Adapters['Poloniex'] = new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
+	$Adapters['Kraken']		= new KrakenAdapter( new Kraken( $kraken_api_key, $kraken_api_secret ) );
+	$Adapters['Bitfinex']	= new BitfinexAdapter( new Bitfinex( $bitfinex_api_key, $bitfinex_api_secret ) );
+	$Adapters['Bitstamp']	= new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );
+	$Adapters['Bittrex']	= new BittrexAdapter( new Bittrex( $bittrex_api_key, $bittrex_api_secret ) );
+	$Adapters['Btce']		= new BtceAdapter( new Btce( $btce_api_key, $btce_api_secret ) );
+	$Adapters['Bter']		= new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
+	$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret, $coinbase_api_passphrase ) );
+	$Adapters['Poloniex']	= new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
 
 	//_____This simple class should suffice for testing.
 

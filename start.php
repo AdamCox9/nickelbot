@@ -16,9 +16,12 @@
 	try{
 
 		/*****
-			FYI: Adapters are facades around wrapper library for native restful API's
-			BOTS: functions are an app!
-			TODO: make a Bot class?
+			ADAPTERS: facades around wrapper library for native restful API's
+			BOTS: functions are an app.
+			GUI: it is a web app.
+			API: can make rest calls to them through HTTP requests like with AJAX.
+
+			TODO: make a Bot class
 			NOTE: do not print_r the $Adapter class because it may leak keys and secrets on the web.
 
 			One way to run a bot would be to execute a php script in a cron job.
@@ -29,11 +32,9 @@
 			------
 
 			Run a PHP process for each exchange from the terminal like this:
-
-			php ultimato.php Bitfinex > bitfinex_out.txt & php ultimato.php Bitstamp > bitstamp_out.txt & php ultimato.php Bittrex > bittrex_out.txt & php ultimato.php Btce > btce_out.txt & php ultimato.php Coinbase > coinbase_out.txt & php ultimato.php Poloniex > poloniex_out.txt & 
+			php start.php Bitfinex > bitfinex_out.txt & php start.php Bitstamp > bitstamp_out.txt & php start.php Bittrex > bittrex_out.txt & php start.php Btce > btce_out.txt & php start.php Coinbase > coinbase_out.txt & php start.php Poloniex > poloniex_out.txt & 
 
 			Kill the processes from the terminal like this:
-
 			pkill -9 php
 
 			Here are some sample bots being used in such a simple way:
@@ -42,21 +43,19 @@
 
 		/*while(1) {
 			echo "\n\n***************************";
-			//sleep(5);
+			sleep(1);
 			echo "\n***************************\n\n";
 
-			//$adapter = isset( $argv[1] ) ? $argv[1] : null;
-			poloniex_light_show( $Adapters['Bitfinex'], "ETH-BTC" );
-			//make_min_orders( $Adapters );
+			$adapter = isset( $argv[1] ) ? $argv[1] : null;
+			poloniex_light_show( $Adapters['Poloniex'], "ETH-BTC" );
+			sleep(1);
 
 		}*/
 
 		//build_cache( $Adapters );
-		//run_tests( $Adapters, $Tester );
-		make_max_orders( $Adapters );
+		run_tests( $Adapters, $Tester );
+		//make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
-		//make_extreme_orders( $Adapters );
-		//make_ema_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
 		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...
 		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr

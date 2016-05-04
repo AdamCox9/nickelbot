@@ -6,7 +6,7 @@
 			- make sure to create an issue and mention that you are working on it so no wasted effort
 	 *****/
 
-	class Adapter /*extends CryptoBase*/ implements CryptoExchange {
+	class Adapter extends CryptoBase implements CryptoExchange {
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;
