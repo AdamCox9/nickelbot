@@ -116,6 +116,18 @@
 			return $this->query( 'AddOrder', array( 'pair' => $pair, 'type' => $type, 'ordertype' => $ordertype, 'price' => $price, 'volume' => $volume ) );
 		}
 
+		function OpenOrders() {
+			return $this->query( 'OpenOrders' );
+		}
+
+		function ClosedOrders() {
+			return $this->query( 'ClosedOrders' );
+		}
+
+		function CancelOrder( $txid = 0 ) {
+			return $this->query( 'CancelOrder', array( 'txid' => $txid ) );
+		}
+
 	}
 
 ?>

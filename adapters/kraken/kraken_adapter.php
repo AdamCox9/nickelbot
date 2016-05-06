@@ -149,11 +149,90 @@ Note: Today's prices start at 00:00:00 UTC
 		}
 
 		public function cancel( $orderid="1", $opts = array() ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
+			$this->exch->CancelOrder( $orderid );
 		}
 
 		public function cancel_all() {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
+			$open_orders = $this->get_open_orders();
+			foreach( $open_orders as $open_order )
+				$this->cancel( $open_order['id'] );
+		}
+
+		public function get_open_orders( $market="BTC-USD", $limit=100 ) {
+			$open_orders = $this->exch->OpenOrders();
+			$results = [];
+			foreach( $open_orders['result']['open'] as $key => $open_order ) {
+				$open_order['id'] = $key;
+
+				$open_order['market'] = $open_order['descr']['pair'];
+				$open_order['timestamp_created'] = $open_order['opentm'];
+				$open_order['exchange'] = "Kraken";
+				$open_order['avg_execution_price'] = null;
+				$open_order['side'] = $open_order['descr']['type'];
+				$open_order['type'] = $open_order['descr']['type'];
+				$open_order['is_live'] = true;
+				$open_order['is_cancelled'] = false;
+				$open_order['is_hidden'] = false;
+				$open_order['was_forced'] = false;
+				$open_order['original_amount'] = $open_order['vol'];
+				$open_order['remaining_amount'] = $open_order['vol'] - $open_order['vol_exec'];
+				$open_order['executed_amount'] = $open_order['vol_exec'];
+				$open_order['amount'] = $open_order['vol'];
+
+				unset( $open_order['refid'] );
+				unset( $open_order['userref'] );
+				unset( $open_order['status'] );
+				unset( $open_order['opentm'] );
+				unset( $open_order['starttm'] );
+				unset( $open_order['expiretm'] );
+				unset( $open_order['descr'] );
+				unset( $open_order['vol'] );
+				unset( $open_order['vol_exec'] );
+				unset( $open_order['cost'] );
+				unset( $open_order['fee'] );
+				unset( $open_order['misc'] );
+				unset( $open_order['oflags'] );
+
+				array_push( $results, $open_order );
+			}
+			return $results;
+		}
+
+		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
+			$closed_orders = $this->exch->ClosedOrders();
+			$results = [];
+			foreach( $closed_orders['result']['closed'] as $key => $closed_order ) {
+
+				$closed_order['market'] = $closed_order['descr']['pair'];
+				$closed_order['amount'] = $closed_order['vol'];
+				$closed_order['timestamp'] = $closed_order['closetm'];
+				$closed_order['exchange'] = "Kraken";
+				$closed_order['type'] = $closed_order['descr']['type'];
+				$closed_order['fee_currency'] = null;
+				$closed_order['fee_amount'] = $closed_order['fee'];
+				$closed_order['tid'] = $key;
+				$closed_order['order_id'] = $key;
+				$closed_order['id'] = $key;
+				$closed_order['total'] = $closed_order['vol'];
+
+				unset( $closed_order['refid'] );
+				unset( $closed_order['userref'] );
+				unset( $closed_order['status'] );
+				unset( $closed_order['reason'] );
+				unset( $closed_order['opentm'] );
+				unset( $closed_order['closetm'] );
+				unset( $closed_order['starttm'] );
+				unset( $closed_order['expiretm'] );
+				unset( $closed_order['descr'] );
+				unset( $closed_order['vol'] );
+				unset( $closed_order['vol_exec'] );
+				unset( $closed_order['cost'] );
+				unset( $closed_order['misc'] );
+				unset( $closed_order['oflags'] );
+
+				array_push( $results, $closed_order );
+			}
+			return $results;
 		}
 
 		public function deposit_address( $currency = "BTC", $wallet_type = "exchange" ){
@@ -188,14 +267,6 @@ Note: Today's prices start at 00:00:00 UTC
 			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
 		}
 		
-		public function get_open_orders() {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
-
-		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
-
 		public function get_trades( $market = "BTC-USD", $time = 0 ) {
 			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
 		}

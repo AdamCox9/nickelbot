@@ -36,12 +36,18 @@
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
 
 			//TODO handle all error cases
-			foreach( $markets as $market ) {
+			/*foreach( $markets as $market ) {
 				$buy = $Adapter->buy( $market, '0.01', '0.01', 'LIMIT' );
 				$sell = $Adapter->sell( $market, '0.01', '500', 'LIMIT' );
 				//print_r( $buy );
 				//print_r( $sell );
-			}
+			}*/
+
+			echo " -> getting open orders for test market\n";
+			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
+
+			echo " -> getting completed orders for test market\n";
+			$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
 
 			echo " -> getting 5 entries from first orderbook\n";
 			$Tester->test( 'orderbook', $Adapter->get_orderbook( $market, 5 ) );
@@ -86,12 +92,6 @@
 			echo " -> generating deposit addresses\n";
 			$Tester->test( 'deposit_addresses', $Adapter->deposit_addresses() );
 			
-			echo " -> getting open orders for test market\n";
-			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
-
-			echo " -> getting completed orders for test market\n";
-			$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
-
 			echo " -> getting all positions\n";
 			$Tester->test( 'positions', $Adapter->get_positions() );
 
