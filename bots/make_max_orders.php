@@ -20,14 +20,14 @@
 			$num_markets = sizeof( $market_summaries );
 
 			//_____get open orders, sort them by creation date and remove the oldest orders:
-			$open_orders = $Adapter->get_open_orders();
+			/*$open_orders = $Adapter->get_open_orders();
 			usort($open_orders, function($a, $b) {
 				return $b['timestamp_created'] - $a['timestamp_created'];
 			});
 
 			//_____remove all orders...
 			//_____cancel_all not working for some reason...
-			/*foreach( $open_orders as $order )
+			foreach( $open_orders as $order )
 				if( get_class( $Adapter ) == "PoloniexAdapter" )
 					$output = $Adapter->cancel( $order['id'], array( "market" => $order['market'] ) );
 				else
@@ -44,10 +44,18 @@
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
-				$base_bal_arr = $Adapter->get_balance( $base_cur, array( 'type' => 'exchange' ) );
-				$base_bal = isset( $bal[ $base_cur ] ) ? $bal[ $base_cur ] : $base_bal_arr['available'];
-				$quote_bal_arr = $Adapter->get_balance( $quote_cur, array( 'type' => 'exchange' ) );
-				$quote_bal = isset( $bal[ $quote_cur ] ) ? $bal[ $quote_cur ] : $quote_bal_arr['available'];
+				if( ! isset( $base_bal ) ) {
+					$base_bal_arr = $Adapter->get_balance( $base_cur, array( 'type' => 'exchange' ) );
+					if( isset( $base_bal_arr['ERROR'] ) )
+						continue;
+					$base_bal = isset( $bal[ $base_cur ] ) ? $bal[ $base_cur ] : $base_bal_arr['available'];
+				}
+				if( ! isset( $quote_bal ) ) {
+					$quote_bal_arr = $Adapter->get_balance( $quote_cur, array( 'type' => 'exchange' ) );
+					if( isset( $quote_bal_arr['ERROR'] ) )
+						continue;
+					$quote_bal = isset( $bal[ $quote_cur ] ) ? $bal[ $quote_cur ] : $quote_bal_arr['available'];
+				}
 
 				echo " -> " . get_class( $Adapter ) . " \n";
 				echo " -> base currency ($base_cur) \n";

@@ -104,6 +104,10 @@
 			return $this->query( 'Balance' );
 		}
 
+		function TradeBalance( $asset ) {
+			return $this->query( 'TradeBalance', array( 'asset' => $asset ) );
+		}
+
 		function DepositAddresses( $method ) {
 			return $this->query( 'DepositAddresses', array( 'method' => $method ) );
 		}

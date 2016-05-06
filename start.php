@@ -53,8 +53,8 @@
 		}*/
 
 		//build_cache( $Adapters );
-		run_tests( $Adapters, $Tester );
-		//make_max_orders( $Adapters );
+		//run_tests( $Adapters, $Tester );
+		make_max_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
 		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...

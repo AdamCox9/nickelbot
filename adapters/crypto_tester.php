@@ -10,6 +10,8 @@
 						return;
 					case 'METHOD_NOT_IMPLEMENTED':
 						return;
+					case 'CURRENCY_NOT_FOUND':
+						return;
 					default:
 						die( "UNKNOWN ERROR" );
 				}
@@ -87,12 +89,16 @@
 		}
 
 		private function test_balances( $balances ) {
+			foreach( $balances as $balance ) {
+				$this->test_balance( $balance );
+			}
+		}
+
+		private function test_balance( $balance ) {
 			$keys = array( 'type', 'currency', 'available', 'total', 'reserved', 'pending', 'btc_value' );
 			$numbers = array( 'available', 'total', 'reserved', 'pending' );
-			foreach( $balances as $balance ) {
-				$this->equal_keys( $keys, $balance );
-				$this->numbers( $numbers, $balance );
-			}
+			$this->equal_keys( $keys, $balance );
+			$this->numbers( $numbers, $balance );
 		}
 
 		private function test_cancel_all( $cancel_all ) {

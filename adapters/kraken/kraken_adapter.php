@@ -7,7 +7,7 @@
 		}
 
 		private function get_market_symbol( $market ) {
-			return strtoupper( substr_replace($market, '-', 3, 0) );
+			return $market;
 		}
 
 		private function unget_market_symbol( $market ) {
@@ -17,9 +17,9 @@
 		public function get_markets() {
 			$markets = $this->exch->AssetPairs();
 			$results = [];
-			foreach( $markets['result'] as $market ) {
-				if( strpos($market['altname'], '.d') === false )
-					array_push( $results, $this->get_market_symbol( $market['altname'] ) );
+			foreach( $markets['result'] as $key => $market ) {
+				if( strpos($key, '.d') === false )
+					array_push( $results, $this->get_market_symbol( $market['base'] . '-' . $market['quote'] ) );
 			}
 			return $results;
 		}
@@ -27,8 +27,8 @@
 		public function get_currencies() {
 			$currencies = $this->exch->Assets();
 			$results = [];
-			foreach( $currencies['result'] as $currency ) {
-				array_push( $results, $currency['altname'] );
+			foreach( $currencies['result'] as $key => $currency ) {
+				array_push( $results, $key );//TODO: deal with their altname for currencies BTC vs XBTC, etc...
 			}
 			return $results;
 		}
@@ -106,17 +106,35 @@ Note: Today's prices start at 00:00:00 UTC
 			return $results;
 		}
 
+
 		public function get_balance( $currency="BTC", $opts = array() ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
+			$balances = $this->get_balances();
+			foreach( $balances as $balance )
+				if( $balance['currency'] == $currency )
+					return $balance;
+			return array( 'ERROR' => 'CURRENCY_NOT_FOUND' );
 		}
 
 		public function get_balances() {
 			$balances = $this->exch->Balance();
+			$currencies = $this->get_currencies();
+			foreach( $currencies as $currency ) {
+				if( ! array_key_exists( $currency, $balances['result'] ) ) {
+					$balances['result'][ $currency ] = 0;
+				}
+			}
 
 			$results = [];
 			foreach( $balances['result'] as $key => $available ) {
 				$balance['currency'] = $key;
 				$balance['available'] = $available;
+				$balance['type'] = 'exchange';
+				$balance['total'] = $available;
+				$balance['reserved'] = 0;
+				$balance['pending'] = 0;
+				$balance['btc_value'] = null;
+
+				array_push( $results, $balance );
 			}
 
 			return $results;
