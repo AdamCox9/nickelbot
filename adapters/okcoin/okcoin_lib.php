@@ -1,5 +1,7 @@
 <?php
 
+//https://www.okcoin.com/about/rest_api.do
+
 	require_once (dirname(__FILE__) . '/OKCoin/OKCoin.php');
 
 	//implements yet another exchange

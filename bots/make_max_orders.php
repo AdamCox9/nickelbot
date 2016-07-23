@@ -19,19 +19,7 @@
 			$market_summaries = $Adapter->get_market_summaries();
 			$num_markets = sizeof( $market_summaries );
 
-			//_____get open orders, sort them by creation date and remove the oldest orders:
-			/*$open_orders = $Adapter->get_open_orders();
-			usort($open_orders, function($a, $b) {
-				return $b['timestamp_created'] - $a['timestamp_created'];
-			});
-
-			//_____remove all orders...
-			//_____cancel_all not working for some reason...
-			foreach( $open_orders as $order )
-				if( get_class( $Adapter ) == "PoloniexAdapter" )
-					$output = $Adapter->cancel( $order['id'], array( "market" => $order['market'] ) );
-				else
-					$output = $Adapter->cancel( $order['id'] );*/
+			$Adapter->cancel_all();
 
 			$bal = [];
 			shuffle( $market_summaries );
@@ -44,12 +32,16 @@
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
-				if( ! isset( $base_bal ) ) {
+
+				if( $base_cur == "BTC" )
+					continue;
+
+				//if( ! isset( $base_bal ) ) {
 					$base_bal_arr = $Adapter->get_balance( $base_cur, array( 'type' => 'exchange' ) );
 					if( isset( $base_bal_arr['ERROR'] ) )
 						continue;
 					$base_bal = isset( $bal[ $base_cur ] ) ? $bal[ $base_cur ] : $base_bal_arr['available'];
-				}
+				//}
 				if( ! isset( $quote_bal ) ) {
 					$quote_bal_arr = $Adapter->get_balance( $quote_cur, array( 'type' => 'exchange' ) );
 					if( isset( $quote_bal_arr['ERROR'] ) )
@@ -66,8 +58,8 @@
 				//_____calculate some variables that are rather trivial:
 				$precision = $market_summary['price_precision'] + 2;								//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
 				$epsilon = 1 / pow( 10, $precision );												//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-				$buy_price = number_format( $market_summary['bid'] * 0.9, $precision, '.', '' );	//_____buy at same price as highest bid.
-				$sell_price = number_format( $market_summary['ask'] * 1.1, $precision, '.', '' );	//_____sell at same price as lowest ask.
+				$buy_price = number_format( $market_summary['bid'], $precision, '.', '' );			//_____buy at same price as highest bid.
+				$sell_price = number_format( $market_summary['bid'], $precision, '.', '' );	//_____sell at same price as lowest ask.
 				$spread = $sell_price - $buy_price;													//_____difference between highest bid and lowest ask.
 
 				echo " -> precision $precision \n";
@@ -79,7 +71,7 @@
 				echo " -> final formatted buy price: $buy_price \n";
 				echo " -> final formatted sell price: $sell_price \n";
 
-				if( floatval($buy_price) > 0 ) { //some currencies have big sell wall at 0.00000001...
+				/*if( floatval($buy_price) > 0 ) { //some currencies have big sell wall at 0.00000001...
 					$order_size = Utilities::get_min_order_size( null, $quote_bal / $num_markets, $epsilon, $buy_price, $precision);
 					echo " -> buying $order_size in $market for $buy_price costing " . $order_size * $buy_price . " with quote balance of $quote_bal \n";
 					if( floatval($order_size * $buy_price) > floatval($quote_bal) )
@@ -93,9 +85,9 @@
 							$bal[ $quote_cur ] = $quote_bal - $order_size * $buy_price;
 						}
 					}
-				}
+				}*/
 
-				if( floatval($sell_price) > floatval($buy_price) ) { //just in case...
+				//if( floatval($sell_price) > floatval($buy_price) ) { //just in case...
 					$order_size = $base_bal;
 					$min_order_size = Utilities::get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $epsilon, $buy_price, $precision);
 
@@ -113,7 +105,7 @@
 							}
 						}
 					}
-				}
+				//}
 				echo "\n";
 			}
 		}
