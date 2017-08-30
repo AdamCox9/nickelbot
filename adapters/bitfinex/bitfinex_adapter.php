@@ -158,9 +158,6 @@
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
-
 			$balances = $this->exch->balances();
 			$response = [];
 			foreach( $balances as $balance ) {
@@ -170,14 +167,13 @@
 				$balance['pending'] = 0;
 				$balance['currency'] = strtoupper( $balance['currency'] );
 				unset( $balance['amount'] );
-				array_push( $response, $balance );
+				$response[$balance['currency']] = $balance;
 			}
 
-			$this->balances = $response;
-			return $this->balances;
+			return $response;
 		}
 
-		public function get_balance( $currency="BTC", $opts = array() ) {
+		public function get_balance( $currency = "BTC", $opts = array() ) {
 			$balances = $this->get_balances();
 			foreach( $balances as $balance )
 				if( $balance['currency'] == $currency )

@@ -4,8 +4,6 @@
 	ini_set( 'display_errors', 'on' );
 	date_default_timezone_set( "UTC" );
 
-	//die( 'BRB' );
-
 	if( file_exists( '../../cache/bitcointalk.txt' ) && rand(0,50) > 1 ) {
 		die( file_get_contents( '../../cache/bitcointalk.txt' ) );
 	}

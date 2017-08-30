@@ -1,18 +1,3 @@
-BtceAdapter
-BTC: 1jPtEamiPHn2NaPXab29ruSAparsvrUre
-(exchange)
-BtceAdapter
-LTC: LZrNNQtK4yDzwEjj2VszEm529UaDDDsdPH
-(exchange)
-BtceAdapter
-NMC: NEtAMTUgqyD4w7DEA414PRSFjhoVJstP7W
-(exchange)
-BtceAdapter
-NVC: 4KwnoXR5nKxPebxryruugbuqP7SdiuWxP3
-(exchange)
-BtceAdapter
-PPC: PVduuiWTCm3jPaPr9JTPyBhAVrhZuEER5D
-(exchange)
 BitstampAdapter
 BTC: 32rQFK5oRywD3SAcKk6nff8GU6gqjGnZXw
 (exchange)

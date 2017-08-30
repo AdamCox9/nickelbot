@@ -18,17 +18,6 @@
 
 		private function query($path, array $req = array(), $type = 'post')
 		{
-
-			/*echo "\n\n";
-			echo "$path";
-			echo "\n";
-			print_r( $req );
-			echo "\n";
-			echo "$type";
-			echo "\n\n";*/
-
-			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
-
 			// API settings
 			$key = $this->key;
 			
@@ -74,8 +63,9 @@
 		
 		//Public Functions
 
-		public function ticker() {
-			return $this->query('ticker', array(), 'get');
+		public function ticker($market) {
+			$in = json_decode( file_get_contents( "https://www.bitstamp.net/api/v2/ticker/$market" ), true );
+			return $in;
 		}
 		
 		public function ticker_hour() {

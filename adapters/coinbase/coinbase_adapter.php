@@ -247,9 +247,6 @@
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
-
 			$balances = $this->exch->accounts();
 			$response = [];
 			foreach( $balances as $balance ) {
@@ -265,11 +262,10 @@
 				unset( $balance['id'] );
 				unset( $balance['profile_id'] );
 				
-				array_push( $response, $balance );
+				$response[$balance['currency']] = $balance;
 			} 
 
-			$this->balances = $response;
-			return $this->balances;
+			return $response;
 		}
 
 		public function get_balance( $currency="BTC" ) {

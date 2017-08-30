@@ -12,3 +12,5 @@ These are the sample bots that come with NickelBot.
 You can create your own bots that you maintain ownership of.
 You can sell them or show them off to your favorite friends.
 You can modify an existing bot and you own the modifications.
+
+Currently, make_min_orders.php works with BTER & Poloniex and that is all I have tested recently (08/28/2017)

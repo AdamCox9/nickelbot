@@ -32,8 +32,6 @@
 
 		function query($method, array $request = array())
 		{
-			usleep( 1000000 ); //sleep for 1 second so don't overload server...
-
 			$mt = explode( ' ', microtime() );
 			$request['nonce'] = $mt[1] . substr( $mt[0], 2, 6 );
 
@@ -113,7 +111,8 @@
 		}
 
 		function AddOrder( $pair = "BTCLTC", $type = "buy", $ordertype = "limit", $price = "100.00", $volume = "0.01" ) {
-			return $this->query( 'AddOrder', array( 'pair' => $pair, 'type' => $type, 'ordertype' => $ordertype, 'price' => $price, 'volume' => $volume ) );
+			$out = array( 'pair' => $pair, 'type' => $type, 'ordertype' => $ordertype, 'price' => $price, 'volume' => $volume );
+			return $this->query( 'AddOrder', $out );
 		}
 
 		function OpenOrders() {

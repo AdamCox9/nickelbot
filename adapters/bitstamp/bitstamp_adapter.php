@@ -6,6 +6,14 @@
 			$this->exch = $Exch;
 		}
 
+		private function get_market_symbol( $market ) {
+			return strtoupper( substr_replace($market, '-', 3, 0) );
+		}
+
+		private function unget_market_symbol( $market ) {
+			return str_replace( "-", "", strtolower( $market ) );
+		}
+
 		public function get_info() {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
@@ -81,18 +89,14 @@
 		}
 
 		public function buy( $pair="BTC-LTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$price = number_format( $price, 2, ".", "" );
-			$amount = number_format( $amount, 4, ".", "" );
-			$buy = $this->exch->buy( $amount, $price );
+			$buy = $this->exch->buy( number_format( $amount, 8 ), $price );
 			if( isset( $buy['error'] ) )
 				$buy['message'] = 'ERROR';
 			return $buy;
 		}
 		
 		public function sell( $pair="BTC_LTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$price = number_format( $price, 2, ".", "" );
-			$amount = number_format( $amount, 4, ".", "" );
-			$sell = $this->exch->sell( $amount, $price );
+			$sell = $this->exch->sell( number_format( $amount, 8 ), $price );
 			if( isset( $sell['error'] ) )
 				$sell['message'] = 'ERROR';
 			return $sell;
@@ -104,7 +108,6 @@
 			$open_orders = $this->exch->open_orders();
 
 			if( isset( $open_orders['error'] ) ) {
-				print_r( $open_orders );
 				return array( 'error' => $open_orders ); //need to standardize!
 			}
 
@@ -129,10 +132,8 @@
 		}
 
 		public function get_completed_orders( $market="BTC-USD", $limit=100 ) {
-			if( isset( $this->completed_orders ) )
-				return $this->completed_orders;
 			$completed_orders = $this->exch->user_transactions( array( 'offset' => 0, 'limit' => $limit, 'sort' => 'desc' ) );
-			$this->completed_orders = [];
+			$completed_orders = [];
 			foreach( $completed_orders as $completed_order ) {
 				$completed_order['market'] = "BTC-USD";
 				$completed_order['exchange'] = "bitstamp";
@@ -150,18 +151,19 @@
 				$completed_order['fee_amount'] = null;
 				$completed_order['fee_currency'] = null;
 
-				array_push( $this->completed_orders, $completed_order );
+				array_push( $completed_orders, $completed_order );
 			}
 
-			return $this->completed_orders;
+			return $completed_orders;
 		}
 
+		//btcusd, btceur, eurusd, xrpusd, xrpeur, xrpbtc, ltcusd, ltceur, ltcbtc, ethusd, etheur, ethbtc
 		public function get_markets() {
-			return array( 'BTC-USD' );
+			return array( 'BTC-USD', 'BTC-EUR', 'EUR-USD', 'XRP-USD', 'XRP-EUR', 'XRP-BTC', 'LTC-USD', 'LTC-EUR', 'LTC-BTC', 'ETH-USD', 'ETH-EUR', 'ETH-BTC' );
 		}
 
 		public function get_currencies() {
-			return array( 'BTC', 'USD' );
+			return array( 'BTC', 'USD', 'EUR', 'XRP', 'LTC', 'ETH' );
 		}
 		
 		public function deposit_address( $currency = "BTC" ){
@@ -175,6 +177,16 @@
 				$address = $address['address'];
 				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address );
 			}
+			if( $currency === "LTC" ) {
+				$address = $this->exch->ltc_address();
+				$address = $address['address'];
+				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address );
+			}
+			if( $currency === "ETH" ) {
+				$address = $this->exch->eth_address();
+				$address = $address['address'];
+				$response = array( 'wallet_type' => 'exchange', 'currency' => $currency, 'address' => $address );
+			}
 
 			return $response;
 		}
@@ -183,16 +195,15 @@
 			$addresses = [];
 			array_push( $addresses, $this->deposit_address( "BTC" ) );
 			array_push( $addresses, $this->deposit_address( "XRP" ) );
+			array_push( $addresses, $this->deposit_address( "LTC" ) );
+			array_push( $addresses, $this->deposit_address( "BTC" ) );
 			return $addresses;
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
+			$response = [];
 
 			$balances = $this->exch->balance();
-
-			$response = [];
 
 			$balance['type'] = "exchange";
 			$balance['currency'] = "BTC";
@@ -201,8 +212,7 @@
 			$balance['reserved'] = $balances['btc_reserved'];
 			$balance['pending'] = 0;
 			$balance['btc_value'] = 0;
-
-			array_push( $response, $balance );
+			$response['BTC'] = $balance;
 
 			$balance['type'] = "exchange";
 			$balance['currency'] = "USD";
@@ -211,11 +221,27 @@
 			$balance['reserved'] = $balances['usd_reserved'];
 			$balance['pending'] = 0;
 			$balance['btc_value'] = 0;
+			$response['USD'] = $balance;
 
-			array_push( $response, $balance );
+			$balance['type'] = "exchange";
+			$balance['currency'] = "XRP";
+			$balance['available'] = $balances['xrp_available'];
+			$balance['total'] = $balances['xrp_balance'];
+			$balance['reserved'] = $balances['xrp_reserved'];
+			$balance['pending'] = 0;
+			$balance['btc_value'] = 0;
+			$response['XRP'] = $balance;
 
-			$this->balances = $response;
-			return $this->balances;
+			$balance['type'] = "exchange";
+			$balance['currency'] = "EUR";
+			$balance['available'] = $balances['eur_available'];
+			$balance['total'] = $balances['eur_balance'];
+			$balance['reserved'] = $balances['eur_reserved'];
+			$balance['pending'] = 0;
+			$balance['btc_value'] = 0;
+			$response['XRP'] = $balance;
+
+			return $response;
 		}
 
 		public function get_balance( $currency="BTC" ) {
@@ -226,11 +252,10 @@
 		}
 
 		public function get_market_summary( $market = "BTC-USD" ) {
-
-			$market_summary = $this->exch->ticker();
+			$market_summary = $this->exch->ticker( $this->unget_market_symbol( $market ) );
 
 			//Set variables:
-			$market_summary['market'] = strtoupper( $market );
+			$market_summary['market'] = $market;
 			$market_summary['exchange'] = 'bitstamp';
 			$market_summary['display_name'] = $market;
 			$market_summary['last_price'] = $market_summary['last'];
@@ -244,7 +269,9 @@
 			$market_summary['initial_margin'] = null;
 			$market_summary['maximum_order_size'] = null;
 			$market_summary['minimum_margin'] = null;
-			$market_summary['minimum_order_size_quote'] = 5;
+			$curs_bq = explode( "-", $market );
+			$quote_cur = $curs_bq[1];
+			$market_summary['minimum_order_size_quote'] = $this->get_min_order_size( $quote_cur ); //must be in USD...
 			$market_summary['minimum_order_size_base'] = null;
 			$market_summary['price_precision'] = 4;
 			$market_summary['vwap'] = null;
@@ -264,8 +291,22 @@
 			return $market_summary;
 		}
 
+		private function get_min_order_size( $currency ) {
+			if( $currency == "USD" || $currency == "EUR" )
+				return '5.55';
+			else
+				return '0.00222';
+
+		}
+
 		public function get_market_summaries() {
-			return array( $this->get_market_summary( "BTC-USD" ) );
+			$markets = $this->get_markets();
+			$results = [];
+			foreach( $markets as $market ) {
+				array_push( $results, $this->get_market_summary( $market ) );
+				sleep(1);
+			}
+			return $results;
 		}
 
 		public function get_trades( $market = "BTC-USD", $time = 60 ) {

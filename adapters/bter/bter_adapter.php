@@ -134,8 +134,6 @@
 		}
 
 		public function get_open_orders( $market = "BTC-USD" ) {
-			if( isset( $this->open_orders ) )
-				return $this->open_orders;
 			$orderlist = $this->exch->orderlist();
 
 			$results = [];
@@ -173,8 +171,7 @@
 
 			}
 
-			$this->open_orders = $results;
-			return $this->open_orders;
+			return $results;
 		}
 
 		//TODO: see if there is a limit
@@ -241,9 +238,6 @@
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
-
 			$balances = $this->exch->getfunds();
 			$response = [];
 			$currencies = $this->get_currencies();
@@ -256,11 +250,10 @@
 				$balance['total'] = $balance['available'] + $balance['reserved'];
 				$balance['pending'] = 0;
 				$balance['btc_value'] = 0;
-				array_push( $response, $balance );
+				$response[$balance['currency']] = $balance;
 			}
 
-			$this->balances = $response;
-			return $this->balances;
+			return $response;
 		}
 
 		public function get_balance( $currency="BTC" ) {
@@ -279,12 +272,7 @@
 		}
 
 		public function get_market_summaries() {
-			if( isset( $this->market_summaries ) ) //cache
-				return $this->market_summaries;
-
 			$tickers = $this->exch->tickers();
-
-			$this->market_summaries = [];
 
 			$market_info = $this->exch->marketinfo();
 			$market_info = $market_info['pairs'];
@@ -295,6 +283,7 @@
 				$markets[$key] = $market[$key];
 			}
 
+			$market_summaries = [];
 			foreach( $tickers as $key => $market_summary ) {
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['exchange'] = "bter";
@@ -344,9 +333,9 @@
 				if( $market_summary['bid'] == 0 || $market_summary['ask'] == 0 || $market_summary['base_volume'] == 0 || $market_summary['quote_volume'] == 0 )
 					continue;
 
-				array_push( $this->market_summaries, $market_summary );
+				array_push( $market_summaries, $market_summary );
 			}
-			return $this->market_summaries;
+			return $market_summaries;
 		}
 
 		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...

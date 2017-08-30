@@ -165,9 +165,10 @@
 					continue;
 				}
 				foreach( $orders as $order ) {
-					if( isset( $order['id'] ) )
+					if( isset( $order['id'] ) ) {
 						array_push( $results, $this->cancel($order['id'], array( 'market' => $market ) ) );
-					else
+						sleep(1);
+					} else
 						array_push( $results, array( 'ERROR' => array( $order ) ) );
 				}
 			}
@@ -229,9 +230,6 @@
 		}
 
 		public function get_completed_orders( $market = "BTC-USD", $limit = 100 ) {
-			if( isset( $this->completed_orders ) )
-				return $this->completed_orders;
-
 			$market = $this->unget_market_symbol( $market );
 			$orders = $this->exch->returnTradeHistory( $market );
 
@@ -304,9 +302,6 @@
 		}
 
 		public function get_balances() {
-			/*if( isset( $this->balances ) )//internal cache
-				return $this->balances;*/
-
 			$balances = $this->exch->returnCompleteBalances();
 			$response = [];
 			foreach( $balances as $key => $balance ) {
@@ -320,7 +315,7 @@
 				unset( $balance['onOrders'] );
 				unset( $balance['btcValue'] );
 
-				array_push( $response, $balance );
+				$response[$key] = $balance;
 			}
 
 			$this->balances = $response;
@@ -343,8 +338,6 @@
 		}
 
 		public function get_market_summaries() {
-			/*if( isset( $this->market_summaries ) )
-				return $this->market_summaries;*/
 			$market_summaries = $this->exch->returnTicker();
 			$this->market_summaries = [];
 			foreach( $market_summaries as $key => $market_summary ) {
@@ -371,11 +364,11 @@
 				$market_summary['minimum_margin'] = null;
 
 				if( strpos( $market_summary['market'], "XMR" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.01000000';
+					$market_summary['minimum_order_size_quote'] = '0.00051000';
 				if( strpos( $market_summary['market'], "USDT" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.01000000';
+					$market_summary['minimum_order_size_quote'] = '0.00051000';
 				if( strpos( $market_summary['market'], "BTC" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.00050000';
+					$market_summary['minimum_order_size_quote'] = '0.00011000';
 
 				$market_summary['minimum_order_size_base'] = null;
 				$market_summary['price_precision'] = 8;
@@ -408,6 +401,7 @@
 		}
 
 		//Margin trading
+
 		public function margin_history() {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
@@ -416,6 +410,7 @@
 		}
 		
 		//lending:
+
 		public function loan_offer() {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
