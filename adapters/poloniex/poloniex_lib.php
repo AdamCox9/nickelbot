@@ -16,12 +16,6 @@
 			
 		private function query(array $req = array()) 
 		{
-			usleep(1000000);//rate limit
-
-			/*echo "\n\n";
-			print_r( $req );
-			echo "\n\n";*/
-
 			// API settings
 			$key = $this->api_key;
 			$secret = $this->api_secret;
@@ -51,7 +45,7 @@
 			curl_setopt($ch, CURLOPT_URL, $this->trading_url);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
 			// run the query
 			$res = curl_exec($ch);

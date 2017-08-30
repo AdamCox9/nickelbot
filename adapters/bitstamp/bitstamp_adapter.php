@@ -167,6 +167,7 @@
 		}
 		
 		public function deposit_address( $currency = "BTC" ){
+			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );//broken
 			$response = array();
 			if( $currency === "BTC" ) {
 				$address = $this->exch->bitcoin_deposit_address();
@@ -192,6 +193,7 @@
 		}
 		
 		public function deposit_addresses(){
+			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );//broken
 			$addresses = [];
 			array_push( $addresses, $this->deposit_address( "BTC" ) );
 			array_push( $addresses, $this->deposit_address( "XRP" ) );

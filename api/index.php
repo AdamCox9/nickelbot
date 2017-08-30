@@ -82,10 +82,7 @@
 		if( $market == "error" ) return array( "error" => "market required" );
 
 		//let's not open up the trade api to the public:
-		$exchange = "Bitfinex";
-		$price = "393";
-		$amount = "0.011";
-		$market = "BTC-USD";
+		return "PERMISSION DENIED";
 
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->buy( $market, $amount, $price ) );
 	}
@@ -103,10 +100,7 @@
 		if( $market == "error" ) return array( "error" => "market required" );
 
 		//let's not open up the trade api to the public:
-		$exchange = "Bitfinex";
-		$price = "484";
-		$amount = "0.011";
-		$market = "BTC-USD";
+		return "PERMISSION DENIED";
 
 		return array( get_class( $Adapters[$exchange] ) => $Adapters[$exchange]->sell( $market, $amount, $price ) );
 	}

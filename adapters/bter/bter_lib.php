@@ -17,14 +17,6 @@
 		private function query($path, array $req = array()) 
 		{
 
-			/*echo "\n\n";
-			echo "$path";
-			echo "\n";
-			print_r( $req );
-			echo "\n\n";*/
-
-			usleep( 100000 ); //sleep for 1/10th of second so don't overload server...
-
 			$key = $this->api_key;
 			$secret = $this->api_secret;
 		 
@@ -51,7 +43,7 @@
 			curl_setopt($ch, CURLOPT_URL, $this->trading_url.$path);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, TRUE);
 
 			// run the query
 			$res = curl_exec($ch);
