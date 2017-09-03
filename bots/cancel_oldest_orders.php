@@ -1,6 +1,17 @@
-<?php
-			
-			/******
+<?PHP
+
+	/*
+
+		@Author Adam Cox
+
+		This is a simple example of a bot that will cancel the oldest orders.
+
+	*/
+
+	function cancel_oldest_orders( $Adapters ) {
+
+
+			/*****
 
 			//_____get open orders, sort them by creation date:
 			foreach( $market_summaries as $market_summary ) {
@@ -24,5 +35,7 @@
 			}
 
 			******/
+
+	}
 
 ?>

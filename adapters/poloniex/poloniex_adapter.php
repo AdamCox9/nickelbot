@@ -155,10 +155,13 @@
 		//_____Cancel all orders:
 		function cancel_all() {
 			$markets = $this->get_markets();
+			sleep(1);
 
 			$results = [];
 			foreach( $markets as $market ) {
 				$orders = $this->get_open_orders( $market );
+				sleep(1);
+
 				if( ! is_array( $orders ) ) continue;
 				if( isset( $orders['error'] ) ) {
 					array_push( $results, array( 'ERROR' => $orders['error'] ) );
@@ -166,8 +169,10 @@
 				}
 				foreach( $orders as $order ) {
 					if( isset( $order['id'] ) ) {
-						array_push( $results, $this->cancel($order['id'], array( 'market' => $market ) ) );
-						sleep(1);
+						$response = $this->cancel($order['id'], array( 'market' => $market ) );
+						array_push( $results, $response );
+						print_r( $results );
+						sleep(2);
 					} else
 						array_push( $results, array( 'ERROR' => array( $order ) ) );
 				}
