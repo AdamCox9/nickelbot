@@ -344,7 +344,8 @@
 
 		public function get_market_summaries() {
 			$market_summaries = $this->exch->returnTicker();
-			$this->market_summaries = [];
+			$results = [];
+
 			foreach( $market_summaries as $key => $market_summary ) {
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['exchange'] = "poloniex";
@@ -395,9 +396,9 @@
 
 				ksort( $market_summary );
 
-				array_push( $this->market_summaries, $market_summary );
+				array_push( $results, $market_summary );
 			}
-			return $this->market_summaries;
+			return $results;
 		}
 
 		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...
