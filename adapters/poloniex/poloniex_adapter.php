@@ -369,15 +369,27 @@
 				$market_summary['mid'] = null;
 				$market_summary['minimum_margin'] = null;
 
-				if( strpos( $market_summary['market'], "XMR" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.00051000';
-				if( strpos( $market_summary['market'], "USDT" ) !== FALSE )
-					$market_summary['minimum_order_size_quote'] = '0.00051000';
-				if( strpos( $market_summary['market'], "BTC" ) !== FALSE )
+				if( strpos( $market_summary['market'], "-XMR" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.000550';
+					$market_summary['price_precision'] = 6;
+				}
+
+				if( strpos( $market_summary['market'], "-ETH" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.000550';
+					$market_summary['price_precision'] = 6;
+				}
+
+				if( strpos( $market_summary['market'], "-USDT" ) !== FALSE ) {
+					$market_summary['minimum_order_size_quote'] = '0.00500';
+					$market_summary['price_precision'] = 5;
+				}
+				
+				if( strpos( $market_summary['market'], "-BTC" ) !== FALSE ) {
 					$market_summary['minimum_order_size_quote'] = '0.00011000';
+					$market_summary['price_precision'] = 8;
+				}
 
 				$market_summary['minimum_order_size_base'] = null;
-				$market_summary['price_precision'] = 8;
 				$market_summary['timestamp'] = null;
 				$market_summary['vwap'] = null;
 				$market_summary['open_buy_orders'] = null;

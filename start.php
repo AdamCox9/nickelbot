@@ -16,22 +16,24 @@
 	try{
 
 		/*****
-			ADAPTERS: facades around wrapper library for native restful API's
-			BOTS: functions are an app.
-			GUI: it is a web app.
-			API: can make rest calls to them through HTTP requests like with AJAX.
+			LIBRARIES: communicate with exchange API's directly. Should only be called from ADAPTERS.
+			ADAPTERS: facades that wrap around LIBRARIES
+			BOTS: functions are an app for now. Bots communicate with ADAPTERS but not LIBRARIES.
+			CRYPTO_UTILITIES: functions that perform some type of calculations or transformations on data, but do not interact with ADAPTERS, LIBRARIES or BOTS
+			GUI: it is a web app that communicates with ADAPTERS (similar to a bot but with a web UI). There can be many different GUI's.
+			API: can make rest calls to them through HTTP requests like with AJAX from the default GUI.
 
-			TODO: make a Bot class
+			TODO: make a BOT class instead of using functions
 			NOTE: do not print_r the $Adapter class because it may leak keys and secrets on the web.
 
 			One way to run a bot would be to execute a php script in a cron job.
 			Another way would be to make a while(1) loop that continuously runs.
-			It would be a good idea to monitor the process with e-mail alerts, etc...
-			Don't put the while(1) on in a cron or else a new instance will be launched each time that will stay executing... sure to get banhammer on API!!!
 
 			------
 
 			Run a PHP process for each exchange from the terminal like this:
+			php start.php
+			 - or -
 			php start.php Bitfinex > bitfinex_out.txt & php start.php Bitstamp > bitstamp_out.txt & php start.php Bittrex > bittrex_out.txt & php start.php Btce > btce_out.txt & php start.php Coinbase > coinbase_out.txt & php start.php Poloniex > poloniex_out.txt & 
 
 			Kill the processes from the terminal like this:
@@ -47,7 +49,9 @@
 		while( true ) {
 			//make_min_orders( $Adapters );
 			poloniex_light_show( $Adapters['Poloniex'], 'ZRX-BTC' );
-			sleep( 5 );
+			sleep( 3 );
+			//poloniex_light_show( $Adapters['Poloniex'], 'ZRX-ETH' );
+			//sleep( 3 );
 		}
 		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
 		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...
