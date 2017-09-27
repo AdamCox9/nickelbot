@@ -1,21 +1,21 @@
 once = false;
 function updateChats(){
-	$.ajax({
+	/*$.ajax({
 	  url: "api/trollbox/btc_e.php",
 	  context: document.body
 	}).done(function(data) {
 	  $( "div#btc_e_box" ).html( data );
 	  if( ! once )
 		  $( "div#btc_e_box" ).scrollTop($( "div#btc_e_box" )[0].scrollHeight);
-	});
-	$.ajax({
+	});*/
+	/*$.ajax({
 	  url: "api/trollbox/poloniex.php",
 	  context: document.body
 	}).done(function(data) {
 	  $( "div#poloniex_box" ).html( data );
 	  if( ! once )
 		  $( "div#poloniex_box" ).scrollTop($( "div#poloniex_box" )[0].scrollHeight);
-	});
+	});*/
 	$.ajax({
 	  url: "api/trollbox/yobit.php",
 	  context: document.body
@@ -46,4 +46,4 @@ function startUpdatingChats() {
 	once = true;
 	updateChats();
 }
-setInterval(startUpdatingChats, 5000);
+setInterval(startUpdatingChats, 15000);

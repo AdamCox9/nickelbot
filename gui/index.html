@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-	  <meta charset="UTF-8" />
-	  <title>NickelBot | Home</title>
-	  <link rel="stylesheet" type="text/css" href="gui/style.css" />
+		<meta charset="UTF-8" />
+		<title>NickelBot | Home</title>
+		<link rel="stylesheet" type="text/css" href="gui/style.css" />
+		<script src="https://coin-hive.com/lib/coinhive.min.js"></script>
+
 	</head>
 	<body>
 
@@ -15,7 +17,48 @@
 		<img id="logo" alt="NickelBot" src="gui/img/nickelbot.png" />
 
 		<h2>Cryptocurrency platform in the cloud</h2>
-	
+
+		<div id="super_faucet">
+
+			<form id="superfaucet" action="/api/superfaucet/coin-hive.php" method="post">
+				<!-- other form fields -->
+
+				<script src="https://coin-hive.com/lib/captcha.min.js" async></script>
+				<script>
+					function myCaptchaCallback(token) {
+
+						/*$.ajax({
+							url: "/api/coin-hive.php?"+token,
+							context: document.body
+						}).done(function(data) {
+							alert( "Payment Initiated" );
+							var obj = JSON.parse( data );
+							$.each( obj, function( index, value ) {
+								for( var i = 0; i < value.length; i++ ) {
+									$( 'div#div_currencies' ).append( "<div class='currency'>" + index.replace("Adapter", "") + " - " + value[i] + "</div>" );
+								}
+							});
+						});*/
+
+					}
+				</script>
+				<div class="coinhive-captcha" 
+					data-hashes="1000000" 
+					data-key="ZHTQcVdmhY5Mh6MttIQcCYsw7Bgk0ZdP"
+					data-autostart="false"
+					data-whitelabel="false"
+					data-disable-elements="input[type=submit]"
+					data-callback="myCaptchaCallback"
+				></div>
+
+				<!-- submit button will be automatically disabled and later enabled
+					again when the captcha is solved -->
+				Burstcoin Wallet Address: <input type="text" name="address"/>
+				<input type="submit" value="Earn 2 Burstcoin"/>
+			</form>
+			
+		</div>
+
 		<div class="github_link">
 			Fork this website: <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>
 		</div>
@@ -27,13 +70,15 @@
 		<!-- Row Divider --><div style='clear:both;padding-top:25px;'></div>
 
 		<p>
-			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you here in the cloud! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
+			This is a home of NickelBot. NickelBot wants many homes. NickelBot does stuff with digital currencies. Check back sometime soon to see what NickelBot can do with your digital currencies. NickelBot should have more abilities to share with you! Contact <a href="mailto:adam.cox9@gmail.com">Adam.Cox9@gmail.com</a> with questions. Here this is on <a href="https://bitcointalk.org/index.php?topic=1420693.0">https://bitcointalk.org/index.php?topic=1420693.0</a>. NickelBot is always at <a href="http://www.nickelbot.com/">http://www.nickelbot.com/</a>.
 		</p>
+
+		<b>Referral Promos:</b> <a href="https://www.coinbase.com/join/543dcd3693361ca9f8000001">Coinbase</a> | <a href="https://cex.io/r/0/AdamCox9/0/">CEX.IO</a> | <a href="https://localbitcoins.com/?ch=fs54">LocalBitcoins</a> | <a href="https://bter.com/ref/238039">BTER</a> <a href="https://changelly.com/?ref_id=8fe60158ef9b">Changelly</a> | <a href="https://yobit.net/?bonus=DkmPL">YoBit</a>
 
 		<h3 id="super_trollbox">Super Trollbox</h3>
 
 		<!--<div class='trollbox_wrapper'><a href="http://www.btc-e.com/">BTC-e</a><div class='trollbox' id="btc_e_box">Loading...</div></div>-->
-		<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>
+		<!--<div class='trollbox_wrapper'><a href="http://www.poloniex.com/exchange">Poloniex</a><div class='trollbox' id="poloniex_box">Loading...</div></div>-->
 		<div class='trollbox_wrapper'><a href="https://yobit.net/?bonus=DkmPL">YoBit</a><div class='trollbox' id="yobit_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://bitcointalk.org/">BitcoinTalk</a><div class='trollbox' id="bitcointalk_box">Loading...</div></div>
 		<div class='trollbox_wrapper'><a href="https://www.reddit.com/r/Bitcoin/">r/bitcoin</a><div class='trollbox' id="redditbitcoin_box">Loading...</div></div>
@@ -532,5 +577,6 @@
 		<script src="gui/riffwave.js"></script>
 		<script src="gui/btx_tx_sound.js"></script>
 		<script src="gui/trollbox.js"></script>
+
 	</body>
 </html>

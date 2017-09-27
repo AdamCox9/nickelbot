@@ -65,6 +65,8 @@
 	$poloniex_api_key = "INSERT_API_KEY_HERE";
 	$poloniex_api_secret = "INSERT_API_SECRET_HERE";
 
+	$COINHIVE_SECRET = "INSERT_COINHIVE_SECRET_HERE";
+
 	//_____Make a structure or use some design pattern?
 
 	$Adapters = array();

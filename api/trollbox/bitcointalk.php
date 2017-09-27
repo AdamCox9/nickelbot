@@ -4,12 +4,12 @@
 	ini_set( 'display_errors', 'on' );
 	date_default_timezone_set( "UTC" );
 
-	if( file_exists( '../../cache/bitcointalk.txt' ) && rand(0,50) > 1 ) {
+	if( file_exists( '../../cache/bitcointalk.txt' ) && rand(0,10) > 2 ) {
 		die( file_get_contents( '../../cache/bitcointalk.txt' ) );
 	}
 
 	$rss = new DOMDocument();
-	$rss->load('http://bitcointalk.org/index.php?type=rss;action=.xml&limit=20');
+	$rss->load('http://bitcointalk.org/index.php?type=rss;action=.xml&amp;limit=20');
 
 	$feed = array();
 	foreach ($rss->getElementsByTagName('item') as $node) {
@@ -21,6 +21,8 @@
 			);
 		array_unshift($feed, $item);
 	}
+
+	$rss = null;
 
 	$output = null;
 	foreach( $feed as $item ) {

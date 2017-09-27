@@ -4,7 +4,7 @@
 	ini_set( 'display_errors', 'on' );
 	date_default_timezone_set( "UTC" );
 
-	if( file_exists( "../../cache/btce.txt" )  && rand(0,10) > 1 )
+	if( file_exists( "../../cache/btce.txt" )  && rand(0,10) > 2 )
 		die( file_get_contents( "../../cache/btce.txt" ) );
 
 	$html = file_get_contents('https://btc-e.com/');

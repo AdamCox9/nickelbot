@@ -23,7 +23,10 @@
 		}
 
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 ) {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+
+			$results = $this->exch->withdraw($currency, $amount, $address);		
+
+			return $results;
 		}
 
 		public function get_currency_summary( $currency = "BTC" ) {

@@ -4,7 +4,7 @@
 	ini_set( 'display_errors', 'on' );
 	date_default_timezone_set( "UTC" );
 
-	if( file_exists( "../../cache/redditbitcoin.txt" )  && rand(0,10) > 1 )
+	if( file_exists( "../../cache/redditbitcoin.txt" )  && rand(0,10) > 2 )
 		die( file_get_contents( "../../cache/redditbitcoin.txt" ) );
 
 
@@ -12,6 +12,8 @@
 	$rss->load('https://www.reddit.com/r/bitcoin/new/.rss?after=t3_');
 
 	$output = $rss->textContent;
+
+	$rss = null;
 
 	if( ! is_null( $output ) ) {
 		file_put_contents( '../../cache/redditbitcoin.txt', $output );
