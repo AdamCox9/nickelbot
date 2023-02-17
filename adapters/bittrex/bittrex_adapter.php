@@ -6,15 +6,6 @@
 			$this->exch = $Exch;
 		}
 
-		private function get_market_symbol( $market ) {
-			$msmn = explode( "-", $market );
-			return $msmn[1] . "-" . $msmn[0];
-		}
-
-		private function unget_market_symbol( $market ) {
-			return $this->get_market_symbol( $market );
-		}
-
 		public function get_info() {
 			return [];
 		}
@@ -138,14 +129,14 @@
 		}
 
 		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$buy = $this->exch->market_buylimit( array( 'market' => $this->unget_market_symbol( $pair ), 'quantity' => $amount, 'rate' => $price ) );
+			$buy = $this->exch->market_buylimit( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			if( $buy['success'] == 1 )
 				unset( $buy['message'] );
 			return $buy;
 		}
 		
 		public function sell( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$sell = $this->exch->market_selllimit( array( 'market' => $this->unget_market_symbol( $pair ), 'quantity' => $amount, 'rate' => $price ) );
+			$sell = $this->exch->market_selllimit( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			if( $sell['success'] == 1 )
 				unset( $sell['message'] );
 			return $sell;
@@ -243,10 +234,10 @@
 		}
 
 		public function get_markets() {
-			$markets = $this->exch->getmarketsummaries();
+			$markets = $this->exch->get_markets();
 			$response = [];
 			foreach( $markets['result'] as $market ) {
-				array_push( $response, $this->get_market_symbol( $market['MarketName'] ) );
+				array_push( $response, $market['MarketName'] );
 			}
 			return $response;
 		}
@@ -341,8 +332,8 @@
 		}
 
 		public function get_market_summary( $market="LTC-BTC" ) {
-			$market_summary = $this->exch->getmarketsummary( array('market' => $this->unget_market_symbol( $market ) ) );
-			$market_summary = $market_summary['result'][0];
+			$market_summary = $this->exch->get_markets_summary( array('market' => $market ) );
+			
 			return $this->standardize_market_summary( $market_summary );
 		}
 
@@ -350,8 +341,8 @@
 			if( isset( $this->market_summaries ) ) //cache
 				return $this->market_summaries;
 			
-			$market_summaries = $this->exch->getmarketsummaries();
-			$market_summaries = $market_summaries['result'];
+			$market_summaries = $this->exch->get_markets_summaries();
+			
 			$this->market_summaries = [];
 			foreach( $market_summaries as $market_summary ) {
 				array_push( $this->market_summaries, $this->standardize_market_summary( $market_summary ) );
@@ -359,31 +350,78 @@
 			return $this->market_summaries;
 		}
 
-		//just so I don't have to do this twice in get_market_summary and get_market_summaries...
+
 		private function standardize_market_summary( $market_summary ) {
+		
+/*
+
+
+Would need to query Specific Market, Ticker, etc... for each market for this data:
+
+/markets is an array of all markets like:
+Array
+(
+    [symbol] => 1ECO-BTC
+    [high] => 0.000026220000
+    [low] => 0.000022220000
+    [volume] => 256.66200000
+    [quoteVolume] => 0.00648639
+    [percentChange] => -0.08
+    [updatedAt] => 2023-02-16T23:20:47.96Z
+
+/markets/summary looks like:
+Array
+(
+    [symbol] => PIVX-BTC
+    [baseCurrencySymbol] => PIVX
+    [quoteCurrencySymbol] => BTC
+    [minTradeSize] => 9.12762204
+    [precision] => 8
+    [status] => ONLINE
+    [createdAt] => 2016-03-02T20:45:37.987Z
+    [prohibitedIn] => Array
+        (
+        )
+
+    [associatedTermsOfService] => Array
+        (
+        )
+
+    [tags] => Array
+        (
+        )
+
+)
+
+
+)*/		
+
+
+print_r( $market_summary );
+
 			$market_summary['exchange'] = "bittrex";
-			$market_summary['market'] = $this->get_market_symbol( $market_summary['MarketName'] );
-			$market_summary['high'] = $market_summary['High'];
-			$market_summary['low'] = $market_summary['Low'];
-			$market_summary['base_volume'] = $market_summary['Volume'];
-			$market_summary['quote_volume'] = $market_summary['BaseVolume'];
+			$market_summary['market'] = $market_summary['symbol'];
+			$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : null;
+			$market_summary['low'] = isset( $market_summary['low'] ) ? $market_summary['low'] : null;
+			$market_summary['base_volume'] = $market_summary['volume'];
+			$market_summary['quote_volume'] = $market_summary['quoteVolume'];
 			$market_summary['btc_volume'] = null;
-			$market_summary['last_price'] = $market_summary['Last'];
-			$market_summary['timestamp'] = $market_summary['TimeStamp'];
-			$market_summary['bid'] = is_null( $market_summary['Bid'] ) ? 0 : $market_summary['Bid'];
-			$market_summary['ask'] = is_null( $market_summary['Ask'] ) ? 0 : $market_summary['Ask'];
+			$market_summary['last_price'] = null;
+			$market_summary['timestamp'] = null;
+			$market_summary['bid'] = null;
+			$market_summary['ask'] = null;
 			$market_summary['display_name'] = $market_summary['market'];
 			$market_summary['result'] = true;
-			$market_summary['created'] = $market_summary['Created'];
-			$market_summary['open_buy_orders'] = $market_summary['OpenBuyOrders'];
-			$market_summary['open_sell_orders'] = $market_summary['OpenSellOrders'];
+			$market_summary['created'] = null;
+			$market_summary['open_buy_orders'] = null;
+			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
 			$market_summary['frozen'] = null;
 			$market_summary['verified_only'] = null;
 			$market_summary['expiration'] = null;
 			$market_summary['initial_margin'] = null;
 			$market_summary['maximum_order_size'] = null;
-			$market_summary['mid'] = ( $market_summary['bid'] + $market_summary['ask'] ) / 2;
+			$market_summary['mid'] = null;
 			$market_summary['minimum_margin'] = null;
 			$market_summary['minimum_order_size_quote'] = 0.00050000;
 			$market_summary['minimum_order_size_base'] = null;

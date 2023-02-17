@@ -17,6 +17,12 @@
 		$market_summary = $Adapter->get_market_summary( $market );
 		sleep(2);
 
+
+print_r( $market_summary );
+die( 'test' );
+
+
+
 		//_____get currencies/balances:
 		$market = $market_summary['market'];
 		$curs_bq = explode( "-", $market );
