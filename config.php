@@ -18,7 +18,7 @@
 	require_once( "bots/make_max_orders.php" );
 	require_once( "bots/make_min_orders.php" );
 	require_once( "bots/run_tests.php" );
-	require_once( "bots/poloniex_light_show.php" );
+	require_once( "bots/light_show.php" );
 
 	//_____Wrapper libraries for native API's:
 

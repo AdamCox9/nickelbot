@@ -198,8 +198,7 @@
 				foreach( $completed_orders['result'] as $completed_order ) {
 					$completed_order['exchange'] = "bittrex";
 					$completed_order['market'] = $market;
-
-				    $completed_order['price'] = null;
+					$completed_order['price'] = null;
 					$completed_order['amount'] = null;
 					$completed_order['timestamp'] = null;
 					$completed_order['type'] = null;
@@ -233,11 +232,37 @@
 			return $this->completed_orders;
 		}
 
+		/*	
+			//markets returns:
+			Array
+			(
+			    [symbol] => ZUSD-USDT
+			    [baseCurrencySymbol] => ZUSD
+			    [quoteCurrencySymbol] => USDT
+			    [minTradeSize] => 3.07913370
+			    [precision] => 4
+			    [status] => ONLINE
+			    [createdAt] => 2021-04-27T14:03:18.55Z
+			    [prohibitedIn] => Array
+				(
+				    [0] => US
+				)
+
+			    [associatedTermsOfService] => Array
+				(
+				)
+
+			    [tags] => Array
+				(
+				)
+			)        
+		*/
 		public function get_markets() {
 			$markets = $this->exch->get_markets();
+			
 			$response = [];
-			foreach( $markets['result'] as $market ) {
-				array_push( $response, $market['MarketName'] );
+			foreach( $markets as $market ) {
+				array_push( $response, $market['symbol'] );
 			}
 			return $response;
 		}
@@ -245,8 +270,8 @@
 		public function get_currencies() {
 			$currencies = $this->exch->getcurrencies();
 			$response = [];
-			foreach( $currencies['result'] as $currency ) {	
-				array_push( $response, $currency['Currency'] );
+			foreach( $currencies as $currency ) {	
+				array_push( $response, $currency['symbol'] );
 			}
 			return $response;
 		}
@@ -396,15 +421,14 @@ Array
 
 )*/		
 
-
-print_r( $market_summary );
+//print_r( $market_summary );
 
 			$market_summary['exchange'] = "bittrex";
 			$market_summary['market'] = $market_summary['symbol'];
 			$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : null;
 			$market_summary['low'] = isset( $market_summary['low'] ) ? $market_summary['low'] : null;
-			$market_summary['base_volume'] = $market_summary['volume'];
-			$market_summary['quote_volume'] = $market_summary['quoteVolume'];
+			$market_summary['base_volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : null;
+			$market_summary['quote_volume'] = isset( $market_summary['quoteVolume'] ) ? $market_summary['quoteVolume'] : null;
 			$market_summary['btc_volume'] = null;
 			$market_summary['last_price'] = null;
 			$market_summary['timestamp'] = null;

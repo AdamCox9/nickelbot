@@ -124,12 +124,13 @@
 			return $this->queryGET( "/markets/".$arr['market'] );
 		}
 
-
-
-
 		public function getcurrencies() {
-			return $this->query( "/public/getcurrencies" );
+			return $this->queryGET( "/currencies" );
 		}
+
+
+
+
 
 		public function getticker( $arr = array( "market" => "BTC-LTC" ) ) {
 			return $this->query( "/public/getticker", $arr );
