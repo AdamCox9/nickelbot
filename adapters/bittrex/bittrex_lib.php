@@ -13,71 +13,22 @@
 			$this->api_secret = $api_secret;
 		}
 
-		/*
 		
-			TODO: make a queryGET, queryPOST, queryDELETE, queryUPDATE function to make it more compatible with Bittrex v3 API:
-		
-		*/
+		//TODO: make a queryGET, queryPOST, queryDELETE, queryUPDATE function to make it more compatible with Bittrex v3 API:		
 		private function query( $path, array $req = array() ) 
 		{
 			die( "Error: no longer in use. Use queryGET, queryPOST, queryDELETE, queryUPDATE instead" );
-
-
-			/*echo "\n\n";
-			echo "$path";
-			echo "\n";
-			print_r( $req );
-			echo "\n\n";*/
-
-			usleep(100000);//rate limit
-
-			$key = $this->api_key;
-			$secret = $this->api_secret;
-
-			$req['apikey'] = $key;
-			$mt = explode( ' ', microtime() );
-			$req['nonce'] = $mt[1];
-
-			$queryString = http_build_query( $req, '', '&' );
-			$requestUrl = $this->trading_url . $path . '?' . $queryString;	
-			$sign = hash_hmac( 'sha512', $requestUrl, $secret );
-
-			static $ch = null;
-			
-			if( is_null( $ch ) ) {
-				$ch = curl_init();
-				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-				curl_setopt( $ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; Bittrex PHP bot; ' . php_uname('a') . '; PHP/' . phpversion() . ')' );
-			}
-			curl_setopt( $ch, CURLOPT_HTTPGET, true );
-			curl_setopt( $ch, CURLOPT_HTTPHEADER, array( 'apisign:' . $sign ) );
-			curl_setopt( $ch, CURLOPT_URL, $requestUrl );
-			curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, TRUE );
-			
-			// run the query
-			$res = curl_exec( $ch );
-			
-			if( $res === false )
-				throw new Exception( 'Could not get reply: ' . curl_error( $ch ) );
-			
-			$dec = json_decode( $res, true );
-			if ( ! $dec )
-				throw new Exception( 'Invalid data: ' . $res );
-			
-			return $dec;
-
-
 		}
 
-		private function queryGET( $path, array $req = array() ) 
+		private function queryGET( $path="/markets", array $req = array() ) 
 		{
 			$timestamp = time()*1000;
-			$url = "https://api.bittrex.com/v3";
+			$url = $this->trading_url.$path;
 			$method = "GET";
 			$content = "";
 			$subaccountId = "";
 			$contentHash = hash('sha512', $content);
-			$preSign = $timestamp . $url . $path . $method . $contentHash . $subaccountId;
+			$preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
 			$signature = hash_hmac('sha512', $preSign, $this->api_secret);
 
 			$headers = array(
@@ -89,7 +40,7 @@
 			"Api-Content-Hash: ".$contentHash.""
 			);
 
-			$ch = curl_init($url.$path);
+			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 			curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -110,8 +61,65 @@
 
 		}
 
-		//Public Functions
 
+
+		private function queryPOST( $path="/orders", array $req = array() )
+		{
+			$timestamp = time()*1000;
+			$url = $this->trading_url.$path;
+			$method = "POST";
+			$direction = $req['direction'];
+			$market = $req['market'];
+			$quantity = $req['quantity'];
+			$limit = $req['rate'];
+
+			$content = '{
+				"marketSymbol": "'.$market.'",
+				"direction": "'.$direction.'",
+				"type": "LIMIT",
+				"quantity": "'.$quantity.'",
+				"limit": "'.$limit.'",
+				"timeInForce": "GOOD_TIL_CANCELLED"
+			}';
+
+			$subaccountId = "";
+			$contentHash = hash('sha512', $content);
+			$preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+			$signature = hash_hmac('sha512', $preSign, $this->api_secret);
+
+			$headers = array(
+				"Accept: application/json",
+				"Content-Type: application/json",
+				"Api-Key: ".$this->api_key."",
+				"Api-Signature: ".$signature."",
+				"Api-Timestamp: ".$timestamp."",
+				"Api-Content-Hash: ".$contentHash.""
+			);
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_HEADER, FALSE);
+			curl_setopt($ch, CURLOPT_POST, TRUE);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+
+			// run the query
+			$res = curl_exec( $ch );
+			
+			if( $res === false )
+				throw new Exception( 'Could not get reply: ' . curl_error( $ch ) );
+			
+			$dec = json_decode( $res, true );
+			if ( ! $dec )
+				throw new Exception( 'Invalid data: ' . $res );
+
+			curl_close($ch);
+			
+			return $dec;
+		}
+
+
+		//New Functions
 		public function get_markets() {
 			return $this->queryGET( "/markets" );
 		}
@@ -124,17 +132,31 @@
 			return $this->queryGET( "/markets/".$arr['market'] );
 		}
 
-		public function getcurrencies() {
+		public function get_currencies() {
 			return $this->queryGET( "/currencies" );
 		}
 
-
-
-
-
-		public function getticker( $arr = array( "market" => "BTC-LTC" ) ) {
-			return $this->query( "/public/getticker", $arr );
+		public function get_ticker( $arr = array( "market" => "BTC-LTC" ) ) {
+			return $this->queryGET( "/markets/".$arr['market']."/ticker" );
 		}
+
+		public function get_balance( $arr = array( 'currency' => 'BTC' ) ) {
+			return $this->queryGET( "/balances/" . $arr['currency'] );
+		}
+
+		public function post_buy( $arr = array() ) {
+			$arr['direction'] = "buy";
+			return $this->queryPOST( "/orders", $arr );
+		}
+
+		public function post_sell( $arr = array() ) {
+			$arr['direction'] = "sell";
+			return $this->queryPOST( "/orders", $arr );
+		}
+
+
+		//Old Functions (broken)
+
 
 		public function getorderbook( $arr = array() ) {
 			return $this->query( "/public/getorderbook", $arr );
@@ -144,18 +166,9 @@
 			return $this->query( "/public/getmarkethistory", $arr );
 		}
 
-		//Private Functions
-
-		public function market_buylimit( $arr = array() ) {
-			return $this->query( "/market/buylimit", $arr );
-		}
 
 		public function market_buymarket( $arr = array() ) {
 			return $this->query( "/market/buymarket", $arr );
-		}
-
-		public function market_selllimit( $arr = array() ) {
-			return $this->query( "/market/selllimit", $arr );
 		}
 
 		public function market_sellmarket( $arr = array() ) {
@@ -172,10 +185,6 @@
 
 		public function account_getbalances() {
 			return $this->queryGET( "/balances" );
-		}
-
-		public function account_getbalance( $arr = array( 'currency' => 'BTC' ) ) {
-			return $this->queryGET( "/balances/" . $arr['currency'] );
 		}
 
 		public function account_getdepositaddress( $arr = array() ) {

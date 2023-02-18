@@ -129,18 +129,13 @@
 		}
 
 		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$buy = $this->exch->market_buylimit( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
-			if( $buy['success'] == 1 )
-				unset( $buy['message'] );
+			$buy = $this->exch->post_buy( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			return $buy;
 		}
 		
-		public function sell( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$sell = $this->exch->market_selllimit( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
-			if( $sell['success'] == 1 )
-				unset( $sell['message'] );
+		public function sell( $pair="LTC-BTC", $amount=0, $price=10000, $type="LIMIT", $opts=array() ) {
+			$sell = $this->exch->post_sell( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			return $sell;
-
 		}
 
 		public function get_open_orders() {
@@ -268,7 +263,7 @@
 		}
 
 		public function get_currencies() {
-			$currencies = $this->exch->getcurrencies();
+			$currencies = $this->exch->get_currencies();
 			$response = [];
 			foreach( $currencies as $currency ) {	
 				array_push( $response, $currency['symbol'] );
@@ -320,7 +315,7 @@
 		}
 
 		public function get_balances() {
-			$balances = $this->exch->account_getbalances();
+			$balances = $this->exch->get_balances();
 			if( $balances['success'] == 1 )
 				$balances = $balances['result'];
 			else
@@ -350,23 +345,24 @@
 		}
 
 		public function get_balance( $currency="BTC" ) {
-			$balances = $this->get_balances();
-			foreach( $balances as $balance )
-				if( $balance['currency'] == $currency )
-					return $balance;
+			$balance = $this->exch->get_balance( array('currency' => $currency ) );
+			return $balance;
+
 		}
 
 		public function get_market_summary( $market="LTC-BTC" ) {
 			$market_summary = $this->exch->get_markets_summary( array('market' => $market ) );
+			$ticker = $this->exch->get_ticker( array('market' => $market ) );
 			
-			return $this->standardize_market_summary( $market_summary );
+			return $this->standardize_market_summary( array_merge( $market_summary, $ticker ) );
 		}
 
 		public function get_market_summaries() {
 			if( isset( $this->market_summaries ) ) //cache
 				return $this->market_summaries;
 			
-			$market_summaries = $this->exch->get_markets_summaries();
+			//$market_summaries = $this->exch->get_markets_summaries();
+			$market_summaries = $this->exch->get_markets();
 			
 			$this->market_summaries = [];
 			foreach( $market_summaries as $market_summary ) {
@@ -415,7 +411,16 @@ Array
     [tags] => Array
         (
         )
+)
 
+/markets/{market}/ticker
+Array
+(
+    [symbol] => PIVX-BTC
+    [lastTradeRate] => 0.000016350000
+    [bidRate] => 0.000016820000
+    [askRate] => 0.000016990000
+    [updatedAt] => 2023-02-18T00:55:17.888038Z
 )
 
 
@@ -432,8 +437,8 @@ Array
 			$market_summary['btc_volume'] = null;
 			$market_summary['last_price'] = null;
 			$market_summary['timestamp'] = null;
-			$market_summary['bid'] = null;
-			$market_summary['ask'] = null;
+			$market_summary['bid'] = isset( $market_summary['bidRate'] ) ? $market_summary['bidRate'] : null;
+			$market_summary['ask'] = isset( $market_summary['askRate'] ) ? $market_summary['askRate'] : null;
 			$market_summary['display_name'] = $market_summary['market'];
 			$market_summary['result'] = true;
 			$market_summary['created'] = null;
@@ -447,25 +452,14 @@ Array
 			$market_summary['maximum_order_size'] = null;
 			$market_summary['mid'] = null;
 			$market_summary['minimum_margin'] = null;
-			$market_summary['minimum_order_size_quote'] = 0.00050000;
-			$market_summary['minimum_order_size_base'] = null;
+			$market_summary['minimum_order_size_quote'] = null;
+			$market_summary['minimum_order_size_base'] = isset( $market_summary['minTradeSize'] ) ? $market_summary['minTradeSize'] : null;
 			$market_summary['price_precision'] = 8;
 			$market_summary['vwap'] = null;
 			$market_summary['market_id'] = null;
 
-			unset( $market_summary['OpenBuyOrders'] );
-			unset( $market_summary['OpenSellOrders'] );
-			unset( $market_summary['MarketName'] );
-			unset( $market_summary['High'] );
-			unset( $market_summary['Low'] );
-			unset( $market_summary['Volume'] );
-			unset( $market_summary['Last'] );
-			unset( $market_summary['BaseVolume'] );
-			unset( $market_summary['TimeStamp'] );
-			unset( $market_summary['Bid'] );
-			unset( $market_summary['Ask'] );
-			unset( $market_summary['Created'] );
-			unset( $market_summary['PrevDay'] );
+			unset( $market_summary['bidRate'] );
+			unset( $market_summary['askRate'] );
 
 			return $market_summary;
 		}
