@@ -34,6 +34,11 @@
 		print_r( $market_summary );
 		die( 'test' );
 
+		//Testing...
+		$balances = $Adapter->get_balances( );
+		print_r( $balances );
+		die( 'test' );
+
 		*/
 
 		//_____get currencies/balances:

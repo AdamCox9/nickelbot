@@ -161,7 +161,7 @@
 		}
 
 
-		//New Functions
+		//_____ GET Functions:
 		public function get_markets() {
 			return $this->queryGET( "/markets" );
 		}
@@ -186,14 +186,8 @@
 			return $this->queryGET( "/balances/" . $arr['currency'] );
 		}
 
-		public function post_buy( $arr = array() ) {
-			$arr['direction'] = "buy";
-			return $this->queryPOST( "/orders", $arr );
-		}
-
-		public function post_sell( $arr = array() ) {
-			$arr['direction'] = "sell";
-			return $this->queryPOST( "/orders", $arr );
+		public function get_balances() {
+			return $this->queryGET( "/balances" );
 		}
 
 		public function get_openorders( $arr = array() ) {
@@ -204,10 +198,26 @@
 			return $this->queryGET( "/addresses" );
 		}
 
-		public function account_getbalances() {
-			return $this->queryGET( "/balances" );
+		public function get_withdrawals() {
+			return $this->queryGET( "/withdrawals" );
 		}
 
+		public function get_deposits() {
+			return $this->queryGET( "/deposits" );
+		}
+
+		//_____ POST Functions:
+		public function post_buy( $arr = array() ) {
+			$arr['direction'] = "buy";
+			return $this->queryPOST( "/orders", $arr );
+		}
+
+		public function post_sell( $arr = array() ) {
+			$arr['direction'] = "sell";
+			return $this->queryPOST( "/orders", $arr );
+		}
+
+		//_____ DELETE Functions:
 		public function market_cancel( $arr = array("uuid" => '123' ) ) {
 			return $this->queryDELETE("/orders", $arr);
 		}

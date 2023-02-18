@@ -34,17 +34,17 @@
 			$results = [];
 
 			//_____Withdrawals:
-			$transactions = $this->exch->account_getwithdrawalhistory( array() );
+			$transactions = $this->exch->get_withdrawals( array() );
 
-			foreach( $transactions['result'] as $transaction ) {
+			foreach( $transactions as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
 				$transaction['type'] = 'WITHDRAWAL';
 				array_push( $results, $transaction );
 			}
 
 			//_____Deposits:
-			$transactions = $this->exch->account_getdeposithistory( array() );
-			foreach( $transactions['result'] as $transaction ) {
+			$transactions = $this->exch->get_deposits( array() );
+			foreach( $transactions as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
 				$transaction['type'] = 'DEPOSIT';
 				array_push( $results, $transaction );
@@ -322,26 +322,17 @@ Array
 
 		public function get_balances() {
 			$balances = $this->exch->get_balances();
-			if( $balances['success'] == 1 )
-				$balances = $balances['result'];
-			else
-				return [];
 
 			$response = [];
 			foreach( $balances as $balance ) {
 				$balance['type'] = "exchange";
-				$balance['currency'] = $balance['Currency'];
-				$balance['total'] = $balance['Balance'];
-				$balance['available'] = $balance['Available'];
-				$balance['pending'] = $balance['Pending'];
+				$balance['currency'] = $balance['currencySymbol'];
+				$balance['pending'] = null;
 				$balance['reserved'] = $balance['total'] - $balance['available'];
-				$balance['btc_value'] = 0;
+				$balance['btc_value'] = null;
 
-				unset( $balance['Currency'] );
-				unset( $balance['Balance'] );
-				unset( $balance['Available'] );
-				unset( $balance['Pending'] );
-				unset( $balance['CryptoAddress'] );
+				unset( $balance['currencySymbol'] );
+				unset( $balance['updatedAt'] );
 
 				$response[$balance['currency']] = $balance;
 			}
