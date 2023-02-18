@@ -13,13 +13,6 @@
 			$this->api_secret = $api_secret;
 		}
 
-		
-		//TODO: make a queryGET, queryPOST, queryDELETE, queryUPDATE function to make it more compatible with Bittrex v3 API:		
-		private function query( $path, array $req = array() ) 
-		{
-			die( "Error: no longer in use. Use queryGET, queryPOST, queryDELETE, queryUPDATE instead" );
-		}
-
 		private function queryGET( $path="/markets", array $req = array() ) 
 		{
 			$timestamp = time()*1000;
@@ -199,11 +192,11 @@
 		}
 
 		public function get_withdrawals() {
-			return $this->queryGET( "/withdrawals" );
+			return $this->queryGET( "/withdrawals/closed" );
 		}
 
 		public function get_deposits() {
-			return $this->queryGET( "/deposits" );
+			return $this->queryGET( "/deposits/closed" );
 		}
 
 		//_____ POST Functions:
@@ -218,7 +211,7 @@
 		}
 
 		//_____ DELETE Functions:
-		public function market_cancel( $arr = array("uuid" => '123' ) ) {
+		public function order_cancel( $arr = array("uuid" => '123' ) ) {
 			return $this->queryDELETE("/orders", $arr);
 		}
 

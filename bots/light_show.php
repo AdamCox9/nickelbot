@@ -39,7 +39,13 @@
 		print_r( $balances );
 		die( 'test' );
 
+		//Testing...
+		$deposits_withdrawals = $Adapter->get_deposits_withdrawals( );
+		print_r( $deposits_withdrawals );
+		die( 'test' );
+
 		*/
+
 
 		//_____get currencies/balances:
 		$market_summary = $Adapter->get_market_summary( $market );

@@ -26,10 +26,12 @@
 			return [];
 		}
 
+		//TESTED v3: works
 		public function cancel($orderid="1", $opts = array() ) {
-			return $this->exch->market_cancel( array("id" => $orderid ) );
+			return $this->exch->order_cancel( array("id" => $orderid ) );
 		}
 
+		//Works for now, but need to align the parameters up a bit better...
 		public function get_deposits_withdrawals() {
 			$results = [];
 
@@ -102,18 +104,21 @@
 			return $return;
 		}
 
+		//TODO: test and align parameters
 		public function get_deposits() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$transactions = $this->exch->get_deposits( array() );
 		}
 
 		public function get_deposit( $deposit_id="1", $opts = array() ) {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
+		//TODO: test and align parameters
 		public function get_withdrawals() {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+			$transactions = $this->exch->get_withdrawals( array() );
 		}
 
+		//NEEDS TO BE UPDATED to API v3
 		public function cancel_all() {
 			$result = $this->get_open_orders();
 			$response = array();
@@ -128,35 +133,19 @@
 				return array( 'success' => false, 'error' => true, 'message' => $result );
 		}
 
+		//TESTED v3: works
 		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
 			$buy = $this->exch->post_buy( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			return $buy;
 		}
 		
+		//TESTED v3: works
 		public function sell( $pair="LTC-BTC", $amount=0, $price=10000, $type="LIMIT", $opts=array() ) {
 			$sell = $this->exch->post_sell( array( 'market' => $pair, 'quantity' => $amount, 'rate' => $price ) );
 			return $sell;
 		}
 
-/*
-/orders/open looks like:
-    [1] => Array
-        (
-            [id] => 3443f225-67b6-4646-b393-4e10bf8ee612
-            [marketSymbol] => PIVX-BTC
-            [direction] => SELL
-            [type] => LIMIT
-            [quantity] => 100.00000000
-            [limit] => 0.000020000000
-            [timeInForce] => GOOD_TIL_CANCELLED
-            [fillQuantity] => 0.00000000
-            [commission] => 0.00000000
-            [proceeds] => 0.00000000
-            [status] => OPEN
-            [createdAt] => 2023-02-18T18:54:00.71Z
-            [updatedAt] => 2023-02-18T18:54:00.71Z
-        )
-*/
+		//TESTED v3: works
 		public function get_open_orders() {
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
@@ -183,6 +172,7 @@
 			return $this->open_orders;
 		}
 
+		//NEED TO UPDATE FOR API v3
 		public function get_completed_orders( $market="BTC-USD", $limit = 100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
@@ -226,31 +216,7 @@
 			return $this->completed_orders;
 		}
 
-		/*	
-			//markets returns:
-			Array
-			(
-			    [symbol] => ZUSD-USDT
-			    [baseCurrencySymbol] => ZUSD
-			    [quoteCurrencySymbol] => USDT
-			    [minTradeSize] => 3.07913370
-			    [precision] => 4
-			    [status] => ONLINE
-			    [createdAt] => 2021-04-27T14:03:18.55Z
-			    [prohibitedIn] => Array
-				(
-				    [0] => US
-				)
-
-			    [associatedTermsOfService] => Array
-				(
-				)
-
-			    [tags] => Array
-				(
-				)
-			)        
-		*/
+		//TESTED v3: works
 		public function get_markets() {
 			$markets = $this->exch->get_markets();
 			
@@ -261,6 +227,7 @@
 			return $response;
 		}
 
+		//TESTED v3: works
 		public function get_currencies() {
 			$currencies = $this->exch->get_currencies();
 			$response = [];
@@ -270,6 +237,7 @@
 			return $response;
 		}
 
+		//NEED TO UPDATE to API v3
 		public function deposit_address( $currency = "BTC" ){
 			if( ! isset( $this->cnt ) )
 				$this->cnt = 0;
@@ -293,18 +261,8 @@
 			}
 			return false;
 		}
-		
-		
-		/*
-Array
-(
-    [status] => PROVISIONED
-    [currencySymbol] => BITS
-    [cryptoAddress] => ARDOR-S42Z-ERET-QLMX-4JR77
-    [cryptoAddressTag] => fc0eec6736094c10876f87c1c5ce0713b6d3be46519d454d9003e006e69235d1
-)
-*/		
-		
+				
+		//TESTED v3: works
 		public function deposit_addresses(){
 			$addresses = $this->exch->get_addresses();
 			$response = [];
@@ -320,6 +278,7 @@ Array
 			return $response;
 		}
 
+		//TESTED v3: works
 		public function get_balances() {
 			$balances = $this->exch->get_balances();
 
@@ -341,12 +300,14 @@ Array
 			return $this->balances;
 		}
 
+		//TESTED v3: works
 		public function get_balance( $currency="BTC" ) {
 			$balance = $this->exch->get_balance( array('currency' => $currency ) );
 			return $balance;
 
 		}
 
+		//Works for now: can get more data from get_markets???
 		public function get_market_summary( $market="LTC-BTC" ) {
 			$market_summary = $this->exch->get_markets_summary( array('market' => $market ) );
 			$ticker = $this->exch->get_ticker( array('market' => $market ) );
@@ -354,10 +315,12 @@ Array
 			return $this->standardize_market_summary( array_merge( $market_summary, $ticker ) );
 		}
 
+		//Works for now: look at how get_market_summary gets data...
 		public function get_market_summaries() {
 			if( isset( $this->market_summaries ) ) //cache
 				return $this->market_summaries;
-			
+
+			//get_markets has more data than get_markets_summaries???			
 			//$market_summaries = $this->exch->get_markets_summaries();
 			$market_summaries = $this->exch->get_markets();
 			
@@ -368,63 +331,8 @@ Array
 			return $this->market_summaries;
 		}
 
-
+		//Still missing some data but good enough for now:
 		private function standardize_market_summary( $market_summary ) {
-		
-/*
-
-
-Would need to query Specific Market, Ticker, etc... for each market for this data:
-
-/markets is an array of all markets like:
-Array
-(
-    [symbol] => 1ECO-BTC
-    [high] => 0.000026220000
-    [low] => 0.000022220000
-    [volume] => 256.66200000
-    [quoteVolume] => 0.00648639
-    [percentChange] => -0.08
-    [updatedAt] => 2023-02-16T23:20:47.96Z
-
-/markets/summary looks like:
-Array
-(
-    [symbol] => PIVX-BTC
-    [baseCurrencySymbol] => PIVX
-    [quoteCurrencySymbol] => BTC
-    [minTradeSize] => 9.12762204
-    [precision] => 8
-    [status] => ONLINE
-    [createdAt] => 2016-03-02T20:45:37.987Z
-    [prohibitedIn] => Array
-        (
-        )
-
-    [associatedTermsOfService] => Array
-        (
-        )
-
-    [tags] => Array
-        (
-        )
-)
-
-/markets/{market}/ticker
-Array
-(
-    [symbol] => PIVX-BTC
-    [lastTradeRate] => 0.000016350000
-    [bidRate] => 0.000016820000
-    [askRate] => 0.000016990000
-    [updatedAt] => 2023-02-18T00:55:17.888038Z
-)
-
-
-)*/		
-
-//print_r( $market_summary );
-
 			$market_summary['exchange'] = "bittrex";
 			$market_summary['market'] = $market_summary['symbol'];
 			$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : null;
@@ -461,6 +369,7 @@ Array
 			return $market_summary;
 		}
 
+		//Needs to be updated for API V3:
 		public function get_trades( $market = 'BTC-USD', $opts = array( 'limit' => 10 ) ) {
 			$trades = $this->exch->getmarkethistory( array( 'market' => $market, 'count' => $opts['limit'] ) );
 
@@ -472,6 +381,7 @@ Array
 			return $results;
 		}
 
+		//Needs to be updated for API V3:
 		public function get_orderbook( $market = "BTC-USD", $depth = 10 ) {
 			$orderbooks = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
 			$orderbooks = $orderbooks['result'];
