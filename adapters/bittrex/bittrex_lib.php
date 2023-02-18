@@ -153,6 +153,10 @@
 			$arr['direction'] = "sell";
 			return $this->queryPOST( "/orders", $arr );
 		}
+		public function get_addresses() {
+			return $this->queryGET( "/addresses" );
+		}
+
 
 
 		//Old Functions (broken)
@@ -185,10 +189,6 @@
 
 		public function account_getbalances() {
 			return $this->queryGET( "/balances" );
-		}
-
-		public function account_getdepositaddress( $arr = array() ) {
-			return $this->query( "/account/getdepositaddress", $arr );
 		}
 
 		public function account_withdraw( $arr = array() ) {

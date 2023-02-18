@@ -295,23 +295,30 @@
 			return false;
 		}
 		
+		
+		/*
+Array
+(
+    [status] => PROVISIONED
+    [currencySymbol] => BITS
+    [cryptoAddress] => ARDOR-S42Z-ERET-QLMX-4JR77
+    [cryptoAddressTag] => fc0eec6736094c10876f87c1c5ce0713b6d3be46519d454d9003e006e69235d1
+)
+*/		
+		
 		public function deposit_addresses(){
-			$currencies = $this->get_currencies();
-			$addresses = [];
-			foreach( $currencies as $currency ) {
-				$address = $this->deposit_address( $currency );
-				if( $address ) {
-					$address['wallet_type'] = "exchange";
-					$address['currency'] = $address['Currency'];
-					$address['address'] = $address['Address'];
-
-					unset( $address['Currency'] );
-					unset( $address['Address'] );
-
-					array_push( $addresses, $address );
-				}
+			$addresses = $this->exch->get_addresses();
+			$response = [];
+			foreach ( $addresses as $address ) {
+				$address['currency'] = $address['currencySymbol'];
+				$address['address'] = $address['cryptoAddress'];
+				$address['wallet_type'] = "exchange";
+				$address['cryptoAddressTag'] = isset( $address['cryptoAddressTag'] ) ? $address['cryptoAddressTag'] : null;
+				unset( $address['currencySymbol'] );
+				unset( $address['cryptoAddress'] );
+				array_push( $response, $address );
 			}
-			return $addresses;
+			return $response;
 		}
 
 		public function get_balances() {

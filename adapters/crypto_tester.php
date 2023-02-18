@@ -129,7 +129,7 @@
 		}
 
 		private function test_deposit_address( $address ) {
-			$keys = array( 'currency', 'address', 'wallet_type' );
+			$keys = array( 'currency', 'address', 'wallet_type', 'status', 'cryptoAddressTag' );
 			$this->equal_keys( $keys, $address );
 		}
 
