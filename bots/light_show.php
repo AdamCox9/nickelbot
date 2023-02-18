@@ -12,28 +12,32 @@
 	function light_show( $Adapter, $market ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
 
-/*$currencies = $Adapter->get_currencies();
-print_r( $currencies );
-die( 'test' );
+		/*
 
-$markets = $Adapter->get_markets();
-print_r( $markets );
-die( 'test' );
+		//Testing...
+		$currencies = $Adapter->get_currencies();
+		print_r( $currencies );
+		die( 'test' );
 
-$market_summaries = $Adapter->get_market_summaries();
-print_r( $market_summaries[0] );
-die( 'test' );
+		//Testing...
+		$markets = $Adapter->get_markets();
+		print_r( $markets );
+		die( 'test' );
 
-$market_summary = $Adapter->get_market_summary( $market );
-print_r( $market_summary );
-die( 'test' );
-*/
+		//Testing...
+		$market_summaries = $Adapter->get_market_summaries();
+		print_r( $market_summaries[0] );
+		die( 'test' );
 
-
+		//Testing...
 		$market_summary = $Adapter->get_market_summary( $market );
+		print_r( $market_summary );
+		die( 'test' );
 
+		*/
 
 		//_____get currencies/balances:
+		$market_summary = $Adapter->get_market_summary( $market );
 		$market = $market_summary['market'];
 		$curs_bq = explode( "-", $market );
 		$base_cur = $curs_bq[0];
@@ -50,11 +54,11 @@ die( 'test' );
 		echo " -> quote currency balance ($quote_bal) \n";
 
 		//_____calculate some variables that are rather trivial:
-		$precision = $market_summary['price_precision'];							//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
-		$epsilon = 1 / pow( 10, $precision );										//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-		$buy_price = $market_summary['bid'];										//_____buy at same price as highest bid.
-		$sell_price = $market_summary['ask'];										//_____sell at same price as lowest ask.
-		$spread = number_format( $sell_price - $buy_price, $precision, '.', '' );	//_____difference between highest bid and lowest ask.
+		$precision = $market_summary['price_precision'];					//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
+		$epsilon = 1 / pow( 10, $precision );							//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
+		$buy_price = $market_summary['bid']*0.95;						//_____buy at same price as highest bid.
+		$sell_price = $market_summary['ask']*1.05;						//_____sell at same price as lowest ask.
+		$spread = number_format( $sell_price - $buy_price, $precision, '.', '' );		//_____difference between highest bid and lowest ask.
 
 		echo " -> precision $precision \n";
 		echo " -> epsilon $epsilon \n";
@@ -76,30 +80,23 @@ die( 'test' );
 		echo " -> final formatted buy size: $buy_size \n";
 		echo " -> final formatted sell size: $sell_size \n";
 
-
-		//$sell = $Adapter->sell( "PIVX-BTC", "100", "0.00002", 'limit', array() );
-		//print_r( $sell );
-
-		$buy = $Adapter->buy( "PIVX-BTC", "100", "0.000002", 'limit', array() );
-		print_r( $buy );
-
-die( 'test' );
-
-//TODO get the buy and sell functions to work:
-
 		if( $spread > 0.00000010 ) {
 
 			//_____Buy & Sell epsilion into the spread:
 			if( ! isset( $buy['error'] ) ) {
 				echo " -> buying $buy_size of $base_cur for $buy_price $quote_cur costing " . $buy_size * $buy_price . " \n";
+
 				$buy = $Adapter->buy( $market, $buy_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+				
 				sleep( 3 );
 				echo "buy:\n";
 				print_r( $buy );
 			}
 			if( ! isset( $sell['error'] ) ) {
 				echo " -> selling $sell_size of $base_cur for $sell_price earning " . $sell_size * $sell_price . " \n";
+				
 				$sell = $Adapter->sell( $market, $sell_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+				
 				sleep( 3 );
 				echo "\nsell:\n";
 				print_r( $sell );
@@ -128,6 +125,7 @@ die( 'test' );
 			}
 		}
 
+/*
 		//_____Ran out of funds to buy or sell
 		//_____TODO only cancel buy/sell orders if run out of base/quote currency, respectively...
 		//if( isset( $buy['error'] ) && isset( $sell['error'] ) ) {
@@ -143,7 +141,7 @@ die( 'test' );
 			}
 			return;
 		//}
-
+*/
 
 		echo "\n";
 

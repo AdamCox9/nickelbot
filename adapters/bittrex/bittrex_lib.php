@@ -61,7 +61,49 @@
 
 		}
 
+		private function queryDELETE( $path="/orders", array $req = array( 'id' => 'ERE-3FE-3ff' ) ) 
+		{
+			$timestamp = time()*1000;
+			$url = $this->trading_url.$path."/".$req['id'];
+			
+			$method = "DELETE";
+			$content = "";
+			$subaccountId = "";
+			$contentHash = hash('sha512', $content);
+			$preSign = $timestamp . $url . $method . $contentHash . $subaccountId;
+			$signature = hash_hmac('sha512', $preSign, $this->api_secret);
 
+			$headers = array(
+				"Accept: application/json",
+				"Content-Type: application/json",
+				"Api-Key: ".$this->api_key."",
+				"Api-Signature: ".$signature."",
+				"Api-Timestamp: ".$timestamp."",
+				"Api-Content-Hash: ".$contentHash.""
+			);
+
+			$ch = curl_init($url);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($ch, CURLOPT_HEADER, FALSE);
+			curl_setopt($ch, CURLOPT_POST, FALSE);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+    
+			// run the query
+			$res = curl_exec( $ch );
+			
+			if( $res === false )
+				throw new Exception( 'Could not get reply: ' . curl_error( $ch ) );
+			
+			$dec = json_decode( $res, true );
+			if ( ! $dec )
+				throw new Exception( 'Invalid data: ' . $res );
+
+			curl_close($ch);
+			
+			return $dec;
+
+		}
 
 		private function queryPOST( $path="/orders", array $req = array() )
 		{
@@ -153,63 +195,24 @@
 			$arr['direction'] = "sell";
 			return $this->queryPOST( "/orders", $arr );
 		}
+
+		public function get_openorders( $arr = array() ) {
+			return $this->queryGET( "/orders/open", $arr );
+		}
+
 		public function get_addresses() {
 			return $this->queryGET( "/addresses" );
-		}
-
-
-
-		//Old Functions (broken)
-
-
-		public function getorderbook( $arr = array() ) {
-			return $this->query( "/public/getorderbook", $arr );
-		}
-
-		public function getmarkethistory( $arr = array() ) {
-			return $this->query( "/public/getmarkethistory", $arr );
-		}
-
-
-		public function market_buymarket( $arr = array() ) {
-			return $this->query( "/market/buymarket", $arr );
-		}
-
-		public function market_sellmarket( $arr = array() ) {
-			return $this->query( "/market/sellmarket", $arr );
-		}
-
-		public function market_cancel( $arr = array("uuid" => '123' ) ) {
-			return $this->query("/market/cancel", $arr);
-		}
-
-		public function market_getopenorders( $arr = array() ) {
-			return $this->query( "/market/getopenorders", $arr );
 		}
 
 		public function account_getbalances() {
 			return $this->queryGET( "/balances" );
 		}
 
-		public function account_withdraw( $arr = array() ) {
-			return $this->query( "/account/withdraw", $arr );
+		public function market_cancel( $arr = array("uuid" => '123' ) ) {
+			return $this->queryDELETE("/orders", $arr);
 		}
 
-		public function account_getorder( $arr = array( 'uuid' => '123' ) ) {
-			return $this->query( "/account/getorder", $arr );
-		}
 
-		public function account_getorderhistory( $arr = array() ) {
-			return $this->query( "/account/getorderhistory", $arr );
-		}
-
-		public function account_getwithdrawalhistory( $arr = array( 'market' => 'BTC-LTC', 'count' => 10 ) ) {
-			return $this->query( "/account/getwithdrawalhistory", $arr );
-		}
-
-		public function account_getdeposithistory( $arr = array( 'market' => 'BTC-LTC', 'count' => 10 ) ) {
-			return $this->query( "/account/getdeposithistory", $arr );
-		}
 
 	}
 

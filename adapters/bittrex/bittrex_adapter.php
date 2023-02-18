@@ -27,7 +27,7 @@
 		}
 
 		public function cancel($orderid="1", $opts = array() ) {
-			return $this->exch->market_cancel( array("uuid" => $orderid ) );
+			return $this->exch->market_cancel( array("id" => $orderid ) );
 		}
 
 		public function get_deposits_withdrawals() {
@@ -138,20 +138,37 @@
 			return $sell;
 		}
 
+/*
+/orders/open looks like:
+    [1] => Array
+        (
+            [id] => 3443f225-67b6-4646-b393-4e10bf8ee612
+            [marketSymbol] => PIVX-BTC
+            [direction] => SELL
+            [type] => LIMIT
+            [quantity] => 100.00000000
+            [limit] => 0.000020000000
+            [timeInForce] => GOOD_TIL_CANCELLED
+            [fillQuantity] => 0.00000000
+            [commission] => 0.00000000
+            [proceeds] => 0.00000000
+            [status] => OPEN
+            [createdAt] => 2023-02-18T18:54:00.71Z
+            [updatedAt] => 2023-02-18T18:54:00.71Z
+        )
+*/
 		public function get_open_orders() {
 			if( isset( $this->open_orders ) )
 				return $this->open_orders;
-			$open_orders = $this->exch->market_getopenorders();
+			$open_orders = $this->exch->get_openorders();
 			$this->open_orders = [];
-			foreach( $open_orders['result'] as $open_order ) {
-				$open_order['id'] = $open_order['OrderUuid'];
-				$open_order['market'] = $open_order['Exchange'];
+			
+			foreach( $open_orders as $open_order ) {
+				$open_order['market'] = $open_order['marketSymbol'];
 				$open_order['exchange'] = "bittrex";
-				$open_order['price'] = $open_order['Limit'];
-				$open_order['timestamp_created'] = $open_order['Opened'];
-				$open_order['avg_execution_price'] = $open_order['Price'];
-				$open_order['side'] = $open_order['OrderType'];
-				$open_order['type'] = $open_order['OrderType'];
+				$open_order['price'] = $open_order['limit'];
+				$open_order['timestamp_created'] = $open_order['createdAt'];
+				$open_order['side'] = $open_order['direction'];
 				$open_order['is_live'] = true;
 				$open_order['is_cancelled'] = false;
 				$open_order['is_hidden'] = false;
@@ -159,25 +176,7 @@
 				$open_order['original_amount'] = null;
 				$open_order['remaining_amount'] = null;
 				$open_order['executed_amount'] = null;
-				$open_order['amount'] = $open_order['Quantity'];
-
-				unset( $open_order['Uuid'] );
-				unset( $open_order['OrderUuid'] );
-				unset( $open_order['Exchange'] );
-				unset( $open_order['OrderType'] );
-				unset( $open_order['Quantity'] );
-				unset( $open_order['QuantityRemaining'] );
-				unset( $open_order['Limit'] );
-				unset( $open_order['CommissionPaid'] );
-				unset( $open_order['Price'] );
-				unset( $open_order['PricePerUnit'] );
-				unset( $open_order['Opened'] );
-				unset( $open_order['Closed'] );
-				unset( $open_order['CancelInitiated'] );
-				unset( $open_order['ImmediateOrCancel'] );
-				unset( $open_order['IsConditional'] );
-				unset( $open_order['Condition'] );
-				unset( $open_order['ConditionTarget'] );
+				$open_order['amount'] = $open_order['quantity'];
 
 				array_push( $this->open_orders, $open_order );
 			}
