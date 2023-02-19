@@ -4,7 +4,7 @@
 
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make minimum buy and sell orders on the margins.
+		This is a simple example of a bot that will make minimum buy and sell orders on the spread.
 		It will set buy & sell orders for every trading pair available for each adapter where balances permit.
 
 		TODO
@@ -21,12 +21,21 @@
 			$market_summaries = $Adapter->get_market_summaries();
 			sleep(3);
 
-			$num_markets = sizeof( $market_summaries );
+			echo " -> got " . count( $market_summaries ) . " markets \n";
+
+			//______show random market for view:
+			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances();
 			sleep(3);
 
-			shuffle( $market_summaries ); // non-alphabetical!
+			//TODO merge $balances with $market_summaries so easier to work with...
+			print_r( $balances );
+			die( 'test' );
+
+			//TODO sort by spread, 24 price change, volume, etc... so then can put the orders on top 10 price change and top 10 highest volume, etc...
+			shuffle( $market_summaries ); // non-alphabetical! ;)
 
 			foreach( $market_summaries as $market_summary ) {
 				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
@@ -42,10 +51,10 @@
 				$bid = $market_summary['bid'];
 				$min_order_base = $market_summary['minimum_order_size_base'];
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
-				$precision = $market_summary['price_precision'];	//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
-				$epsilon = 1 / pow( 10, $precision );				//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
+				$precision = $market_summary['price_precision'];			//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
+				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
 				$buy_price = bcmul( $bid, 0.5, 8);					//$market_summary['bid'] + $epsilon;	//_____buy at one unit above highest bid.
-				$sell_price = bcmul( $ask, 3, 8);				//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
+				$sell_price = bcmul( $ask, 3, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
 
 				echo " -> " . get_class( $Adapter ) . " \n";

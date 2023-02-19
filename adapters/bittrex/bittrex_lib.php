@@ -15,6 +15,7 @@
 
 		private function queryGET( $path="/markets", array $req = array() ) 
 		{
+			sleep(1);//Don't want to hammer the API...
 			$timestamp = time()*1000;
 			$url = $this->trading_url.$path;
 			$method = "GET";
@@ -56,6 +57,7 @@
 
 		private function queryDELETE( $path="/orders", array $req = array( 'id' => 'ERE-3FE-3ff' ) ) 
 		{
+			sleep(1);//Don't want to hammer the API...
 			$timestamp = time()*1000;
 			$url = $this->trading_url.$path."/".$req['id'];
 			
@@ -100,6 +102,7 @@
 
 		private function queryPOST( $path="/orders", array $req = array() )
 		{
+			sleep(1);//Don't want to hammer the API...
 			$timestamp = time()*1000;
 			$url = $this->trading_url.$path;
 			$method = "POST";
@@ -173,6 +176,10 @@
 
 		public function get_ticker( $arr = array( "market" => "BTC-LTC" ) ) {
 			return $this->queryGET( "/markets/".$arr['market']."/ticker" );
+		}
+
+		public function get_tickers() {
+			return $this->queryGET( "/markets/tickers" );
 		}
 
 		public function get_balance( $arr = array( 'currency' => 'BTC' ) ) {

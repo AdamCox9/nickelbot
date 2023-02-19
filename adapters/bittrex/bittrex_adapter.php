@@ -315,19 +315,51 @@
 			return $this->standardize_market_summary( array_merge( $market_summary, $ticker ) );
 		}
 
-		//Works for now: look at how get_market_summary gets data...
+		//Works
 		public function get_market_summaries() {
 			if( isset( $this->market_summaries ) ) //cache
 				return $this->market_summaries;
+			else
+				$this->market_summaries = array();
 
-			//get_markets has more data than get_markets_summaries???			
-			//$market_summaries = $this->exch->get_markets_summaries();
-			$market_summaries = $this->exch->get_markets();
-			
-			$this->market_summaries = [];
-			foreach( $market_summaries as $market_summary ) {
-				array_push( $this->market_summaries, $this->standardize_market_summary( $market_summary ) );
+			$markets_summaries = $this->exch->get_markets_summaries();
+			$markets = $this->exch->get_markets();
+			$tickers = $this->exch->get_tickers();
+			$market_summaries = [];
+			$response = [];
+
+			//Will merge the three arrays by 'symbol':
+
+			//Merge markets and markets_summaries into market_summaries (notice the s).
+			foreach( $markets_summaries as $markets_summary ) {
+				foreach( $markets as $market ) {
+					if( $markets_summary['symbol'] == $market['symbol'] ) {
+						array_push( $market_summaries, $this->standardize_market_summary( array_merge( $markets_summary, $market ) ) );
+					}
+				}
 			}
+
+			//Merge market_summaries from above with $tickers (notice the s).
+			foreach( $tickers as $ticker ) {
+				foreach( $market_summaries as $market_summary ) {
+					if( $market_summary['symbol'] == $ticker['symbol'] ) {
+						array_push( $response, $this->standardize_market_summary( array_merge( $market_summary, $ticker ) ) ); //Standardize the format
+					}
+				}
+			}
+
+			//TODO take list of countries for prohibitedIn as parameter. It defaults to US for now.
+			foreach( $response as $key => $market_summary ) {
+				if( count( $market_summary['prohibitedIn'] ) > 0 ) {
+					foreach( $market_summary['prohibitedIn'] as $prohibitedIn ) {
+						if( $prohibitedIn == "US" ) {
+							unset( $response[$key] );
+						}
+					}
+				}
+			}
+
+			$this->market_summaries = $response;			
 			return $this->market_summaries;
 		}
 
