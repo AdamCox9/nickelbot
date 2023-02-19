@@ -19,32 +19,57 @@
 			//_____get the markets to loop over:
 			echo " -> getting market summaries \n";
 			$market_summaries = $Adapter->get_market_summaries();
-			sleep(3);
+			sleep(1);
 
 			echo " -> got " . count( $market_summaries ) . " markets \n";
 
+			echo " -> getting balances \n";
+			$balances = $Adapter->get_balances();
+			sleep(1);
+
+			//Only use BTC pairs:
+			$filtered_market_summaries_by_btc = [];			
+			foreach( $market_summaries as $market_summary ) {
+				$market = $market_summary['market'];
+				$curs_bq = explode( "-", $market );
+				$base_cur = $curs_bq[0];
+				$quote_cur = $curs_bq[1];
+				if( $quote_cur != 'BTC' ) continue;				
+				array_push( $filtered_market_summaries_by_btc, $market_summary );
+			}
+
+			echo " -> narrowed down to " . count( $filtered_market_summaries_by_btc ) . " BTC markets \n";
+
+			//Sort by volume:
+			$market_summaries = $filtered_market_summaries_by_btc;
+			usort($market_summaries, fn($a, $b) => $a['quote_volume'] <=> $b['quote_volume']);
+	
+			//Get top 15 markets by volume:
+			array_splice($market_summaries, 0, count($market_summaries)-15);
+
+			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
+	
 			//______show random market for view:
 			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
-			echo " -> getting balances \n";
-			$balances = $Adapter->get_balances();
-			sleep(3);
+			//Sort by percent change
+			usort($market_summaries, fn($a, $b) => $a['percentChange'] <=> $b['percentChange']);
 
-			//TODO merge $balances with $market_summaries so easier to work with...
-			print_r( $balances );
-			die( 'test' );
+			//Get top 5 markets by percent_change:
+			array_splice($market_summaries, 0, count($market_summaries)-5);
 
-			//TODO sort by spread, 24 price change, volume, etc... so then can put the orders on top 10 price change and top 10 highest volume, etc...
-			shuffle( $market_summaries ); // non-alphabetical! ;)
+			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
+
+			print_r( $market_summaries );
 
 			foreach( $market_summaries as $market_summary ) {
 				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
 
 				//_____get currencies/balances:
-				$market = $market_summary['market'];
+				$market = $market_summary['symbol'];
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
-				$quote_cur = $curs_bq[1]; //if( $quote_cur != 'XBT' && $quote_cur != 'BTC' ) continue;
+				$quote_cur = $curs_bq[1];
 				$base_bal = isset( $balances[ $base_cur ] ) ? $balances[ $base_cur ]['available'] : 0;
 				$quote_bal = isset( $balances[ $quote_cur ] ) ? $balances[ $quote_cur ]['available'] : 0;
 				$ask = $market_summary['ask'];
@@ -53,8 +78,8 @@
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
 				$precision = $market_summary['price_precision'];			//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
 				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
-				$buy_price = bcmul( $bid, 0.5, 8);					//$market_summary['bid'] + $epsilon;	//_____buy at one unit above highest bid.
-				$sell_price = bcmul( $ask, 3, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
+				$buy_price = bcmul( $bid, 0.99, 8);					//$market_summary['bid'] + $epsilon;	//_____buy at one unit above highest bid.
+				$sell_price = bcmul( $ask, 1.1, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
 
 				echo " -> " . get_class( $Adapter ) . " \n";
@@ -84,9 +109,10 @@
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
 					else {
-						$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						sleep(3);
-						if( isset( $buy['message'] ) ) { //error...
+						$buy = $Adapter->buy( $market, $order_size*1.2, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+
+						sleep(1);
+						if( isset( $buy['CODE'] ) ) { //error...
 							print_r( $buy );
 						} else {
 							echo " -> *** buy order appears to have been placed succesfully \n";
@@ -103,7 +129,7 @@
 						echo " -> *** base balance of $base_bal $base_cur is too low for min sell order size of $order_size $base_cur at sell price of $sell_price $quote_cur \n";
 					else {
 						$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						sleep(3);
+						sleep(1);
 						if( isset( $sell['message'] ) ){ //error...
 							print_r( $sell );
 						} else {
@@ -116,7 +142,7 @@
 				}
 
 				echo "\n\n -> ### fininishing buy/sell sequence\n\n";
-				sleep(3);
+				sleep(1);
 
 			}
 		}
