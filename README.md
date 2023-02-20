@@ -20,11 +20,13 @@ Do not put other bots on the same operating system since they might contain your
 Do not trust updates that you pull from this repository since someone could get into my server and push a bad copy to github. 
 I do have my github keys password protected and access github with a Key/Secret as is available by github.
 
-## The code in this repository is running at http://www.nickelbot.com/
+## Getting Started
 
-I hope that you use this code to build your own custom web apps and web bots while also contributing the the common platform.
-There is opportunity for many people to build businesses around this platform if everyone contributes.
+1) Use git to clone repository to your system
+2) Copy config.php to config_safe.php and add your API Keys/Secrets
+3) Use PHP to run start.php
+4) Use cron to run every hour: */59 * * * * /usr/bin/php /var/www/html/nickelbot/start.php
 
 ### https://bitcointalk.org/index.php?topic=1420693.0
 
-####Good luck!
+#### Good luck!
