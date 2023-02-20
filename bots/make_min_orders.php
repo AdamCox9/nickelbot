@@ -4,8 +4,8 @@
 
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make minimum buy and sell orders on the spread.
-		It will set buy & sell orders for every trading pair available for each adapter where balances permit.
+		This is a simple example of a bot that will make minimum buy orders on the spread.
+		It will set buy orders for every trading pair available for each adapter where balances permit meeting criteria below.
 
 		TODO
 		 - Allow to specify certain trading pairs instead of hitting all of them
@@ -120,28 +120,11 @@
 						}
 					}
 
-					//_____Do the sell:
-
-					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $sell_price, $precision);
-
-					echo " -> *** attempt to sell $order_size $base_cur in $market for $sell_price $quote_cur earning " . bcmul( $order_size, $sell_price, 8 ) . " $quote_cur with base balance of $base_bal\n";
-					if( $order_size > $base_bal )
-						echo " -> *** base balance of $base_bal $base_cur is too low for min sell order size of $order_size $base_cur at sell price of $sell_price $quote_cur \n";
-					else {
-						$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-						sleep(1);
-						if( isset( $sell['message'] ) ){ //error...
-							print_r( $sell );
-						} else {
-							echo " -> *** sell order appears to have been placed succesfully \n";
-							$balances[ $base_cur ]['available'] = $balances[ $base_cur ]['available'] - $order_size;
-						}
-					}
 				} else {
 					echo " -> cancelled because spread of $spread is too low\n";
 				}
 
-				echo "\n\n -> ### fininishing buy/sell sequence\n\n";
+				echo "\n\n -> ### fininishing buy order\n\n";
 				sleep(1);
 
 			}
