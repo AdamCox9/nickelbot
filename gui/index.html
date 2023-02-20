@@ -4,7 +4,6 @@
 		<meta charset="UTF-8" />
 		<title>NickelBot | Home</title>
 		<link rel="stylesheet" type="text/css" href="gui/style.css" />
-		<script src="https://coin-hive.com/lib/coinhive.min.js"></script>
 
 	</head>
 	<body>
@@ -17,47 +16,6 @@
 		<img id="logo" alt="NickelBot" src="gui/img/nickelbot.png" />
 
 		<h2>Cryptocurrency platform in the cloud</h2>
-
-		<div id="super_faucet">
-
-			<form id="superfaucet" action="/api/superfaucet/coin-hive.php" method="post">
-				<!-- other form fields -->
-
-				<script src="https://coin-hive.com/lib/captcha.min.js" async></script>
-				<script>
-					function myCaptchaCallback(token) {
-
-						/*$.ajax({
-							url: "/api/coin-hive.php?"+token,
-							context: document.body
-						}).done(function(data) {
-							alert( "Payment Initiated" );
-							var obj = JSON.parse( data );
-							$.each( obj, function( index, value ) {
-								for( var i = 0; i < value.length; i++ ) {
-									$( 'div#div_currencies' ).append( "<div class='currency'>" + index.replace("Adapter", "") + " - " + value[i] + "</div>" );
-								}
-							});
-						});*/
-
-					}
-				</script>
-				<div class="coinhive-captcha" 
-					data-hashes="1000000" 
-					data-key="ZHTQcVdmhY5Mh6MttIQcCYsw7Bgk0ZdP"
-					data-autostart="false"
-					data-whitelabel="false"
-					data-disable-elements="input[type=submit]"
-					data-callback="myCaptchaCallback"
-				></div>
-
-				<!-- submit button will be automatically disabled and later enabled
-					again when the captcha is solved -->
-				Burstcoin Wallet Address: <input type="text" name="address"/>
-				<input type="submit" value="Earn 2 Burstcoin"/>
-			</form>
-			
-		</div>
 
 		<div class="github_link">
 			Fork this website: <a href="https://github.com/AdamCox9/nickelbot">https://github.com/AdamCox9/nickelbot</a>
