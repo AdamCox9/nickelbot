@@ -17,6 +17,7 @@
 	require_once( "bots/make_deposit_addresses.php" );
 	require_once( "bots/make_max_orders.php" );
 	require_once( "bots/make_min_orders.php" );
+	require_once( "bots/cancel_oldest_orders.php" );
 	require_once( "bots/run_tests.php" );
 	require_once( "bots/light_show.php" );
 
@@ -65,18 +66,16 @@
 	$poloniex_api_key = "INSERT_API_KEY_HERE";
 	$poloniex_api_secret = "INSERT_API_SECRET_HERE";
 
-	$COINHIVE_SECRET = "INSERT_COINHIVE_SECRET_HERE";
-
 	//_____Make a structure or use some design pattern?
 
 	$Adapters = array();
-	$Adapters['Bitfinex']	= new BitfinexAdapter( new Bitfinex( $bitfinex_api_key, $bitfinex_api_secret ) );
-	$Adapters['Bitstamp']	= new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );
+	//$Adapters['Bitfinex']	= new BitfinexAdapter( new Bitfinex( $bitfinex_api_key, $bitfinex_api_secret ) );
+	//$Adapters['Bitstamp']	= new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );
 	$Adapters['Bittrex']	= new BittrexAdapter( new Bittrex( $bittrex_api_key, $bittrex_api_secret ) );
-	$Adapters['Bter']	= new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
-	$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret, $coinbase_api_passphrase ) );
-	$Adapters['Kraken']	= new KrakenAdapter( new Kraken( $kraken_api_key, $kraken_api_secret ) );
-	$Adapters['Poloniex']	= new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
+	//$Adapters['Bter']	= new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
+	//$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret, $coinbase_api_passphrase ) );
+	//$Adapters['Kraken']	= new KrakenAdapter( new Kraken( $kraken_api_key, $kraken_api_secret ) );
+	//$Adapters['Poloniex']	= new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
 
 	//_____This simple class should suffice for testing.
 

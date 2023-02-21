@@ -43,12 +43,12 @@
 			//Sort by volume:
 			$market_summaries = $filtered_market_summaries_by_btc;
 			usort($market_summaries, fn($a, $b) => $a['quote_volume'] <=> $b['quote_volume']);
-	
+
 			//Get top 15 markets by volume:
 			array_splice($market_summaries, 0, count($market_summaries)-15);
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
-	
+
 			//______show random market for view:
 			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
@@ -60,7 +60,7 @@
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
 
-			print_r( $market_summaries );
+			//print_r( $market_summaries );
 
 			foreach( $market_summaries as $market_summary ) {
 				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }

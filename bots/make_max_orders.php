@@ -42,10 +42,11 @@
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances();
 			echo " -> got " . count( $balances ) . " balances \n";
-			
-			
-			print_r( $balances );
-			die( 'test' );
+
+			//TODO loop through market_summaries and remove markets that have base balance of 0:
+						
+			//print_r( $balances );
+			//die( 'test' );
 			sleep(1);
 
 
@@ -81,7 +82,7 @@
 				echo " -> sell price: " . number_format( $sell_price, 8 ) . " \n";
 
 				if( number_format( $base_bal, 8 ) == 0 ) {
-					echo " -> base balance of $base_bal needs to be greated than 0, continuing \n";
+					echo " -> base balance of $base_bal needs to be greater than 0, continuing \n";
 					echo "skipping\n\n";
 					continue;
 				}
