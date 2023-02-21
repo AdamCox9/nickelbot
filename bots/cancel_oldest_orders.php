@@ -10,6 +10,8 @@
 
 	function cancel_oldest_orders( $Adapters ) {
 
+		$_CONFIG['direction'] = "BOTH";
+
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {
 			$open_orders = $Adapter->get_open_orders( );
@@ -19,13 +21,21 @@
 			//die( "TEST" );
 
 			//Only close BUY orders:
-			foreach( $open_orders as $key => $open_order ) {
-				if( $open_order['direction'] == 'BUY' ) continue;				
-				unset( $open_orders[$key] ); //Remove SELL order
-			}
+			if( $_CONFIG['direction'] == 'BUY' )
+				foreach( $open_orders as $key => $open_order ) {
+					if( $open_order['direction'] == 'BUY' ) continue;				
+					unset( $open_orders[$key] ); //Remove SELL order
+				}
+
+			//Only close SELL orders:
+			elseif( $_CONFIG['direction'] == 'SELL' )
+				foreach( $open_orders as $key => $open_order ) {
+					if( $open_order['direction'] == 'SELL' ) continue;				
+					unset( $open_orders[$key] ); //Remove BUY order
+				}
 
 			//print_r( $open_orders );
-			echo " -> narrowed down to " . count( $open_orders ) . " open BUY orders \n";
+			echo " -> narrowed down to " . count( $open_orders ) . " open orders \n";
 			//die( "TEST" );
 
 			//Ensure they are sorted by time created:
@@ -38,7 +48,7 @@
 			array_splice($open_orders, 0, count($open_orders)-5);
 
 			//print_r( $open_orders );
-			echo " -> narrowed down to oldest " . count( $open_orders ) . " open BUY orders \n";
+			echo " -> narrowed down to oldest " . count( $open_orders ) . " open orders \n";
 			//die( "TEST" );
 
 			//_____remove open orders
