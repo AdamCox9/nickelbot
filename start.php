@@ -48,12 +48,10 @@
 		//cancel_oldest_orders( $Adapters );
 		//make_min_orders( $Adapters );
 		//make_max_orders( $Adapters );
-		//while( true ) {
-			//light_show( $Adapters['Bittrex'], "PIVX-BTC"  );
-		//}
-		//make_deposit_addresses( $Adapters, $Tester ); //todo: get the Tester object out of here and put in run_tests above...
-		//human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes );//need to get these from Adapter & Utilities first like in run_tests bot...
-		//disperse_funds( array( $Adapters['Btce'] ), array( $Adapters['Bitfinex'], $Adapters['Bitstamp'], $Adapters['Bittrex'], $Adapters['Bter'], $Adapters['Poloniex'] ), 'BTC', '0.02222222' ); //$from_arr, $to_arr, $curr_arr
+		//light_show( $Adapters['Bittrex'], "PIVX-BTC"  );
+		make_deposit_addresses( $Adapters );
+		//human_readable_summary( $Adapters );
+		//disperse_funds( $Adapters );
 
 	} catch( Exception $e ){
 		echo $e->getMessage() . "\n";

@@ -4,8 +4,12 @@
 		Etc: print some human readable data.
 	 *****/
 
-	function human_readable_summary( $exchanges, $currencies, $markets, $worths, $volumes ) {
+	function human_readable_summary( $Adapters ) {
+
+		die( 'Needs to be updated for $Adapters below' );
+
 		sort( $exchanges );
+
 		echo "\n\nAll Exchanges(".sizeof($exchanges).")\n";
 		foreach( $exchanges as $exchange) {
 			echo $exchange . ", ";
