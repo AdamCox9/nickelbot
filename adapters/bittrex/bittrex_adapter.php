@@ -186,46 +186,57 @@
 			return $this->open_orders;
 		}
 
-		//NEED TO UPDATE FOR API v3
+		//TESTED v3: works
 		public function get_completed_orders( $market="BTC-USD", $limit = 100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
+			$completed_orders = $this->exch->get_closedorders( );
 			$this->completed_orders = [];
-			foreach( $this->get_markets() as $market ) {
-				$completed_orders = $this->exch->account_getorderhistory( array( 'market' => $market, 'count' => $limit ) );
-				foreach( $completed_orders['result'] as $completed_order ) {
-					$completed_order['exchange'] = "bittrex";
-					$completed_order['market'] = $market;
-					$completed_order['price'] = null;
-					$completed_order['amount'] = null;
-					$completed_order['timestamp'] = null;
-					$completed_order['type'] = null;
-					$completed_order['fee_currency'] = null;
-					$completed_order['fee_amount'] = null;
-					$completed_order['tid'] = null;
-					$completed_order['order_id'] = null;
-					$completed_order['id'] = null;
-					$completed_order['fee'] = null;
-					$completed_order['total'] = null;
 
-					unset( $completed_order['OrderUuid'] );
-					unset( $completed_order['Exchange'] );
-					unset( $completed_order['TimeStamp'] );
-					unset( $completed_order['OrderType'] );
-					unset( $completed_order['Limit'] );
-					unset( $completed_order['Quantity'] );
-					unset( $completed_order['QuantityRemaining'] );
-					unset( $completed_order['Commission'] );
-					unset( $completed_order['Price'] );
-					unset( $completed_order['PricePerUnit'] );
-					unset( $completed_order['IsConditional'] );
-					unset( $completed_order['Condition'] );
-					unset( $completed_order['ConditionTarget'] );
-					unset( $completed_order['ImmediateOrCancel'] );
-					unset( $completed_order['Closed'] );
+			foreach( $completed_orders as $completed_order ) {
+				$completed_order['exchange'] = "bittrex";
+				$completed_order['market'] = $market;
+				$completed_order['price'] = $completed_order['limit'];
+				$completed_order['amount'] = $completed_order['quantity'];
+				$completed_order['timestamp'] = $completed_order['closedAt'];
+				$completed_order['type'] = null;
+				$completed_order['fee_currency'] = null;
+				$completed_order['fee_amount'] = null;
+				$completed_order['tid'] = null;
+				$completed_order['order_id'] = null;
+				$completed_order['id'] = null;
+				$completed_order['fee'] = null;
+				$completed_order['total'] = null;
 
-					array_push( $this->completed_orders, $completed_order );
-				}
+				unset( $completed_order['OrderUuid'] );
+				unset( $completed_order['Exchange'] );
+				unset( $completed_order['TimeStamp'] );
+				unset( $completed_order['OrderType'] );
+				unset( $completed_order['Limit'] );
+				unset( $completed_order['Quantity'] );
+				unset( $completed_order['QuantityRemaining'] );
+				unset( $completed_order['Commission'] );
+				unset( $completed_order['Price'] );
+				unset( $completed_order['PricePerUnit'] );
+				unset( $completed_order['IsConditional'] );
+				unset( $completed_order['Condition'] );
+				unset( $completed_order['ConditionTarget'] );
+				unset( $completed_order['ImmediateOrCancel'] );
+				unset( $completed_order['Closed'] );
+				unset( $completed_order['marketSymbol'] );
+				unset( $completed_order['direction'] );
+				unset( $completed_order['quantity'] );
+				unset( $completed_order['limit'] );
+				unset( $completed_order['timeInForce'] );
+				unset( $completed_order['fillQuantity'] );
+				unset( $completed_order['commission'] );
+				unset( $completed_order['proceeds'] );
+				unset( $completed_order['status'] );
+				unset( $completed_order['createdAt'] );
+				unset( $completed_order['updatedAt'] );
+				unset( $completed_order['closedAt'] );
+
+				array_push( $this->completed_orders, $completed_order );
 			}
 			return $this->completed_orders;
 		}

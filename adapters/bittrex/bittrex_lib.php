@@ -13,7 +13,7 @@
 			$this->api_secret = $api_secret;
 		}
 
-		private function queryGET( $path="/markets", array $req = array() ) 
+		private function queryGET( $path="/markets" )
 		{
 			sleep(1);//Don't want to hammer the API...
 			$timestamp = time()*1000;
@@ -194,8 +194,12 @@
 			return $this->queryGET( "/balances" );
 		}
 
-		public function get_openorders( $arr = array() ) {
-			return $this->queryGET( "/orders/open", $arr );
+		public function get_openorders( ) {
+			return $this->queryGET( "/orders/open" );
+		}
+
+		public function get_closedorders( ) {
+			return $this->queryGET( "/orders/closed" );
 		}
 
 		public function get_addresses() {
@@ -225,8 +229,6 @@
 		public function order_cancel( $arr = array("uuid" => '123' ) ) {
 			return $this->queryDELETE("/orders", $arr);
 		}
-
-
 
 	}
 

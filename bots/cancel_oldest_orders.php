@@ -23,14 +23,14 @@
 			//Only close BUY orders:
 			if( $_CONFIG['direction'] == 'BUY' )
 				foreach( $open_orders as $key => $open_order ) {
-					if( $open_order['direction'] == 'BUY' ) continue;				
+					if( $open_order['side'] == 'BUY' ) continue;				
 					unset( $open_orders[$key] ); //Remove SELL order
 				}
 
 			//Only close SELL orders:
 			elseif( $_CONFIG['direction'] == 'SELL' )
 				foreach( $open_orders as $key => $open_order ) {
-					if( $open_order['direction'] == 'SELL' ) continue;				
+					if( $open_order['side'] == 'SELL' ) continue;				
 					unset( $open_orders[$key] ); //Remove BUY order
 				}
 
