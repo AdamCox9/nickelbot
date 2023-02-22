@@ -11,7 +11,8 @@
 	*/
 
 	function light_show( $Adapter, $market ) {
-		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
+		$exchange = strtolower( str_replace( "Adapter", "", get_class( $Adapter ) ) );
+		echo "*** $exchange Light Show ***\n";
 
 		//_____get currencies/balances:
 		$market_summary = $Adapter->get_market_summary( $market );

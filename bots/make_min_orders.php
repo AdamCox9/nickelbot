@@ -15,7 +15,7 @@
 	function make_min_orders( $Adapters ) {
 
 		$_CONFIG['BUY_AT_PERCENT_CHANGE'] = 0.97;
-		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 25;
+		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 50;
 		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 5;
 		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "DESC"; // [ASC|DESC]
 
