@@ -464,6 +464,20 @@
 
 			$results = [];
 			foreach( $trades as $trade ) {
+				$trade['market'] = $market;
+				$trade['price'] = $trade['rate'];
+				$trade['amount'] = $trade['quantity'];
+				$trade['timestamp'] = $trade['executedAt'];
+				$trade['exchange'] = 'bittrex';
+				$trade['tid'] = $trade['id'];
+				$trade['type'] = ['takerSide'];
+
+				unset( $trade['id'] );
+				unset( $trade['executedAt'] );
+				unset( $trade['quantity'] );
+				unset( $trade['rate'] );
+				unset( $trade['takerSide'] );
+
 				array_push( $results, $trade );
 			}
 

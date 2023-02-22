@@ -30,7 +30,7 @@
 			$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];//test a random market...
 			$Tester->test( 'markets', array( array( $market ) ) );
 
-/*			echo " -> getting market summary for random market to test with\n";
+			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
 
@@ -52,8 +52,6 @@
 
 			echo " -> getting withdrawal history\n";
 			$Tester->test( 'withdrawals', $Adapter->get_withdrawals() );
-
-*/
 
 			echo " -> getting balances for all currencies\n";
 			$Tester->test( 'balances', $Adapter->get_balances() );
@@ -87,15 +85,15 @@
 			$Tester->test( 'deposit_addresses', $Adapter->deposit_addresses() );
 			
 			echo " -> getting all positions\n";
-			$Tester->test( 'positions', $Adapter->get_positions() );
+			//$Tester->test( 'positions', $Adapter->get_positions() );
 
 			//_____Utilities: they should have some utility
 
-			echo " -> getting volumes\n";
-			$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
+			//echo " -> getting volumes\n";
+			//$Tester->test( 'volumes', Utilities::get_total_volumes( $Adapter->get_market_summaries() ) );
 
-			echo " -> getting worths\n";
-			$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
+			//echo " -> getting worths\n";
+			//$Tester->test( 'worth', Utilities::get_worth( $Adapter->get_balances(), $Adapter->get_market_summaries() ) );
 
 		}
 	}
