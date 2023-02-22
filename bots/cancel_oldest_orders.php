@@ -10,8 +10,8 @@
 
 	function cancel_oldest_orders( $Adapters ) {
 
-		$_CONFIG['direction'] = "BOTH";
-		$_CONFIG['count'] = 3;
+		$_CONFIG['direction'] = "BOTH";		// [BOTH|BUY|SELL] types of orders to cancel
+		$_CONFIG['count'] = 3;			// Number of orders to cancel
 
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {

@@ -14,7 +14,10 @@
 
 	function make_min_orders( $Adapters ) {
 
-		$CONFIG['BUY_AT_PERCENT_CHANGE'] = "0.97";
+		$_CONFIG['BUY_AT_PERCENT_CHANGE'] = 0.97;
+		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 25;
+		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 5;
+		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "DESC"; // [ASC|DESC]
 
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
@@ -46,10 +49,10 @@
 
 			//Sort by volume:
 			$market_summaries = $filtered_market_summaries_by_btc;
-			usort($market_summaries, fn($a, $b) => $a['quote_volume'] <=> $b['quote_volume']);
+			usort( $market_summaries, fn( $a, $b ) => $a['quote_volume'] <=> $b['quote_volume'] );
 
 			//Get top 15 markets by volume:
-			array_splice($market_summaries, 0, count($market_summaries)-25);
+			array_splice( $market_summaries, 0, count( $market_summaries ) - $_CONFIG['FILTER_BY_TOP_VOLUME'] );
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
 
@@ -57,10 +60,13 @@
 			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
 			//Sort by percent change, reversed
-			usort($market_summaries, fn($a, $b) => $b['percent_change'] <=> $a['percent_change']);
+			if( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
+				usort( $market_summaries, fn( $a, $b ) => $b['percent_change'] <=> $a['percent_change'] );
+			elseif( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
+				usort( $market_summaries, fn( $a, $b ) => $a['percent_change'] <=> $b['percent_change'] );
 
 			//Get top 4 markets by percent_change:
-			array_splice($market_summaries, 0, count($market_summaries)-4);
+			array_splice( $market_summaries, 0, count($market_summaries) - $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] );
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
 
@@ -82,7 +88,7 @@
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
 				$precision = $market_summary['price_precision'];			//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
 				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
-				$buy_price = bcmul( $bid, $CONFIG['BUY_AT_PERCENT_CHANGE'], 8);		//_____set order at X percent below bid
+				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], 8);		//_____set order at X percent below bid
 				//$buy_price = $market_summary['bid'] + $epsilon;			//_____buy at one unit above highest bid.
 				$sell_price = bcmul( $ask, 1.1, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.

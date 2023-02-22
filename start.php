@@ -46,14 +46,14 @@
 		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
 		//cancel_oldest_orders( $Adapters );
-		//make_min_orders( $Adapters );
+		make_min_orders( $Adapters );
 		//make_max_orders( $Adapters );
 
-		while( true ) {
+		/*while( true ) {
 			cancel_oldest_orders( $Adapters );
 			light_show( $Adapters['Bittrex'], "BSV-BTC"  );
 			sleep( 60 );
-		}
+		}*/
 
 		//make_deposit_addresses( $Adapters );
 		//human_readable_summary( $Adapters );
