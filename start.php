@@ -44,10 +44,10 @@
 		 *****/
 
 		//build_cache( $Adapters );
-		//run_tests( $Adapters, $Tester );
-		cancel_oldest_orders( $Adapters );
-		make_min_orders( $Adapters );
-		make_max_orders( $Adapters );
+		run_tests( $Adapters, $Tester );
+		//cancel_oldest_orders( $Adapters );
+		//make_min_orders( $Adapters );
+		//make_max_orders( $Adapters );
 		//while( true ) {
 			//light_show( $Adapters['Bittrex'], "PIVX-BTC"  );
 		//}

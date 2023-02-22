@@ -165,7 +165,21 @@
 				$open_order['original_amount'] = null;
 				$open_order['remaining_amount'] = null;
 				$open_order['executed_amount'] = null;
+				$open_order['avg_execution_price'] = null;
 				$open_order['amount'] = $open_order['quantity'];
+
+				unset( $open_order['marketSymbol'] );
+				unset( $open_order['direction'] );
+				unset( $open_order['quantity'] );
+				unset( $open_order['limit'] );
+				unset( $open_order['timeInForce'] );
+				unset( $open_order['fillQuantity'] );
+				unset( $open_order['commissio'] );
+				unset( $open_order['proceeds'] );
+				unset( $open_order['status'] );
+				unset( $open_order['createdAt'] );
+				unset( $open_order['updatedAt'] );
+				unset( $open_order['commission'] );
 
 				array_push( $this->open_orders, $open_order );
 			}
