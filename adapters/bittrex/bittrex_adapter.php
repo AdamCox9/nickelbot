@@ -143,12 +143,10 @@
 
 		//TESTED v3: works
 		public function get_open_orders() {
-			if( isset( $this->open_orders ) )
-				return $this->open_orders;
-			$open_orders = $this->exch->get_openorders();
-			$this->open_orders = [];
+			$m_open_orders = $this->exch->get_openorders();
+			$open_orders = [];
 			
-			foreach( $open_orders as $open_order ) {
+			foreach( $m_open_orders as $open_order ) {
 				$open_order['market'] = $open_order['marketSymbol'];
 				$open_order['exchange'] = "bittrex";
 				$open_order['price'] = $open_order['limit'];
@@ -177,9 +175,9 @@
 				unset( $open_order['updatedAt'] );
 				unset( $open_order['commission'] );
 
-				array_push( $this->open_orders, $open_order );
+				array_push( $open_orders, $open_order );
 			}
-			return $this->open_orders;
+			return $open_orders;
 		}
 
 		//TESTED v3: works

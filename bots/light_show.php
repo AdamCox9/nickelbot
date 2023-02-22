@@ -3,49 +3,15 @@
 	/*
 		@Author NoobSaibot
 
-		This is a simple example of a bot that will make a blink show on Poloniex.
+		This is a simple example of a bot that will trade on the spread.
 
 		TODO
-		 - a lot
+		 - Get Market Summaries, calculate spread, limit by 25 highest volume, then sort by spread and place orders on top spread
+		 - Run bot every 5 minutes or so on an exchange
 	*/
 
 	function light_show( $Adapter, $market ) {
 		echo "*** " . get_class( $Adapter ) . " Light Show ***\n";
-
-		/*
-
-		//Testing...
-		$currencies = $Adapter->get_currencies();
-		print_r( $currencies );
-		die( 'test' );
-
-		//Testing...
-		$markets = $Adapter->get_markets();
-		print_r( $markets );
-		die( 'test' );
-
-		//Testing...
-		$market_summaries = $Adapter->get_market_summaries();
-		print_r( $market_summaries[0] );
-		die( 'test' );
-
-		//Testing...
-		$market_summary = $Adapter->get_market_summary( $market );
-		print_r( $market_summary );
-		die( 'test' );
-
-		//Testing...
-		$balances = $Adapter->get_balances( );
-		print_r( $balances );
-		die( 'test' );
-
-		//Testing...
-		$deposits_withdrawals = $Adapter->get_deposits_withdrawals( );
-		print_r( $deposits_withdrawals );
-		die( 'test' );
-
-		*/
-
 
 		//_____get currencies/balances:
 		$market_summary = $Adapter->get_market_summary( $market );
@@ -67,8 +33,8 @@
 		//_____calculate some variables that are rather trivial:
 		$precision = $market_summary['price_precision'];					//_____significant digits - example 1: "1.12" has 2 as PP. example 2: "1.23532" has 5 as PP.
 		$epsilon = 1 / pow( 10, $precision );							//_____smallest unit of base currency that exchange recognizes: if PP is 3, then it is 0.001.
-		$buy_price = $market_summary['bid']*0.95;						//_____buy at same price as highest bid.
-		$sell_price = $market_summary['ask']*1.05;						//_____sell at same price as lowest ask.
+		$buy_price = $market_summary['bid'];							//_____buy at same price as highest bid.
+		$sell_price = $market_summary['ask'];							//_____sell at same price as lowest ask.
 		$spread = number_format( $sell_price - $buy_price, $precision, '.', '' );		//_____difference between highest bid and lowest ask.
 
 		echo " -> precision $precision \n";
@@ -80,7 +46,6 @@
 		$buy = array( 'message' => null ); 
 		$sell = array( 'message' => null ); 
 
-
 		$buy_price = number_format( $buy_price + $epsilon, $precision, '.', '' );
 		$sell_price = number_format( $sell_price - $epsilon, $precision, '.', '' );
 		$buy_size = Utilities::get_min_order_size( $market_summary['minimum_order_size_base'], $market_summary['minimum_order_size_quote'], $buy_price, $precision);
@@ -91,7 +56,7 @@
 		echo " -> final formatted buy size: $buy_size \n";
 		echo " -> final formatted sell size: $sell_size \n";
 
-		if( $spread > 0.00000010 ) {
+		if( $spread > 0.000001) {
 
 			//_____Buy & Sell epsilion into the spread:
 			if( ! isset( $buy['error'] ) ) {

@@ -11,6 +11,7 @@
 	function cancel_oldest_orders( $Adapters ) {
 
 		$_CONFIG['direction'] = "BOTH";
+		$_CONFIG['count'] = 3;
 
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {
@@ -40,12 +41,12 @@
 
 			//Ensure they are sorted by time created:
 			//TODO test time format recieved from adapter/library:
-			usort($open_orders, function($a, $b) {
+			usort( $open_orders, function( $a, $b ) {
 				return strtotime( $b['timestamp_created'] ) - strtotime( $a['timestamp_created'] );
 			});
 
 			//Only oldest 5 orders:
-			array_splice($open_orders, 0, count($open_orders)-5);
+			array_splice( $open_orders, 0, count( $open_orders ) - $_CONFIG['count'] );
 
 			//print_r( $open_orders );
 			echo " -> narrowed down to oldest " . count( $open_orders ) . " open orders \n";
