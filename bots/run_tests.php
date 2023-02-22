@@ -20,7 +20,6 @@
 			echo " -> getting balance for sample currency\n";
 			$currency = $currencies[ rand( 0, sizeof( $currencies ) - 1 ) ];//test a random currency...
 			$balance = $Adapter->get_balance( $currency );
-			//print_r( $balance );
 			$Tester->test( 'balance', $balance );
 
 			echo " -> getting markets\n";
@@ -31,17 +30,9 @@
 			$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];//test a random market...
 			$Tester->test( 'markets', array( array( $market ) ) );
 
-			echo " -> getting market summary for random market to test with\n";
+/*			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
-
-			//TODO handle all error cases
-			/*foreach( $markets as $market ) {
-				$buy = $Adapter->buy( $market, '0.01', '0.01', 'LIMIT' );
-				$sell = $Adapter->sell( $market, '0.01', '500', 'LIMIT' );
-				//print_r( $buy );
-				//print_r( $sell );
-			}*/
 
 			echo " -> getting open orders for test market\n";
 			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
@@ -55,11 +46,17 @@
 			echo " -> getting deposit and withdrawal history\n";
 			$Tester->test( 'deposits_withdrawals', $Adapter->get_deposits_withdrawals() );
 
+
 			echo " -> getting deposit history\n";
 			$Tester->test( 'deposits', $Adapter->get_deposits() );
 
 			echo " -> getting withdrawal history\n";
 			$Tester->test( 'withdrawals', $Adapter->get_withdrawals() );
+
+*/
+
+			echo " -> getting balances for all currencies\n";
+			$Tester->test( 'balances', $Adapter->get_balances() );
 
 			//_____TOO SLOW: just test single entry
 
@@ -69,9 +66,6 @@
 
 			//echo " -> cancelling all orders\n";
 			//$Tester->test( 'cancel_all', $Adapter->cancel_all() );
-
-			//echo " -> getting balances for all currencies\n";
-			//$Tester->test( 'balances', $Adapter->get_balances() );
 
 			//_____TODO: test a buy order then cancel it
 			//echo " -> making a buy order\n";

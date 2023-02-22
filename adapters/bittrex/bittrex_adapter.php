@@ -30,13 +30,13 @@
 		public function cancel($orderid="1", $opts = array() ) {
 			return $this->exch->order_cancel( array("id" => $orderid ) );
 		}
-
-		//Works for now, but need to align the parameters up a bit better...
+ 
+		//TESTED v3: works
 		public function get_deposits_withdrawals() {
 			$results = [];
 
 			//_____Withdrawals:
-			$transactions = $this->exch->get_withdrawals( array() );
+			$transactions = $this->exch->get_withdrawals( );
 
 			foreach( $transactions as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
@@ -45,7 +45,7 @@
 			}
 
 			//_____Deposits:
-			$transactions = $this->exch->get_deposits( array() );
+			$transactions = $this->exch->get_deposits( );
 			foreach( $transactions as $transaction ) {
 				$transaction['exchange'] = "Bittrex";
 				$transaction['type'] = 'DEPOSIT';
@@ -54,33 +54,15 @@
 
 			$return = [];
 			foreach( $results as $result ) {
-
-				if( isset( $result['PaymentUuid'] ) ) {
-					$result['id'] = $result['PaymentUuid'];
-				} else if ( isset( $result['Id'] ) ) {
-					$result['id'] = $result['Id'];
-				} else {
-					$result['id'] = null;
-				}
-
-				$result['currency'] = $result['Currency'];
-				$result['method'] = $result['Currency'];
-				$result['amount'] = $result['Amount'];
-				$result['description'] = $result['Currency'];
-				$result['status'] = isset( $result['PendingPayment'] ) ? $result['PendingPayment'] : null;
-				$result['fee'] = isset( $result['TxCost'] ) ? $result['TxCost'] : null;
-				$result['address'] = isset( $result['CryptoAddress'] ) ? $result['CryptoAddress'] : null;
-				$result['fee'] = isset( $result['TxCost'] ) ? $result['TxCost'] : null;
-
-				if( isset( $result['LastUpdated'] ) ) {
-					$result['timestamp'] = $result['LastUpdated'];
-				} else if ( isset( $result['Opened'] ) ) {
-					$result['timestamp'] = $result['Opened'];
-				} else {
-					$result['timestamp'] = null;
-				}
-
-				$result['confirmations'] = isset( $result['Confirmations'] ) ? $result['Confirmations'] : null;
+				$result['id'] = isset( $result['txId'] ) ? $result['txId'] : null;
+				$result['currency'] = $result['currencySymbol'];
+				$result['method'] = null;
+				$result['amount'] = $result['quantity'];
+				$result['description'] = null;
+				$result['fee'] = isset( $result['txCost'] ) ? $result['txCost'] : null;
+				$result['address'] = isset( $result['cryptoAddress'] ) ? $result['cryptoAddress'] : null;
+				$result['timestamp'] = isset( $result['createdAt'] ) ? $result['createdAt'] : null;
+				$result['confirmations'] = null;
 
 				unset( $result['PaymentUuid'] );
 				unset( $result['Currency'] );
@@ -97,6 +79,18 @@
 				unset( $result['Confirmations'] );
 				unset( $result['LastUpdated'] );
 				unset( $result['CryptoAddress'] );
+				unset( $result['currencySymbol'] );
+				unset( $result['quantity'] );
+				unset( $result['cryptoAddress'] );
+				unset( $result['txCost'] );
+				unset( $result['txId'] );
+				unset( $result['createdAt'] );
+				unset( $result['completedAt'] );
+				unset( $result['target'] );
+				unset( $result['cryptoAddressTag'] );
+				unset( $result['updatedAt'] );
+				unset( $result['source'] );
+				unset( $result['fundsTransferMethodId'] );
 
 				array_push( $return, $result );
 			}
@@ -104,18 +98,20 @@
 			return $return;
 		}
 
-		//TODO: test and align parameters
 		public function get_deposits() {
-			$transactions = $this->exch->get_deposits( array() );
-		}
-
-		public function get_deposit( $deposit_id="1", $opts = array() ) {
 			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
-		//TODO: test and align parameters
+		public function get_deposit( $deposit_id = "1", $opts = [] ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
 		public function get_withdrawals() {
-			$transactions = $this->exch->get_withdrawals( array() );
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+
+		public function get_withdrawal( $withdrawal_id = "1", $opts = [] ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		//NEEDS TO BE UPDATED to API v3
@@ -311,7 +307,7 @@
 			foreach( $balances as $balance ) {
 				$balance['type'] = "exchange";
 				$balance['currency'] = $balance['currencySymbol'];
-				$balance['pending'] = null;
+				$balance['pending'] = 0;
 				$balance['reserved'] = $balance['total'] - $balance['available'];
 				$balance['btc_value'] = null;
 
@@ -464,43 +460,43 @@
 
 		//Needs to be updated for API V3:
 		public function get_trades( $market = 'BTC-USD', $opts = array( 'limit' => 10 ) ) {
-			$trades = $this->exch->getmarkethistory( array( 'market' => $market, 'count' => $opts['limit'] ) );
+			$trades = $this->exch->get_market_trades( array( 'market' => $market, 'count' => $opts['limit'] ) );
 
 			$results = [];
-			foreach( $trades['result'] as $trade ) {
+			foreach( $trades as $trade ) {
 				array_push( $results, $trade );
 			}
 
 			return $results;
 		}
 
-		//Needs to be updated for API V3:
-		public function get_orderbook( $market = "BTC-USD", $depth = 10 ) {
-			$orderbooks = $this->exch->getorderbook( array( 'market' => $market, 'type' => "both", 'depth' => $depth ) );
-			$orderbooks = $orderbooks['result'];
+		//Works
+		public function get_orderbook( $market = "BTC-USD", $depth = 25 ) {
+			$orderbooks = $this->exch->get_orderbook( array( 'market' => $market, 'depth' => $depth ) );
 			$n_orderbooks = [];
 			$o_orderbooks = [];
 
-			if( isset( $orderbooks['buy'] ) )
-				foreach( $orderbooks['buy'] as $orderbook ) {
+			if( isset( $orderbooks['bid'] ) )
+				foreach( $orderbooks['bid'] as $orderbook ) {
+					$orderbook['type']  = "BID";
 					array_push( $n_orderbooks, $orderbook );
 				}
 
-			if( isset( $orderbooks['sell'] ) )
-				foreach( $orderbooks['sell'] as $orderbook ) {
+			if( isset( $orderbooks['ask'] ) )
+				foreach( $orderbooks['ask'] as $orderbook ) {
+					$orderbook['type']  = "ASK";
 					array_push( $n_orderbooks, $orderbook );
 				}
 
 			foreach( $n_orderbooks as $orderbook ) {
 				$orderbook['market'] = $market;
-				$orderbook['price'] = $orderbook['Rate'];
-				$orderbook['amount'] = $orderbook['Quantity'];
+				$orderbook['price'] = $orderbook['rate'];
+				$orderbook['amount'] = $orderbook['quantity'];
 				$orderbook['timestamp'] = null;
-				$orderbook['exchange'] = null;
-				$orderbook['type'] = null;
+				$orderbook['exchange'] = "bittrex";
 
-				unset( $orderbook['Quantity'] );
-				unset( $orderbook['Rate'] );
+				unset( $orderbook['quantity'] );
+				unset( $orderbook['rate'] );
 				array_push( $o_orderbooks, $orderbook );
 			}
 

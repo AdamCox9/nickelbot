@@ -174,6 +174,10 @@
 			return $this->queryGET( "/markets/" . $arr['market'] . "/summary" );
 		}
 
+		public function get_market_trades( $arr = array( "market" => "BTC-LTC" ) ) {
+			return $this->queryGET( "/markets/" . $arr['market'] . "/trades" );
+		}
+
 		public function get_currencies() {
 			return $this->queryGET( "/currencies" );
 		}
@@ -200,6 +204,10 @@
 
 		public function get_closedorders( ) {
 			return $this->queryGET( "/orders/closed" );
+		}
+
+		public function get_orderbook( $arr = array( "market" => "BTC-LTC" ) ) {
+			return $this->queryGET( "/markets/".$arr['market']."/orderbook" );
 		}
 
 		public function get_addresses() {
