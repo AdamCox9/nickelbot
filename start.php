@@ -45,11 +45,11 @@
 
 		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
-		//cancel_oldest_orders( $Adapters );
-		//make_min_orders( $Adapters );
-		//make_max_orders( $Adapters );
+		cancel_oldest_orders( $Adapters );
+		make_min_orders( $Adapters );
+		make_max_orders( $Adapters );
 		//light_show( $Adapters['Bittrex'], "PIVX-BTC"  );
-		make_deposit_addresses( $Adapters );
+		//make_deposit_addresses( $Adapters );
 		//human_readable_summary( $Adapters );
 		//disperse_funds( $Adapters );
 

@@ -12,6 +12,8 @@
 	*/
 
 	function make_max_orders( $Adapters ) {
+		$CONFIG['SELL_AT_PERCENT_CHANGE'] = "1.07"; //Sell at X percent above asking price
+
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
 
@@ -66,7 +68,7 @@
 				$precision = $market_summary['price_precision'];	
 				$epsilon = 1 / pow( 10, $precision );
 				
-				$sell_price = bcmul( $ask, 1.2, 8);
+				$sell_price = bcmul( $ask, $CONFIG['SELL_AT_PERCENT_CHANGE'], 8); //Percent above asking price
 
 				echo " -> " . get_class( $Adapter ) . " \n";
 				echo " -> $market \n";

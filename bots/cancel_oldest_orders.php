@@ -10,7 +10,7 @@
 
 	function cancel_oldest_orders( $Adapters ) {
 
-		$_CONFIG['direction'] = "SELL";
+		$_CONFIG['direction'] = "BOTH";
 
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {
