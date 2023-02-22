@@ -25,6 +25,7 @@
 
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances();
+			
 			sleep(1);
 
 			//Only use BTC pairs:
@@ -50,10 +51,10 @@
 			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
 
 			//______show random market for view:
-			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
 			//Sort by percent change
-			usort($market_summaries, fn($a, $b) => $a['percentChange'] <=> $b['percentChange']);
+			usort($market_summaries, fn($a, $b) => $a['percent_change'] <=> $b['percent_change']);
 
 			//Get top 5 markets by percent_change:
 			array_splice($market_summaries, 0, count($market_summaries)-5);
@@ -66,7 +67,7 @@
 				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
 
 				//_____get currencies/balances:
-				$market = $market_summary['symbol'];
+				$market = $market_summary['market'];
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];

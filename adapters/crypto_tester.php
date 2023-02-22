@@ -30,8 +30,8 @@
 				foreach( $currency_exchange as $currency ) {
 					if( strtoupper( $currency ) !== $currency )
 						die( "Currency must be uppercase: $currency" );
-					if( strlen( $currency ) < 1 || strlen( $currency ) > 6 )
-						die( "Currency must be 1-6 characters: $currency" );
+					if( strlen( $currency ) < 1 || strlen( $currency ) > 20 )
+						die( "Currency must be 1-20 characters: $currency" );
 				}
 			}
 		}
@@ -44,10 +44,10 @@
 					$curs = explode( "-", $market );
 					if( sizeof( $curs ) !== 2 )
 						die( "Invalid market format: $market" );
-					if( strlen( $curs[0] ) < 1 || strlen( $curs[0] ) > 6 )
-						die( "Base Currency must be 1-6 characters: {$curs[0]}" );
-					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 6 )
-						die( "Quote Currency must be 1-6 characters: {$curs[1]}" );
+					if( strlen( $curs[0] ) < 1 || strlen( $curs[0] ) > 20 )
+						die( "Base Currency must be 1-20 characters: {$curs[0]}" );
+					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 20 )
+						die( "Quote Currency must be 1-20 characters: {$curs[1]}" );
 				}
 				//Could further test this market by creating an order and cancelling it.
 				//Use the Adapter->get_market_symbol and Adapter->unget_market_symbol

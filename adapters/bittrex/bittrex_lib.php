@@ -162,12 +162,16 @@
 			return $this->queryGET( "/markets" );
 		}
 
+		public function get_market( $arr = array( "market" => "BTC-LTC" ) ) {
+			return $this->queryGET( "/markets/".$arr['market'] );
+		}
+
 		public function get_markets_summaries() {
 			return $this->queryGET( "/markets/summaries" );
 		}
 
 		public function get_markets_summary( $arr = array( "market" => "BTC-LTC" ) ) {
-			return $this->queryGET( "/markets/".$arr['market'] );
+			return $this->queryGET( "/markets/" . $arr['market'] . "/summary" );
 		}
 
 		public function get_currencies() {

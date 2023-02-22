@@ -303,16 +303,32 @@
 		//TESTED v3: works
 		public function get_balance( $currency="BTC" ) {
 			$balance = $this->exch->get_balance( array('currency' => $currency ) );
+			
+			$balance['type'] = "exchange";
+			$balance['currency'] = $balance['currencySymbol'];
+			$balance['pending'] = $balance['total'] - $balance['available'];
+			$balance['reserved'] = $balance['total'] - $balance['available'];
+			$balance['btc_value'] = null;
+
+			unset( $balance['currencySymbol'] );
+			unset( $balance['updatedAt'] );
+
+			$response[$balance['currency']] = $balance;
+			
 			return $balance;
 
 		}
 
 		//Works for now: can get more data from get_markets???
 		public function get_market_summary( $market="LTC-BTC" ) {
-			$market_summary = $this->exch->get_markets_summary( array('market' => $market ) );
+			$market_summary = $this->exch->get_markets_summary( array('market' => $market ) );			
+			$m_market = $this->exch->get_market( array('market' => $market )  );
 			$ticker = $this->exch->get_ticker( array('market' => $market ) );
+
+			$market_summary = array_merge( $market_summary, $m_market );
+			$market_summary = array_merge( $market_summary, $ticker );
 			
-			return $this->standardize_market_summary( array_merge( $market_summary, $ticker ) );
+			return $this->standardize_market_summary( $market_summary );
 		}
 
 		//Works
@@ -334,7 +350,7 @@
 			foreach( $markets_summaries as $markets_summary ) {
 				foreach( $markets as $market ) {
 					if( $markets_summary['symbol'] == $market['symbol'] ) {
-						array_push( $market_summaries, $this->standardize_market_summary( array_merge( $markets_summary, $market ) ) );
+						array_push( $market_summaries, array_merge( $markets_summary, $market ) );
 					}
 				}
 			}
@@ -343,7 +359,7 @@
 			foreach( $tickers as $ticker ) {
 				foreach( $market_summaries as $market_summary ) {
 					if( $market_summary['symbol'] == $ticker['symbol'] ) {
-						array_push( $response, $this->standardize_market_summary( array_merge( $market_summary, $ticker ) ) ); //Standardize the format
+						array_push( $response, array_merge( $market_summary, $ticker ) ); //Standardize the format
 					}
 				}
 			}
@@ -359,20 +375,25 @@
 				}
 			}
 
-			$this->market_summaries = $response;			
+			//Standardize the format
+			foreach( $response as $key => $value ) {
+				$response[$key] = $this->standardize_market_summary( $value );
+			}
+
+			$this->market_summaries = $response;
 			return $this->market_summaries;
 		}
 
 		//Still missing some data but good enough for now:
-		private function standardize_market_summary( $market_summary ) {
+		private function standardize_market_summary( $market_summary ) {		
 			$market_summary['exchange'] = "bittrex";
 			$market_summary['market'] = $market_summary['symbol'];
 			$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : null;
 			$market_summary['low'] = isset( $market_summary['low'] ) ? $market_summary['low'] : null;
-			$market_summary['base_volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : null;
-			$market_summary['quote_volume'] = isset( $market_summary['quoteVolume'] ) ? $market_summary['quoteVolume'] : null;
+			$market_summary['base_volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : 0;
+			$market_summary['quote_volume'] = isset( $market_summary['quoteVolume'] ) ? $market_summary['quoteVolume'] : 0;
 			$market_summary['btc_volume'] = null;
-			$market_summary['last_price'] = null;
+			$market_summary['last_price'] = isset( $market_summary['lastTradeRate'] ) ? $market_summary['lastTradeRate'] : 0;
 			$market_summary['timestamp'] = null;
 			$market_summary['bid'] = isset( $market_summary['bidRate'] ) ? $market_summary['bidRate'] : null;
 			$market_summary['ask'] = isset( $market_summary['askRate'] ) ? $market_summary['askRate'] : null;
@@ -381,7 +402,7 @@
 			$market_summary['created'] = null;
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
-			$market_summary['percent_change'] = null;
+			$market_summary['percent_change'] = isset( $market_summary['percentChange'] ) ? $market_summary['percentChange'] : 0;
 			$market_summary['frozen'] = null;
 			$market_summary['verified_only'] = null;
 			$market_summary['expiration'] = null;
@@ -395,8 +416,23 @@
 			$market_summary['vwap'] = null;
 			$market_summary['market_id'] = null;
 
+			unset( $market_summary['symbol'] );
+			unset( $market_summary['baseCurrencySymbol'] );
+			unset( $market_summary['quoteCurrencySymbol'] );
+			unset( $market_summary['minTradeSize'] );
+			unset( $market_summary['precision'] );
+			unset( $market_summary['status'] );
+ 			unset( $market_summary['createdAt'] );
+			unset( $market_summary['prohibitedIn'] );
+			unset( $market_summary['associatedTermsOfService'] );
+			unset( $market_summary['tags'] );
+			unset( $market_summary['lastTradeRate'] );
+			unset( $market_summary['updatedAt'] );
 			unset( $market_summary['bidRate'] );
 			unset( $market_summary['askRate'] );
+			unset( $market_summary['volume'] );
+			unset( $market_summary['quoteVolume'] );
+			unset( $market_summary['percentChange'] );
 
 			return $market_summary;
 		}
