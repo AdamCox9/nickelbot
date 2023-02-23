@@ -51,8 +51,6 @@
 					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 20 )
 						die( "Quote Currency must be 1-20 characters: {$curs[1]}" );
 				}
-				//Could further test this market by creating an order and cancelling it.
-				//Use the Adapter->get_market_symbol and Adapter->unget_market_symbol
 			}
 		}
 
@@ -63,8 +61,6 @@
 		}
 
 		private function test_market_summary( $market_summary ) {
-
-			//Data:
 			$keys = array(	'ask', 'base_volume', 'bid', 'btc_volume', 'created', 'display_name', 'exchange', 
 							'expiration', 'frozen', 'high', 'initial_margin', 'last_price', 
 							'low', 'market', 'market_id', 'maximum_order_size', 'mid', 'minimum_margin', 

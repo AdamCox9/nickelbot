@@ -69,15 +69,16 @@
 
 		//     --url https://api-pub.bitfinex.com/v2/ticker/tBTCUSD \
 		//	https://api-pub.bitfinex.com/v2/ticker/{symbol}
-		public function ticker( $symbol = "tBTCUSD" ) {
-			return json_decode( file_get_contents( $this->pub_url_v2 . "/ticker/" . $symbol ), true );
+		public function ticker( $symbol = "BTCUSD" ) {
+			$url = $this->pub_url_v2 . "/ticker/t" . $symbol;
+			//print_r( $url );
+			return json_decode( file_get_contents( $url ), true );
 		}
 
 		//     --url 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL' \
 		//	https://api-pub.bitfinex.com/v2/tickers
 		//	https://api-pub.bitfinex.com/v2/tickers?symbols=ALL
 		public function tickers( ) {
-			echo "\n" . $this->pub_url_v2 . "/tickers?symbols=All" . "\n";
 			return json_decode( file_get_contents( $this->pub_url_v2 . "/tickers?symbols=ALL" ), true );
 		}
 
@@ -136,6 +137,31 @@
 		//	https://api-pub.bitfinex.com/v2/rankings/{Key}:{Time_Frame}:{Symbol}/{Section}
 		public function leaderboards( $symbol = "tBTCUSD" ) {
 			return json_decode( file_get_contents( $this->pub_url_v2 . "/rankings/vol:3h:" . $symbol . "/hist?sort=-1&start=start&end=end&limit=125" ), true );
+		}
+
+		//     --url 'https://api-pub.bitfinex.com/v2/pulse/hist?limit=25' \
+		//	https://api-pub.bitfinex.com/v2/pulse/hist
+		public function pulse_history( ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/pulse/hist?limit=25" ), true );
+		}
+
+		//	--url 'https://api-pub.bitfinex.com/v2/pulse/profile/Bitfinex' \
+		//	https://api-pub.bitfinex.com/v2/pulse/profile/{Nickname}
+		public function pulse_profile_details( $nickname = "Bitfinex" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/pulse/profile/" . $nickname ), true );
+		}
+
+		//	--url 'https://api-pub.bitfinex.com/v2/funding/stats/fUSD/hist' \
+		//	https://api-pub.bitfinex.com/v2/funding/stats/{Symbol}/hist
+		public function funding_stats(  $symbol = "fUSD"  ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/funding/stats/" . $symbol . "/hist" ), true );
+		}
+
+		//	--url https://api-pub.bitfinex.com/v2/conf/pub:list:pair:exchange \
+		//	--url https://api-pub.bitfinex.com/v2/conf/pub:map:currency:label \
+		//	https://api-pub.bitfinex.com/v2/conf/pub:{Action}:{Object}:{Detail}
+		public function configs( $Action = "map", $Object = "currency", $Detail = "label" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/conf/pub:" . $Action . ":" . $Object . ":" . $Detail ), true );
 		}
 
 		//Authenticated Functions:

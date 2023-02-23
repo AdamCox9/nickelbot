@@ -6,12 +6,26 @@
 			$this->exch = $Exch;
 		}
 
+		//Should be in format of "ETH-BTC" "BASE-QUOTE"
 		private function get_market_symbol( $market ) {
-			return strtoupper( substr_replace($market, '-', 3, 0) );
+
+			if( strlen( $market ) == 6 )
+				return substr_replace($market, '-', 3, 0);
+			else
+				return str_replace(":", "-", $market);
+		
 		}
 
 		private function unget_market_symbol( $market ) {
-			return str_replace( "-", "", strtolower( $market ) );
+			if( strlen( $market ) == 7 ) {
+				$market = str_replace("-", "", $market);
+				print_r( $market );
+				return $market;
+			} else {
+				$market = str_replace("-", ":", $market);
+				print_r( $market );
+				return $market;
+			}
 		}
 
 		public function get_info() {
@@ -112,30 +126,23 @@
 		}
 
 		public function get_markets() {
-			$markets = $this->exch->symbols();
+			$markets = $this->exch->configs( "list", "pair", "exchange" );
 			$results = [];
-
-			foreach( $markets as $market ) {
-				//What is a market that has a colon in it? Let's remove these markets.
-				if( ! str_contains( $market, ':' ) )
-					array_push( $results, $this->get_market_symbol( $market ) );
+			
+			foreach( $markets[0] as $market ) {
+				array_push( $results, $this->get_market_symbol( $market ) );
 			}
 			return $results;
 		}
 
 		public function get_currencies() {
-			$currencies = $this->exch->tickers();
-			
-			print_r( $currencies );
-			die( 'test' );
-			
-			//Also haas $currencies['currencies']['fiat'] and $currencies['currencies']['funding'], but only using crypto for now:
-			$currencies = $currencies['currencies']['crypto'];
-			$response = [];
-			foreach( $currencies as $currency ) {
-				array_push( $response, $currency['symbol'] );
+			$currencies = $this->exch->configs( "map", "currency", "label" );
+			$results = [];
+
+			foreach( $currencies[0] as $currency ) {
+				array_push( $results, $currency[0] );
 			}
-			return( $response );
+			return( $results );
 		}
 
 		public function deposit_address( $currency = "BTC", $wallet_type = "exchange" ){
@@ -195,14 +202,85 @@
 					if( isset( $balances['type'] )&& $balances['type'] == "exchange" )
 						return $balance;
 
-			//If balance not set, it must be 0.00000000
+			//If balance not set, it must be 0.00000000, build a response array:
 			return array( 'type' => 'exchange', 'currency' => $currency, 'available' => 0.00000000, 'total' => 0.00000000, 'reserved' => 0.00000000, 'btc_value' => 0.00000000, 'pending' => 0.00000000 );
 		}
 
 		public function get_market_summary( $market = "ETH-BTC" ) {
-			$market_summary = $this->exch->ticker( $market );
+			$market_summary = $this->exch->ticker( $this->unget_market_symbol( $market ) );
+			$market_summary['market'] = $market;
+			$market_summary = $this->standardize_market_summary( $market_summary );
+
 			return $market_summary;
 		}
+
+		/*
+			TODO add BID_SIZE and ASK_SIZE to standardized market summary for all exchanges:
+		
+			[0]	BID			float	Price of last highest bid
+			[1]	BID_SIZE		float	Sum of the 25 highest bid sizes
+			[2]	ASK			float	Price of last lowest ask
+			[3]	ASK_SIZE		float	Sum of the 25 lowest ask sizes
+			[4]	DAILY_CHANGE		float	Amount that the last price has changed since yesterday
+			[5]	DAILY_CHANGE_RELATIVE	float	Relative price change since yesterday (*100 for percentage change)
+			[6]	LAST_PRICE		float	Price of the last trade
+			[7]	VOLUME			float	Daily volume
+			[8]	HIGH			float	Daily high
+			[9]	LOW			float	Daily low
+
+			........translated to.........
+			
+			'ask', 'base_volume', 'bid', 'btc_volume', 'created', 'display_name', 'exchange', 
+			'expiration', 'frozen', 'high', 'initial_margin', 'last_price', 
+			'low', 'market', 'market_id', 'maximum_order_size', 'mid', 'minimum_margin', 
+			'minimum_order_size_base', 'minimum_order_size_quote', 'open_buy_orders',
+			'open_sell_orders', 'percent_change', 'price_precision', 
+			'quote_volume', 'result', 'timestamp', 'verified_only', 'vwap' 
+		*/
+		private function standardize_market_summary( $market_summary ) {		
+			$market_summary['exchange'] = "bittrex";
+			$market_summary['high'] = isset( $market_summary[8] ) ? $market_summary[8] : null;
+			$market_summary['low'] = isset( $market_summary[9] ) ? $market_summary[9] : null;
+			$market_summary['base_volume'] = null;
+			$market_summary['quote_volume'] = isset( $market_summary[7] ) ? $market_summary[7] : null;
+			$market_summary['btc_volume'] = null;
+			$market_summary['last_price'] = isset( $market_summary[6] ) ? $market_summary[6] : null;
+			$market_summary['timestamp'] = null;
+			$market_summary['bid'] = isset( $market_summary[0] ) ? $market_summary[0] : null;
+			$market_summary['ask'] = isset( $market_summary[2] ) ? $market_summary[2] : null;
+			$market_summary['display_name'] = $market_summary['market'];
+			$market_summary['result'] = true;
+			$market_summary['created'] = null;
+			$market_summary['open_buy_orders'] = null;
+			$market_summary['open_sell_orders'] = null;
+			$market_summary['percent_change'] = isset( $market_summary[4] ) ? $market_summary[4] : null;
+			$market_summary['frozen'] = null;
+			$market_summary['verified_only'] = null;
+			$market_summary['expiration'] = null;
+			$market_summary['initial_margin'] = null;
+			$market_summary['maximum_order_size'] = null;
+			$market_summary['mid'] = null;
+			$market_summary['minimum_margin'] = null;
+			$market_summary['minimum_order_size_quote'] = null;
+			$market_summary['minimum_order_size_base'] = null;
+			$market_summary['price_precision'] = 8;
+			$market_summary['vwap'] = null;
+			$market_summary['market_id'] = null;
+
+			unset( $market_summary['0'] );
+			unset( $market_summary['1'] );
+			unset( $market_summary['2'] );
+			unset( $market_summary['3'] );
+			unset( $market_summary['4'] );
+			unset( $market_summary['5'] );
+			unset( $market_summary['6'] );
+			unset( $market_summary['7'] );
+			unset( $market_summary['8'] );
+			unset( $market_summary['9'] );
+
+			return $market_summary;
+		}
+
 
 		public function get_market_summaries() {
 			$market_summaries = $this->exch->symbols_details();

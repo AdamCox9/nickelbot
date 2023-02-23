@@ -409,10 +409,10 @@
 			$market_summary['market'] = $market_summary['symbol'];
 			$market_summary['high'] = isset( $market_summary['high'] ) ? $market_summary['high'] : null;
 			$market_summary['low'] = isset( $market_summary['low'] ) ? $market_summary['low'] : null;
-			$market_summary['base_volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : 0;
-			$market_summary['quote_volume'] = isset( $market_summary['quoteVolume'] ) ? $market_summary['quoteVolume'] : 0;
+			$market_summary['base_volume'] = isset( $market_summary['volume'] ) ? $market_summary['volume'] : null;
+			$market_summary['quote_volume'] = isset( $market_summary['quoteVolume'] ) ? $market_summary['quoteVolume'] : null;
 			$market_summary['btc_volume'] = null;
-			$market_summary['last_price'] = isset( $market_summary['lastTradeRate'] ) ? $market_summary['lastTradeRate'] : 0;
+			$market_summary['last_price'] = isset( $market_summary['lastTradeRate'] ) ? $market_summary['lastTradeRate'] : null;
 			$market_summary['timestamp'] = null;
 			$market_summary['bid'] = isset( $market_summary['bidRate'] ) ? $market_summary['bidRate'] : null;
 			$market_summary['ask'] = isset( $market_summary['askRate'] ) ? $market_summary['askRate'] : null;
@@ -421,7 +421,7 @@
 			$market_summary['created'] = null;
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
-			$market_summary['percent_change'] = isset( $market_summary['percentChange'] ) ? $market_summary['percentChange'] : 0;
+			$market_summary['percent_change'] = isset( $market_summary['percentChange'] ) ? $market_summary['percentChange'] : null;
 			$market_summary['frozen'] = null;
 			$market_summary['verified_only'] = null;
 			$market_summary['expiration'] = null;
