@@ -41,15 +41,21 @@
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
-			print_r( $market_summary );
+			//print_r( $market_summary );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
-			die( 'TEST' );
+			//die( 'TEST' );
 
 			echo " -> getting open orders for test market\n";
-			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );
+			$open_orders = $Adapter->get_open_orders( $market );
+			//print_r( $open_orders );
+			$Tester->test( 'open_orders', $open_orders );
+			//die( 'TEST' );
 
 			echo " -> getting completed orders for test market\n";
-			$Tester->test( 'completed_orders', $Adapter->get_completed_orders( $market ) );
+			$completed_orders = $Adapter->get_completed_orders( $market );
+			//print_r( $completed_orders );
+			$Tester->test( 'completed_orders', $completed_orders );
+			//die( 'TEST' );
 
 			echo " -> getting 5 entries from first orderbook\n";
 			$Tester->test( 'orderbook', $Adapter->get_orderbook( $market, 5 ) );

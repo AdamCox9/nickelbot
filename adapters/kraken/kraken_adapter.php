@@ -22,22 +22,25 @@
 		}
 
 		public function get_markets() {
-			$markets = $this->exch->AssetPairs();
+			$markets = $this->exch->AssetPairs();			
+			$this->AssetPairs = $markets['result'];
+			
 			$results = [];
-			$this->AssetPairs = [];
 			foreach( $markets['result'] as $key => $market ) {
-				//if( strpos($key, '.d') === false )
-					array_push( $results, $this->get_market_symbol( $key ) );
-				$this->AssetPairs[ $this->get_market_symbol( $key ) ] = $markets;
+				$market_key = $this->get_market_symbol( $key );
+				if( $market_key )
+					array_push( $results, $market_key );
 			}
+			
 			return $results;
 		}
 
 		public function get_currencies() {
 			$currencies = $this->exch->Assets();
+			
 			$results = [];
 			foreach( $currencies['result'] as $key => $currency ) {
-				array_push( $results, $key );//TODO: deal with their altname for currencies BTC vs XBTC, etc...
+				array_push( $results, $key );
 			}
 			return $results;
 		}
@@ -60,6 +63,9 @@ Note: Today's prices start at 00:00:00 UTC
 
 		public function get_market_summary( $market = "ETH-BTC" ) {
 			$market_summary = $this->exch->Ticker( $this->unget_market_symbol( $market ) );
+
+			if( ! isset( $this->AssetPairs ) )
+				$this->get_markets();
 
 			$market_summary = $market_summary['result'];
 			$market_summary = array_pop( $market_summary );
@@ -84,17 +90,17 @@ Note: Today's prices start at 00:00:00 UTC
 			$market_summary['minimum_margin'] = null;
 			$curs_bq = explode( "-", $market_summary['market'] );
 			$base_cur = $curs_bq[0];
-			$market_summary['minimum_order_size_base'] = $this->get_min_order_size( $base_cur );
+			$market_summary['minimum_order_size_base'] = $this->AssetPairs[ $this->unget_market_symbol( $market ) ]['ordermin'];
 			$market_summary['minimum_order_size_quote'] = null;
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
-			$market_summary['price_precision'] = $this->AssetPairs[$market]['lot_decimals'];
-    		$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], $market_summary['mid'], 32 );;
-    		$market_summary['result'] = null;
-    		$market_summary['timestamp'] = null;
-    		$market_summary['verified_only'] = null;
-    		$market_summary['vwap'] = null;
+			$market_summary['price_precision'] = $this->AssetPairs[  $this->unget_market_symbol( $market ) ]['lot_decimals'];
+			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], $market_summary['mid'], 32 );;
+			$market_summary['result'] = null;
+			$market_summary['timestamp'] = null;
+			$market_summary['verified_only'] = null;
+			$market_summary['vwap'] = null;
 
 			unset( $market_summary['a'] );
 			unset( $market_summary['b'] );
