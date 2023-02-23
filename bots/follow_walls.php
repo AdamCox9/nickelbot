@@ -2,7 +2,7 @@
 
 	/*****
 
-		This should create buy and sell orders in front of big buy/sell walls
+		This will create buy and sell orders in front of big buy/sell walls for markets selected from $_CONFIG parameters below.
 
 	 *****/
 	 
@@ -11,7 +11,7 @@
 		$_CONFIG['BUY_AT_PERCENT_CHANGE'] = 0.97;
 		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 50;
 		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 5;
-		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "ASC"; // [ASC|DESC]
+		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "DESC"; // [ASC|DESC]
 
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
@@ -102,14 +102,19 @@
 				array_splice( $bids, 0, count( $bids ) - 5 );
 
 				$total_bid = 0;
-				foreach( $bids as $bid ) {
-					$total_bid += $bid['price'];			
-				}
+				foreach( $bids as $bid )
+					$total_bid += $bid['price'];
 
-				echo "average price of largest 5 orders:" . $total_bid / count( $bids ) . "\n";
+				$avg_price = $total_bid / count( $bids );
 
-				print_r( $bids );
-				die( 'test' );
+				//Let's remove bottom outliers:
+				foreach( $bids as $id => $m_bid )
+					if( $m_bid['price'] < 0.9 * $avg_price )
+						unset( $bids[$id] );
+
+				$largest_bid = array_pop( $bids );
+
+				$buy_price = number_format( $largest_bid['price'] + $epsilon, 8 );
 
 				echo " -> " . get_class( $Adapter ) . " \n";
 				echo " -> $market \n";
