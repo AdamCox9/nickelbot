@@ -121,7 +121,15 @@
 		}
 
 		public function get_currencies() {
-			return array( 'USD', 'BTC', 'LTC', 'ETH' );
+			$currencies = $this->exch->currencies();
+			
+			//Also haas $currencies['currencies']['fiat'] and $currencies['currencies']['funding'], but only using crypto for now:
+			$currencies = $currencies['currencies']['crypto'];
+			$response = [];
+			foreach( $currencies as $currency ) {
+				array_push( $response, $currency['symbol'] );
+			}
+			return( $response );
 		}
 
 		public function deposit_address( $currency = "BTC", $wallet_type = "exchange" ){

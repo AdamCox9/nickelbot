@@ -16,6 +16,8 @@
 			echo " -> getting currencies\n";
 			$currencies = $Adapter->get_currencies();
 			$Tester->test( 'currencies', array( $currencies ) );
+			print_r( $currencies );
+			die( 'test' );
 
 			echo " -> getting balance for sample currency\n";
 			$currency = $currencies[ rand( 0, sizeof( $currencies ) - 1 ) ];//test a random currency...

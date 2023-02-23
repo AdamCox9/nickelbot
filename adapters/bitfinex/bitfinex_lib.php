@@ -87,6 +87,10 @@
 			return json_decode( file_get_contents( $this->trading_url . "/symbols" ), true );
 		}
 		
+		public function currencies() {
+			return json_decode( file_get_contents( $this->trading_url . "/currencies" ), true );
+		}
+		
 		public function symbols_details() {
 			return json_decode( file_get_contents( $this->trading_url . "/symbols_details" ), true );
 		}
