@@ -206,8 +206,8 @@
 			return $this->queryGET( "/orders/closed" );
 		}
 
-		public function get_orderbook( $arr = array( "market" => "BTC-LTC" ) ) {
-			return $this->queryGET( "/markets/".$arr['market']."/orderbook" );
+		public function get_orderbook( $arr = array( "market" => "BTC-LTC", "depth" => 25 ) ) {
+			return $this->queryGET( "/markets/" . $arr['market'] . "/orderbook" . "?depth=" . $arr['depth'] );
 		}
 
 		public function get_addresses() {
