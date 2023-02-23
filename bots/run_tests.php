@@ -15,26 +15,34 @@
 
 			echo " -> getting currencies\n";
 			$currencies = $Adapter->get_currencies();
-			$Tester->test( 'currencies', array( $currencies ) );
 			print_r( $currencies );
-			die( 'test' );
+			$Tester->test( 'currencies', array( $currencies ) );
+
+die( 'test' );
 
 			echo " -> getting balance for sample currency\n";
 			$currency = $currencies[ rand( 0, sizeof( $currencies ) - 1 ) ];//test a random currency...
+			//print_r( $currency );
 			$balance = $Adapter->get_balance( $currency );
+			//print_r( $balance );
 			$Tester->test( 'balance', $balance );
 
 			echo " -> getting markets\n";
 			$markets = $Adapter->get_markets();
+			//print_r( $markets );
 			$Tester->test( 'markets', array( $markets ) );
 
 			echo " -> getting first market to test with\n";
 			$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];//test a random market...
+			//print_r( $market );
 			$Tester->test( 'markets', array( array( $market ) ) );
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
+			print_r( $market_summary );
 			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
+
+			die( 'test' );
 
 			echo " -> getting open orders for test market\n";
 			$Tester->test( 'open_orders', $Adapter->get_open_orders( $market ) );

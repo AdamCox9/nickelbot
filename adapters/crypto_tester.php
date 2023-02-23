@@ -17,8 +17,10 @@
 				}
 			}
 
-			if( ! is_array( $data ) )
+			if( ! is_array( $data ) ) {
+				print_r( $data );
 				die( "ERROR: Expecting array." );
+			}
 
 			$method = 'test_' . $method;
 			return $this->$method( $data );

@@ -114,14 +114,20 @@
 		public function get_markets() {
 			$markets = $this->exch->symbols();
 			$results = [];
+
 			foreach( $markets as $market ) {
-				array_push( $results, $this->get_market_symbol( $market ) );
+				//What is a market that has a colon in it? Let's remove these markets.
+				if( ! str_contains( $market, ':' ) )
+					array_push( $results, $this->get_market_symbol( $market ) );
 			}
 			return $results;
 		}
 
 		public function get_currencies() {
-			$currencies = $this->exch->currencies();
+			$currencies = $this->exch->tickers();
+			
+			print_r( $currencies );
+			die( 'test' );
 			
 			//Also haas $currencies['currencies']['fiat'] and $currencies['currencies']['funding'], but only using crypto for now:
 			$currencies = $currencies['currencies']['crypto'];
@@ -183,31 +189,22 @@
 
 		public function get_balance( $currency = "BTC", $opts = array() ) {
 			$balances = $this->get_balances();
-			foreach( $balances as $balance )
-				if( $balance['currency'] == $currency )
-					if( isset( $opts['type'] ) ) {
-						if( $opts['type'] == $balance['type'] )
-							return $balance;
-					} else
+
+			foreach( $balances as $key => $balance )
+				if( $key == $currency )
+					if( isset( $balances['type'] )&& $balances['type'] == "exchange" )
 						return $balance;
+
+			//If balance not set, it must be 0.00000000
+			return array( 'type' => 'exchange', 'currency' => $currency, 'available' => 0.00000000, 'total' => 0.00000000, 'reserved' => 0.00000000, 'btc_value' => 0.00000000, 'pending' => 0.00000000 );
 		}
 
 		public function get_market_summary( $market = "ETH-BTC" ) {
-			if( isset( $this->market_summaries ) ) {
-				foreach( $this->market_summaries as $market_summary ) {
-					if( $market_summary['market'] == $market ) {
-						return $market_summary;
-					}
-				}
-			}
-			$this->get_market_summaries();
-			return $this->get_market_summary( $market );//(core dumped)
+			$market_summary = $this->exch->ticker( $market );
+			return $market_summary;
 		}
 
 		public function get_market_summaries() {
-			if( isset( $this->market_summaries ) ) //cache
-				return $this->market_summaries;
-
 			$market_summaries = $this->exch->symbols_details();
 			$this->market_summaries = [];
 			foreach( $market_summaries as $market_summary ) {

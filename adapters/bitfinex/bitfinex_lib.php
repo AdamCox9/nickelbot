@@ -6,7 +6,9 @@
 		protected $api_key;
 		protected $api_secret;
 		protected $trading_url = "https://api.bitfinex.com/v1";
-		
+		protected $pub_url_v2 = "https://api-pub.bitfinex.com/v2";
+		protected $auth_url_v2 = "https://api.bitfinex.com/v2/auth";
+
 		public function __construct( $api_key, $api_secret ) 
 		{
 			$this->api_key = $api_key;
@@ -15,6 +17,7 @@
 			
 		private function query( $path, array $req = array() ) 
 		{
+			sleep( 1 );
 
 			// API settings
 			$key = $this->api_key;
@@ -59,40 +62,80 @@
 
 		//Public Functions:
 
-		public function pubticker( $symbol = "btcusd" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/pubticker/" . $symbol ), true );
+		//	https://api-pub.bitfinex.com/v2/platform/status
+		public function platform_status( ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/platform/status" ), true );
 		}
-		
-		public function stats( $symbol = "btcusd" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/stats/" . $symbol ), true );
+
+		//     --url https://api-pub.bitfinex.com/v2/ticker/tBTCUSD \
+		//	https://api-pub.bitfinex.com/v2/ticker/{symbol}
+		public function ticker( $symbol = "tBTCUSD" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/ticker/" . $symbol ), true );
 		}
-		
-		public function lendbook( $currency = "btc" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/lendbook/" . $currency ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/tickers?symbols=ALL' \
+		//	https://api-pub.bitfinex.com/v2/tickers
+		//	https://api-pub.bitfinex.com/v2/tickers?symbols=ALL
+		public function tickers( ) {
+			echo "\n" . $this->pub_url_v2 . "/tickers?symbols=All" . "\n";
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/tickers?symbols=ALL" ), true );
 		}
-		
-		public function book( $symbol = "btcusd" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/book/" . $symbol ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/tickers/hist?symbols=ALL&limit=100' \
+		//	https://api-pub.bitfinex.com/v2/tickers/hist
+		public function tickers_history( ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/tickers/hist?symbols=All&limite=100" ), true );
 		}
-		
-		public function trades( $symbol = "btcusd", $limit = 10 ) {
-			return json_decode( file_get_contents( $this->trading_url . "/trades/" . $symbol . "?limit_trades=" . $limit ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/trades/tBTCUSD/hist?limit=125&sort=-1' \
+		//	https://api-pub.bitfinex.com/v2/trades/{symbol}/hist
+		public function trades( $symbol = "tBTCUSD" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/trades/" . $symbol . "/hist?limit=125&sort=-1" ), true );
 		}
-		
-		public function lends( $currency = "btc" ) {
-			return json_decode( file_get_contents( $this->trading_url . "/lends/" . $currency ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/book/tBTCUSD/P0?len=25' \
+		//	https://api-pub.bitfinex.com/v2/book/{symbol}/{precision}
+		public function book( $symbol = "tBTCUSD" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/book/" . $symbol . "/P0?len=25" ), true );
 		}
-		
-		public function symbols() {
-			return json_decode( file_get_contents( $this->trading_url . "/symbols" ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/stats1/pos.size:1m:tBTCUSD:long/hist?sort=-1' \
+		//	https://api-pub.bitfinex.com/v2/stats1/{key}:{size}:{symbol}:{side}/{section}
+		public function stats( ) {
+			return array( "ERROR" => "METHOD_NOT_IMPLEMENTED" );
+			//return json_decode( file_get_contents( $this->pub_url_v2 . "/stats1/" ), true );
 		}
-		
-		public function currencies() {
-			return json_decode( file_get_contents( $this->trading_url . "/currencies" ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/candles/trade:1m:tBTCUSD/hist?limit=120&sort=-1' \
+		//	https://api-pub.bitfinex.com/v2/candles/trade:{TimeFrame}:{Symbol}/{Section}
+		public function candles( $symbol = "tBTCUSD" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/candles/trade:1m:" . $symbol . "/hist?limit=120&sort=-1" ), true );
 		}
-		
-		public function symbols_details() {
-			return json_decode( file_get_contents( $this->trading_url . "/symbols_details" ), true );
+
+		//     --url 'https://api-pub.bitfinex.com/v2/status/deriv?keys=tBTCF0%3AUSTF0%2CtETHF0%3AUSTF0' \
+		//	https://api-pub.bitfinex.com/v2/status/deriv
+		public function derivatives_status( ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/status/deriv" ), true );
+		}
+
+
+		//     --url 'https://api-pub.bitfinex.com/v2/status/deriv/tBTCF0%3AUSTF0/hist?start=1568123933000&end=1570578740000&sort=-1&limit=100' \
+		//	https://api-pub.bitfinex.com/v2/status/{type}/{symbol}/hist
+		public function derivatives_status_history( ) {
+			return array( "ERROR" => "METHOD_NOT_IMPLEMENTED" );
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/status/deriv" ), true );
+		}
+
+		//     --url 'https://api-pub.bitfinex.com/v2/liquidations/hist?limit=120&sort=-1' \
+		//	https://api-pub.bitfinex.com/v2/liquidations/hist
+		public function liquidations( ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/liquidations/hist?limit=120&sort=-1" ), true );
+		}
+
+		//     --url 'https://api-pub.bitfinex.com/v2/rankings/vol:3h:tBTCUSD/hist?sort=-1&start=start%3D&end=end%3D&limit=125' \
+		//	https://api-pub.bitfinex.com/v2/rankings/{Key}:{Time_Frame}:{Symbol}/{Section}
+		public function leaderboards( $symbol = "tBTCUSD" ) {
+			return json_decode( file_get_contents( $this->pub_url_v2 . "/rankings/vol:3h:" . $symbol . "/hist?sort=-1&start=start&end=end&limit=125" ), true );
 		}
 
 		//Authenticated Functions:
@@ -149,13 +192,6 @@
 			return $this->query( "/history" );
 		}
 
-		/*****
-			currency	[string]	The currency to look for.
-			method		[string]	Optional. The method of the deposit/withdrawal (can be “bitcoin”, “litecoin”, “darkcoin”, “wire”).
-			since		[time]		Optional. Return only the history after this timestamp.
-			until		[time]		Optional. Return only the history before this timestamp.
-			limit		[int]		Optional. Limit the number of entries to return. Default is 500.
-		*****/
 		public function history_movements( $currency = "BTC" ) {
 			return $this->query( "/history/movements", array( 'currency' => $currency )  );
 		}
