@@ -6,13 +6,12 @@
 
 		This is a simple example of a bot that will cancel the oldest orders.
 
-	*/
-
-	function cancel_oldest_orders( $Adapters ) {
-
 		$_CONFIG['direction'] = "BOTH";		// [BOTH|BUY|SELL] types of orders to cancel
 		$_CONFIG['count'] = 3;			// Number of orders to cancel
 
+	*/
+
+	function cancel_oldest_orders( $Adapters, $_CONFIG = array() ) {
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {
 			$open_orders = $Adapter->get_open_orders( );
@@ -45,8 +44,9 @@
 				return strtotime( $b['timestamp_created'] ) - strtotime( $a['timestamp_created'] );
 			});
 
-			//Only oldest 5 orders:
-			array_splice( $open_orders, 0, count( $open_orders ) - $_CONFIG['count'] );
+			//Only oldest orders set by config:
+			if( count( $open_orders ) >= $_CONFIG['count'] )
+				array_splice( $open_orders, 0, count( $open_orders ) - $_CONFIG['count'] );
 
 			//print_r( $open_orders );
 			echo " -> narrowed down to oldest " . count( $open_orders ) . " open orders \n";
