@@ -151,8 +151,8 @@ Note: Today's prices start at 00:00:00 UTC
 				$market_summary['minimum_margin'] = null;
 				$curs_bq = explode( "-", $market_summary['market'] );
 				$base_cur = $curs_bq[0];
-				$market_summary['minimum_order_size_base'] = $this->get_min_order_size( $base_cur );
-				$market_summary['minimum_order_size_quote'] = null;
+				$market_summary['minimum_order_size_base'] = null;
+				$market_summary['minimum_order_size_quote'] = 0.00011;
 				$market_summary['open_buy_orders'] = null;
 				$market_summary['open_sell_orders'] = null;
 				$market_summary['percent_change'] = null;
@@ -187,15 +187,13 @@ Note: Today's prices start at 00:00:00 UTC
 			return array( 'ERROR' => 'CURRENCY_NOT_FOUND' );
 		}
 
+		//TODO allow option CACHE=TRUE to be passed in:
 		public function get_balances() {
+			if( isset( $this->balances ) )
+				return $this->balances;
+		
 			$balances = $this->exch->Balance();
-			$currencies = $this->get_currencies();
-			foreach( $currencies as $currency ) {
-				if( ! array_key_exists( $currency, $balances['result'] ) ) {
-					$balances['result'][ $currency ] = 0;
-				}
-			}
-
+			
 			$results = [];
 			foreach( $balances['result'] as $key => $available ) {
 				$balance['currency'] = $key;
@@ -209,11 +207,23 @@ Note: Today's prices start at 00:00:00 UTC
 				$results[$key] = $balance;
 			}
 
-			return $results;
+			$this->balances = $results;
+			return $this->balances;
 		}
 
 		public function buy( $pair="ETH-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$result = $this->exch->AddOrder( $this->unget_market_symbol( $pair ), "buy", strtolower( $type ), $price, $amount );
+		
+			$pair = $this->unget_market_symbol( $pair );
+			
+			/*echo "pair: $pair\n";
+			echo "type: $type\n";
+			echo "price: $price\n";
+			echo "amount: $amount\n";*/
+			
+			$result = $this->exch->AddOrder( $pair , "buy", strtolower( $type ), number_format( $price, 6 ), number_format( $amount, 8 ) );
+
+			//print_r( $result );
+
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];
 			return $result;

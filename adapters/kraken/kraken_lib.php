@@ -109,7 +109,7 @@
 			return $this->query( 'DepositAddresses', array( 'method' => $method ) );
 		}
 
-		function AddOrder( $pair = "BTCLTC", $type = "buy", $ordertype = "limit", $price = "100.00", $volume = "0.01" ) {
+		function AddOrder( $pair = "XLTCXXBT", $type = "buy", $ordertype = "limit", $price = "0.001", $volume = "10" ) {
 			$out = array( 'pair' => $pair, 'type' => $type, 'ordertype' => $ordertype, 'price' => $price, 'volume' => $volume );
 			return $this->query( 'AddOrder', $out );
 		}

@@ -16,7 +16,7 @@
 
 		$_CONFIG['BUY_AT_PERCENT_CHANGE'] = 0.97;
 		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 50;
-		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 5;
+		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 10;
 		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "DESC"; // [ASC|DESC]
 
 		foreach( $Adapters as $Adapter ) {
@@ -29,10 +29,14 @@
 
 			echo " -> got " . count( $market_summaries ) . " markets \n";
 
+			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+
 			echo " -> getting balances \n";
-			$balances = $Adapter->get_balances();
+			$balances = $Adapter->get_balances( );
 			
-			sleep(1);
+			$balance = $Adapter->get_balance( 'XXBT' );
+			
+			print_r( $balance );
 
 			//Only use BTC pairs:
 			$filtered_market_summaries_by_btc = [];			
@@ -41,7 +45,7 @@
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
-				if( $quote_cur != 'BTC' ) continue;				
+				if( $quote_cur != 'XXBT' ) continue;				
 				array_push( $filtered_market_summaries_by_btc, $market_summary );
 			}
 
@@ -57,7 +61,7 @@
 			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
 
 			//______show random market for view:
-			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
 			//Sort by percent change, reversed
 			if( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
@@ -70,7 +74,7 @@
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
 
-			//print_r( $market_summaries );
+			print_r( $market_summaries );
 
 			foreach( $market_summaries as $market_summary ) {
 				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
@@ -78,6 +82,10 @@
 				//_____get currencies/balances:
 				$market = $market_summary['market'];
 				$curs_bq = explode( "-", $market );
+				print_r( $curs_bq );
+				
+				print_r( $balances['XXBT'] );
+				
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
 				$base_bal = isset( $balances[ $base_cur ] ) ? $balances[ $base_cur ]['available'] : 0;
@@ -88,7 +96,7 @@
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
 				$precision = $market_summary['price_precision'];			//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
 				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
-				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], 8);		//_____set order at X percent below bid
+				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], 8);	//_____set order at X percent below bid
 				//$buy_price = $market_summary['bid'] + $epsilon;			//_____buy at one unit above highest bid.
 				$sell_price = bcmul( $ask, 1.1, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
@@ -99,6 +107,7 @@
 				echo " -> base currency balance: $base_bal \n";
 				echo " -> quote currency: $quote_cur \n";
 				echo " -> quote currency balance: $quote_bal \n";
+				
 				echo " -> bid: $bid \n";
 				echo " -> ask: $ask \n";
 				echo " -> min order size base: $min_order_base \n";
@@ -120,10 +129,9 @@
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
 					else {
-						$buy = $Adapter->buy( $market, $order_size*1.2, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
-
+						$buy = $Adapter->buy( $market, $order_size*3, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
 						sleep(1);
-						if( isset( $buy['CODE'] ) ) { //error...
+						if( isset( $buy['CODE'] ) || isset( $buy['message'] ) ) { //error codes
 							print_r( $buy );
 						} else {
 							echo " -> *** buy order appears to have been placed succesfully \n";
