@@ -310,6 +310,8 @@ Note: Today's prices start at 00:00:00 UTC
 				unset( $open_order['fee'] );
 				unset( $open_order['misc'] );
 				unset( $open_order['oflags'] );
+				unset( $open_order['stopprice'] );
+				unset( $open_order['limitprice'] );
 
 				array_push( $results, $open_order );
 			}
@@ -347,6 +349,8 @@ Note: Today's prices start at 00:00:00 UTC
 				unset( $closed_order['cost'] );
 				unset( $closed_order['misc'] );
 				unset( $closed_order['oflags'] );
+				unset( $closed_order['stopprice'] );
+				unset( $closed_order['limitprice'] );
 
 				array_push( $results, $closed_order );
 			}

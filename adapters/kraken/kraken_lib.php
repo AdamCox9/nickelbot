@@ -55,7 +55,6 @@
 			if($result===false)
 				throw new Exception('CURL error: ' . curl_error($this->curl));
 
-			// decode results
 			$result = json_decode($result, true);
 			if(!is_array($result))
 				throw new Exception('JSON decode error');

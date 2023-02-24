@@ -44,8 +44,8 @@
 		 *****/
 
 		//build_cache( $Adapters );
-		//run_tests( $Adapters, $Tester );
-		cancel_oldest_orders( $Adapters, array( 'direction' => "BUY", 'count' => 50 ) );
+		run_tests( $Adapters, $Tester );
+		//cancel_oldest_orders( $Adapters, array( 'direction' => "BUY", 'count' => 50 ) );
 		//make_min_orders( $Adapters );
 		//make_max_orders( $Adapters );
 		//follow_walls( $Adapters );
