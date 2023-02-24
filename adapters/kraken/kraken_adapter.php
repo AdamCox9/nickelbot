@@ -116,46 +116,7 @@ Note: Today's prices start at 00:00:00 UTC
 		}
 
 		private function get_min_order_size( $currency ) {
-			//need to update manually:
-			//https://support.kraken.com/hc/en-us/articles/205893708-What-is-the-minimum-order-size-
-
-			if( strpos( $currency, 'REP' ) !== false )
-				$min_order_base = '0.3';
-			if( strpos( $currency, 'XBT' ) !== false )
-				$min_order_base = '0.002';
-			if( strpos( $currency, 'BCH' ) !== false )
-				$min_order_base = '0.002';
-			if( strpos( $currency, 'DASH' ) !== false )
-				$min_order_base = '0.03';
-			if( strpos( $currency, 'XDG' ) !== false )
-				$min_order_base = '3000';
-			if( strpos( $currency, 'EOS' ) !== false )
-				$min_order_base = '3';
-			if( strpos( $currency, 'ETH' ) !== false )
-				$min_order_base = '0.02';
-			if( strpos( $currency, 'ETC' ) !== false )
-				$min_order_base = '0.3';
-			if( strpos( $currency, 'GNO' ) !== false )
-				$min_order_base = '0.03';
-			if( strpos( $currency, 'ICN' ) !== false )
-				$min_order_base = '2';
-			if( strpos( $currency, 'LTC' ) !== false )
-				$min_order_base = '0.1';
-			if( strpos( $currency, 'MLN' ) !== false )
-				$min_order_base = '0.1';
-			if( strpos( $currency, 'XMR' ) !== false )
-				$min_order_base = '0.1';
-			if( strpos( $currency, 'XRP' ) !== false )
-				$min_order_base = '30';
-			if( strpos( $currency, 'XLM' ) !== false )
-				$min_order_base = '300';
-			if( strpos( $currency, 'ZEC' ) !== false )
-				$min_order_base = '0.03';
-			if( strpos( $currency, 'USDT' ) !== false )
-				$min_order_base = '5';
-
-			return $min_order_base;
-
+			return "0.05";
 		}
 
 		public function get_market_summaries() {
@@ -170,7 +131,6 @@ Note: Today's prices start at 00:00:00 UTC
 
 			$results = [];
 			foreach( $market_summaries['result'] as $key => $market_summary ) {
-
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['ask'] = $market_summary['a'][0];
 				$market_summary['bid'] = $market_summary['b'][0];
@@ -197,7 +157,7 @@ Note: Today's prices start at 00:00:00 UTC
 				$market_summary['open_sell_orders'] = null;
 				$market_summary['percent_change'] = null;
 				$market_summary['price_precision'] = null;
-				$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], $market_summary['mid'], 32 );;
+				$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 				$market_summary['result'] = null;
 				$market_summary['timestamp'] = null;
 				$market_summary['verified_only'] = null;
