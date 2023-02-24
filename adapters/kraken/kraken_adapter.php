@@ -95,7 +95,7 @@ Note: Today's prices start at 00:00:00 UTC
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
-			$market_summary['price_precision'] = $this->AssetPairs[  $this->unget_market_symbol( $market ) ]['lot_decimals'];
+			$market_summary['price_precision'] = $this->AssetPairs[  $this->unget_market_symbol( $market ) ]['cost_decimals'];
 			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], $market_summary['mid'], 32 );;
 			$market_summary['result'] = null;
 			$market_summary['timestamp'] = null;
@@ -131,6 +131,7 @@ Note: Today's prices start at 00:00:00 UTC
 
 			$results = [];
 			foreach( $market_summaries['result'] as $key => $market_summary ) {
+				if( ! isset( $this->AssetPairs[ $key ][ 'ordermin' ] ) ) continue;
 				$market_summary['market'] = $this->get_market_symbol( $key );
 				$market_summary['ask'] = $market_summary['a'][0];
 				$market_summary['bid'] = $market_summary['b'][0];
@@ -151,12 +152,12 @@ Note: Today's prices start at 00:00:00 UTC
 				$market_summary['minimum_margin'] = null;
 				$curs_bq = explode( "-", $market_summary['market'] );
 				$base_cur = $curs_bq[0];
-				$market_summary['minimum_order_size_base'] = null;
-				$market_summary['minimum_order_size_quote'] = 0.00011;
+				$market_summary['minimum_order_size_base'] = $this->AssetPairs[ $key ][ 'ordermin' ];
+				$market_summary['minimum_order_size_quote'] = null;
 				$market_summary['open_buy_orders'] = null;
 				$market_summary['open_sell_orders'] = null;
 				$market_summary['percent_change'] = null;
-				$market_summary['price_precision'] = null;
+				$market_summary['price_precision'] = $this->AssetPairs[ $key ][ 'cost_decimals' ];
 				$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 				$market_summary['result'] = null;
 				$market_summary['timestamp'] = null;
@@ -220,9 +221,7 @@ Note: Today's prices start at 00:00:00 UTC
 			echo "price: $price\n";
 			echo "amount: $amount\n";*/
 			
-			$result = $this->exch->AddOrder( $pair , "buy", strtolower( $type ), number_format( $price, 6 ), number_format( $amount, 8 ) );
-
-			//print_r( $result );
+			$result = $this->exch->AddOrder( $pair , "buy", strtolower( $type ), $price, $amount );
 
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];

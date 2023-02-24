@@ -83,6 +83,14 @@
 			return $result;
 		}
 
+
+		/*
+			https://docs.kraken.com/rest/
+			TODO implement rest of API
+		*/
+		
+		//_____Public Functions:
+		
 		function Assets() {
 			return $this->QueryPublic( 'Assets' );
 		}
@@ -94,6 +102,8 @@
 		function Ticker( $pair ) {
 			return $this->QueryPublic( 'Ticker', array( 'pair' => $pair ) );
 		}
+
+
 
 		//_____Private Functions:
 		

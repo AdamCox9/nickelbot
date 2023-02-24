@@ -94,12 +94,12 @@
 				$bid = $market_summary['bid'];
 				$min_order_base = $market_summary['minimum_order_size_base'];
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
-				$precision = $market_summary['price_precision'];			//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
-				$epsilon = 1 / pow( 10, $precision );					//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
-				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], 8);	//_____set order at X percent below bid
-				//$buy_price = $market_summary['bid'] + $epsilon;			//_____buy at one unit above highest bid.
-				$sell_price = bcmul( $ask, 1.1, 8);					//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
-				$spread = $sell_price - $buy_price;					//_____difference between highest bid and lowest ask.
+				$precision = $market_summary['price_precision'] ? $market_summary['price_precision'] : 8;	//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
+				$epsilon = 1 / pow( 10, $precision );								//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
+				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], $precision-2);			//_____set order at X percent below bid
+				//$buy_price = $market_summary['bid'] + $epsilon;						//_____buy at one unit above highest bid.
+				$sell_price = $ask;										//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
+				$spread = $sell_price - $buy_price;								//_____difference between highest bid and lowest ask.
 
 				echo " -> " . get_class( $Adapter ) . " \n";
 				echo " -> $market \n";
@@ -123,13 +123,13 @@
 
 					//_____Do the buy:
 
-					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $buy_price, $precision);
+					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $buy_price, 8 );
 
 					echo " -> *** attempt to buy $order_size $base_cur in $market for $buy_price $quote_cur costing " . bcmul( $order_size, $buy_price, 8 ) . " $quote_cur with quote balance of $quote_bal \n";
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
 					else {
-						$buy = $Adapter->buy( $market, $order_size*3, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
 						sleep(1);
 						if( isset( $buy['CODE'] ) || isset( $buy['message'] ) ) { //error codes
 							print_r( $buy );
