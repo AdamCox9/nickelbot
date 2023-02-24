@@ -430,7 +430,7 @@
 			$market_summary['mid'] = null;
 			$market_summary['minimum_margin'] = null;
 			$market_summary['minimum_order_size_quote'] = null;
-			$market_summary['minimum_order_size_base'] = isset( $market_summary['minTradeSize'] ) ? $market_summary['minTradeSize'] : null;
+			$market_summary['minimum_order_size_base'] = isset( $market_summary['minTradeSize'] ) ? $market_summary['minTradeSize'] * 1.2 : null;
 			$market_summary['price_precision'] = 8;
 			$market_summary['vwap'] = null;
 			$market_summary['market_id'] = null;

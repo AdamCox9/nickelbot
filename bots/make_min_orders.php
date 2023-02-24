@@ -12,12 +12,7 @@
 
 	*/
 
-	function make_min_orders( $Adapters ) {
-
-		$_CONFIG['BUY_AT_PERCENT_CHANGE'] = 0.97;
-		$_CONFIG['FILTER_BY_TOP_VOLUME'] = 50;
-		$_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] = 10;
-		$_CONFIG['PRICE_CHANGE_DIRECTION'] = "DESC"; // [ASC|DESC]
+	function make_min_orders( $Adapters = array(), $_CONFIG = array() ) {
 
 		foreach( $Adapters as $Adapter ) {
 			echo "*** " . get_class( $Adapter ) . " ***\n";
@@ -34,7 +29,7 @@
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances( );
 			
-			$balance = $Adapter->get_balance( 'XXBT' );
+			$balance = $Adapter->get_balance( $_CONFIG['QUOTE_CURRENCY'] );
 			
 			print_r( $balance );
 
@@ -45,7 +40,7 @@
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
-				if( $quote_cur != 'XXBT' ) continue;				
+				if( $quote_cur != $_CONFIG['QUOTE_CURRENCY'] ) continue;				
 				array_push( $filtered_market_summaries_by_btc, $market_summary );
 			}
 
@@ -82,10 +77,6 @@
 				//_____get currencies/balances:
 				$market = $market_summary['market'];
 				$curs_bq = explode( "-", $market );
-				print_r( $curs_bq );
-				
-				print_r( $balances['XXBT'] );
-				
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
 				$base_bal = isset( $balances[ $base_cur ] ) ? $balances[ $base_cur ]['available'] : 0;

@@ -46,7 +46,21 @@
 		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
 		//cancel_oldest_orders( $Adapters, array( 'direction' => "BUY", 'count' => 50 ) );
-		make_min_orders( $Adapters );
+		
+		make_min_orders(	array(	0 => $Adapters['Bittrex'] ), 
+					array(	'BUY_AT_PERCENT_CHANGE' => 0.97, 
+						'PRICE_CHANGE_DIRECTION' => "DESC" /*[ASC|DESC]*/, 
+						'FILTER_BY_TOP_VOLUME' => 50, 
+						'FILTER_BY_TOP_PRICE_CHANGE' => 10, 
+						'QUOTE_CURRENCY' => "BTC" ) );
+
+		make_min_orders(	array(	0 => $Adapters['Kraken'] ),
+					array(	'BUY_AT_PERCENT_CHANGE' => 0.97,
+						'PRICE_CHANGE_DIRECTION' => "DESC" /*[ASC|DESC]*/,
+						'FILTER_BY_TOP_VOLUME' => 50,
+						'FILTER_BY_TOP_PRICE_CHANGE' => 10,
+						'QUOTE_CURRENCY' => "XXBT" ) );
+
 		//make_max_orders( $Adapters );
 		//follow_walls( $Adapters );
 
