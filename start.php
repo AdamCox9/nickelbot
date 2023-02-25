@@ -52,28 +52,39 @@
 		*/
 		
 		//cancel orders on all exchanges:
-		//cancel_oldest_orders( $Adapters, array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 3 ) );
-		
+		cancel_oldest_orders(	$Adapters,				//Array of Adapters
+					array(	'direction' => "BOTH",		//[BUY|SELL|BOTH]
+						'count' => 3 ) );		//Number of orders to cancel
+		cancel_oldest_orders(	$Adapters,				//Array of Adapters
+					array(	'direction' => "BUY",		//[BUY|SELL|BOTH]
+						'count' => 3 ) );		//Number of orders to cancel
+		cancel_oldest_orders(	$Adapters,				//Array of Adapters
+					array(	'direction' => "SELL",		//[BUY|SELL|BOTH]
+						'count' => 3 ) );		//Number of orders to cancel
+
 		//cancel orders on a single exchange:
-		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
-		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "BUY" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
-		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "SELL" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
+		/*cancel_oldest_orders(	array(	0 => $Adapters['Kraken'] ),	//Array of Adapters
+					array(	'direction' => "BOTH",		//[BUY|SELL|BOTH]
+						'count' => 5 ) );		//Number of orders to cancel*/
+		/*cancel_oldest_orders(	array(	0 => $Adapters['Bittrex'] ),	//Array of Adapters
+					array(	'direction' => "BOTH",		//[BUY|SELL|BOTH]
+						'count' => 5 ) );		//Number of orders to cancel*/
 
 		/*
 			make_min_orders:	Sample bot to make minimum orders.
 		*/
 		
-		//Create BUY orders only:
+		//Create BUY orders on Bittrex:
 		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
 					array(	'DIRECTION' => "BUY",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
-						'BUY_ORDER_PERCENT_DIFF' => 0.99,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
-						'SELL_ORDER_PERCENT_DIFF' => 1.02,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'BUY_ORDER_PERCENT_DIFF' => 0.98,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.03,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
 						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
-						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'FILTER_BY_TOP_PRICE_CHANGE' => 50,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "BTC" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
 
-		//Create SELL orders only:
+		//Create SELL orders on Bittrex:
 		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
 					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.98,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
@@ -82,6 +93,26 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "BTC" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
+
+		//Create BUY orders on Kraken:
+		make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
+					array(	'DIRECTION' => "BUY",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
+						'BUY_ORDER_PERCENT_DIFF' => 0.98,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.03,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
+						'FILTER_BY_TOP_PRICE_CHANGE' => 50,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume
+						'QUOTE_CURRENCY' => "XXBT" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
+
+		//Create SELL orders on Kraken:
+		make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
+					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
+						'BUY_ORDER_PERCENT_DIFF' => 0.98,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.02,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
+						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
+						'QUOTE_CURRENCY' => "XXBT" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
 
 
 		/*

@@ -67,6 +67,7 @@
 				array_splice( $market_summaries, 0, count($market_summaries) - $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] );
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
+			echo "\n";
 
 			//Loop over remaining markets for order placement:
 			foreach( $market_summaries as $market_summary ) {
