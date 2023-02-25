@@ -45,23 +45,35 @@
 
 		//build_cache( $Adapters );
 		//run_tests( $Adapters, $Tester );
-		//cancel_oldest_orders( $Adapters, array( 'direction' => "BUY", 'count' => 50 ) );
+		cancel_oldest_orders( $Adapters, array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
 		
-		make_min_orders(	array(	0 => $Adapters['Bittrex'] ), 
-					array(	'BUY_AT_PERCENT_CHANGE' => 0.97, 
-						'PRICE_CHANGE_DIRECTION' => "DESC" /*[ASC|DESC]*/, 
-						'FILTER_BY_TOP_VOLUME' => 50, 
-						'FILTER_BY_TOP_PRICE_CHANGE' => 10, 
-						'QUOTE_CURRENCY' => "BTC" ) );
+		/*
+			make_min_orders:	Sample bot to make minimum buy orders:
+		*/
+		
+		/*make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+					array(	'BUY_AT_PERCENT_CHANGE' => 0.97,	//PRICE=BID-BID*BUY_AT_PERCENT_CHANGE
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC]  to filter by price change
+						'FILTER_BY_TOP_VOLUME' => 20,		//Top X Volume
+						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'QUOTE_CURRENCY' => "BTC" ) );*/
 
-		make_min_orders(	array(	0 => $Adapters['Kraken'] ),
-					array(	'BUY_AT_PERCENT_CHANGE' => 0.97,
-						'PRICE_CHANGE_DIRECTION' => "DESC" /*[ASC|DESC]*/,
-						'FILTER_BY_TOP_VOLUME' => 50,
-						'FILTER_BY_TOP_PRICE_CHANGE' => 10,
-						'QUOTE_CURRENCY' => "XXBT" ) );
+		/*make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
+					array(	'BUY_AT_PERCENT_CHANGE' => 0.97,	//PRICE=BID-BID*BUY_AT_PERCENT_CHANGE
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC]  to filter by price change
+						'FILTER_BY_TOP_VOLUME' => 20,		//Top X Volume
+						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'QUOTE_CURRENCY' => "XXBT" ) );		//XXBT is BTC on Kraken*/
 
-		//make_max_orders( $Adapters );
+		/*
+			make_max_orders:	Sample bot to make maximum sell orders:
+			TODO combine make_min_orders and make_max_orders into the same bot with DIRECTION, SIDE, ORDER_SIZE in CONFIG
+		*/
+
+		make_max_orders(	$Adapters, //Array of Adapters
+					array( 'SELL_AT_PERCENT_CHANGE' => "1.06" ) );	//Sell at X percent above asking price*/
+
+
 		//follow_walls( $Adapters );
 
 		/*while( true ) {
