@@ -18,9 +18,14 @@
 
 			$open_orders = $Adapter->get_open_orders( );
 
-			print_r( $open_orders );
+			if( isset( $open_orders['MESSAGE'] ) )
+				if( isset( $open_orders['MESSAGE']['ERROR'] ) )
+					if( $open_orders['MESSAGE']['ERROR'] == "GOT_EMPTY_RESPONSE" )
+						continue; //no open orders
+
+			//print_r( $open_orders );
 			echo " -> got " . count( $open_orders ) . " open orders \n";
-			die( "TEST" );
+			//die( "TEST" );
 
 			//Only close BUY orders:
 			if( $_CONFIG['direction'] == 'BUY' )
@@ -57,10 +62,7 @@
 			//_____remove open orders
 			foreach( $open_orders as $open_order ) {
 				//print_r( $open_order );
-				if( get_class( $Adapter ) == "PoloniexAdapter" )
-					print_r( $Adapter->cancel( $open_order['id'], array( "market" => $open_order['market'] ) ) );
-				else
-					print_r( $Adapter->cancel( $open_order['id'] ) );
+				print_r( $Adapter->cancel( $open_order['id'] ) );
 				sleep(1);
 			}
 		}

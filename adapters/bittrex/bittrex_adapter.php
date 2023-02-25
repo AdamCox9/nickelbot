@@ -144,6 +144,10 @@
 		//TESTED v3: works
 		public function get_open_orders() {
 			$m_open_orders = $this->exch->get_openorders();
+
+			if( isset( $m_open_orders['ERROR'] ) )
+				return array( 'MESSAGE' => $m_open_orders );
+
 			$open_orders = [];
 			
 			foreach( $m_open_orders as $open_order ) {

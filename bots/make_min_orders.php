@@ -24,23 +24,23 @@
 
 			echo " -> got " . count( $market_summaries ) . " markets \n";
 
-			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+			//Print random sample market for debugging:
+			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );
 
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances( );
-			
-			$balance = $Adapter->get_balance( $_CONFIG['QUOTE_CURRENCY'] );
-			
-			print_r( $balance );
 
-			//Only use BTC pairs:
-			$filtered_market_summaries_by_btc = [];			
+			//Print balances for debugging:
+			//print_r( $balances );
+
+			//Only use $_CONFIG['QUOTE_CURRENCY'] pairs:
+			$filtered_market_summaries_by_btc = [];
 			foreach( $market_summaries as $market_summary ) {
 				$market = $market_summary['market'];
 				$curs_bq = explode( "-", $market );
 				$base_cur = $curs_bq[0];
 				$quote_cur = $curs_bq[1];
-				if( $quote_cur != $_CONFIG['QUOTE_CURRENCY'] ) continue;				
+				if( $quote_cur != $_CONFIG['QUOTE_CURRENCY'] ) continue;
 				array_push( $filtered_market_summaries_by_btc, $market_summary );
 			}
 
@@ -50,29 +50,27 @@
 			$market_summaries = $filtered_market_summaries_by_btc;
 			usort( $market_summaries, fn( $a, $b ) => $a['quote_volume'] <=> $b['quote_volume'] );
 
-			//Get top 15 markets by volume:
-			array_splice( $market_summaries, 0, count( $market_summaries ) - $_CONFIG['FILTER_BY_TOP_VOLUME'] );
+			//Get top markets by volume as specified by $_CONFIG['FILTER_BY_TOP_VOLUME']:
+			if( count( $market_summaries ) > $_CONFIG['FILTER_BY_TOP_VOLUME'] )
+				array_splice( $market_summaries, 0, count( $market_summaries ) - $_CONFIG['FILTER_BY_TOP_VOLUME'] );
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by top volume \n";
 
-			//______show random market for view:
-			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
-
-			//Sort by percent change, reversed
+			//Sort by percent change as specified by $_CONFIG['PRICE_CHANGE_DIRECTION']:
 			if( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
 				usort( $market_summaries, fn( $a, $b ) => $b['percent_change'] <=> $a['percent_change'] );
 			elseif( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
 				usort( $market_summaries, fn( $a, $b ) => $a['percent_change'] <=> $b['percent_change'] );
 
-			//Get top 4 markets by percent_change:
-			array_splice( $market_summaries, 0, count($market_summaries) - $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] );
+			//Get top markets by percent_change as specified by $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE']:
+			if( count( $market_summaries ) > $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] )
+				array_splice( $market_summaries, 0, count($market_summaries) - $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE'] );
 
 			echo " -> narrowed down to " . count( $market_summaries ) . " by percent change \n";
 
-			print_r( $market_summaries );
-
+			//Loop over remaining markets for order placement:
 			foreach( $market_summaries as $market_summary ) {
-				if( $market_summary['frozen'] ) { echo " -> market is frozen\n"; continue; }
+				if( $market_summary['frozen'] ) { echo " -> market is frozen\n"; continue; } //TODO filter out frozen markets before filtering above
 
 				//_____get currencies/balances:
 				$market = $market_summary['market'];
@@ -114,7 +112,7 @@
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
 					elseif( $_CONFIG['DIRECTION'] == "BUY" || $_CONFIG['DIRECTION'] == "BOTH" ) {
-						//$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
 						sleep(1);
 						if( isset( $buy['CODE'] ) || isset( $buy['message'] ) ) { //error codes
 							print_r( $buy );
@@ -123,6 +121,8 @@
 							$balances[ $quote_cur ]['available'] = $balances[ $quote_cur ]['available'] - bcmul( $order_size, $buy_price, 8 );
 						}
 						echo " -> ### fininishing buy order attempt\n";
+					} else {
+						echo " -> skipping creating buy order for $market because config was set to " . $_CONFIG['DIRECTION'] . "\n";
 					}
 
 					//_____Do the Sell:
@@ -132,7 +132,7 @@
 					if( $order_size * $sell_price > $base_bal )
 						echo " -> *** base balance of $base_bal $base_cur is too low for min sell order size of $order_size $base_cur at sell price of $sell_price $quote_cur \n";
 					elseif( $_CONFIG['DIRECTION'] == "SELL" || $_CONFIG['DIRECTION'] == "BOTH" ) {
-						//$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
 						sleep(1);
 						if( isset( $sell['CODE'] ) || isset( $sell['message'] ) ) { //error codes
 							print_r( $sell );
@@ -141,6 +141,8 @@
 							$balances[ $base_cur ]['available'] = $balances[ $base_cur ]['available'] - bcmul( $order_size, $sell_price, 8 );
 						}
 						echo " -> ### fininishing sell order attempt\n";
+					} else {
+						echo " -> skipping creating sell order for $market because config was set to " . $_CONFIG['DIRECTION'] . "\n";
 					}
 
 				} else {
@@ -148,11 +150,9 @@
 				}
 				
 				echo "\n";
-				sleep(1);
 			}
 
-				echo " -> finished executing " . get_class( $Adapter ) . "\n\n";
-			
+			echo " -> finished executing " . get_class( $Adapter ) . "\n\n";
 		}
 	}
 

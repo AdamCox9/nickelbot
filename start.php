@@ -16,9 +16,9 @@
 	try{
 
 		/*****
-			LIBRARIES: communicate with exchange API's directly. Should only be called from ADAPTERS.
-			ADAPTERS: facades that wrap around LIBRARIES
-			BOTS: functions are an app for now. Bots communicate with ADAPTERS but not LIBRARIES.
+			LIBRARIES: communicate with exchange API's directly. Should only be called from ADAPTERS. (bitfinex_lib.php, kraken_lib.php, etc..._lib.php in nickelbot/adapters/.../ folders)
+			ADAPTERS: facades that wrap around LIBRARIES. (bitfinex_adapter.php, kraken_adapter.php, etc..._adapter.php in nickelbot/adapters/.../ folders)
+			BOTS: functions are an app for now. Bots communicate with ADAPTERS standardized interface but does not call LIBRARIES.
 			CRYPTO_UTILITIES: functions that perform some type of calculations or transformations on data, but do not interact with ADAPTERS, LIBRARIES or BOTS
 			GUI: it is a web app that communicates with ADAPTERS (similar to a bot but with a web UI). There can be many different GUI's.
 			API: can make rest calls to them through HTTP requests like with AJAX from the default GUI.
@@ -27,7 +27,7 @@
 			NOTE: do not print_r the $Adapter class because it may leak keys and secrets on the web.
 
 			One way to run a bot would be to execute a php script in a cron job.
-			Another way would be to make a while(1) loop that continuously runs.
+			Another way would be to make a while(1) loop with sleep(X) that continuously runs.
 
 			------
 
@@ -47,43 +47,60 @@
 		//run_tests( $Adapters, $Tester );
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
 		
-		
-		//Sample to cancel orders on all exchanges:
-		//cancel_oldest_orders( $Adapters, array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 3 ) );
-		
-		//Sample to cancel orders one a single exchange:
-		//cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 20 ) );
-		
 		/*
-			make_min_orders:	Sample bot to make minimum buy orders:
+			cancel_oldest_orders:	Sample bot to cancel oldest orders.
 		*/
 		
-		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
-					array(	'DIRECTION' => "BOTH",			//[BUY|SELL|BOTH] Requires xor BUY_ORDER_PERCENT_DIFF|SELL_ORDER_PERCENT_DIFF
-						'BUY_ORDER_PERCENT_DIFF' => 0.97,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
-						'SELL_ORDER_PERCENT_DIFF' => 1.03,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
-						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC]  to filter by price change
-						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume
-						'FILTER_BY_TOP_PRICE_CHANGE' => 50,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
-						'QUOTE_CURRENCY' => "BTC" ) );
-
-		/*make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
-					array(	'BUY_AT_PERCENT_CHANGE' => 0.97,	//PRICE=BID-BID*BUY_AT_PERCENT_CHANGE
-						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC]  to filter by price change
-						'FILTER_BY_TOP_VOLUME' => 20,		//Top X Volume
-						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
-						'QUOTE_CURRENCY' => "XXBT" ) );		//XXBT is BTC on Kraken*/
+		//cancel orders on all exchanges:
+		//cancel_oldest_orders( $Adapters, array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 3 ) );
+		
+		//cancel orders on a single exchange:
+		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "BOTH" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
+		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "BUY" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
+		cancel_oldest_orders( array( 0 => $Adapters['Bittrex'] ), array( 'direction' => "SELL" /*[BUY|SELL|BOTH]*/, 'count' => 5 ) );
 
 		/*
-			make_max_orders:	Sample bot to make maximum sell orders:
-			TODO combine make_min_orders and make_max_orders into the same bot with DIRECTION, SIDE, ORDER_SIZE in CONFIG
+			make_min_orders:	Sample bot to make minimum orders.
+		*/
+		
+		//Create BUY orders only:
+		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+					array(	'DIRECTION' => "BUY",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
+						'BUY_ORDER_PERCENT_DIFF' => 0.99,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.02,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
+						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume
+						'QUOTE_CURRENCY' => "BTC" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
+
+		//Create SELL orders only:
+		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
+						'BUY_ORDER_PERCENT_DIFF' => 0.98,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.02,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
+						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
+						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
+						'QUOTE_CURRENCY' => "BTC" ) );		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
+
+
+		/*
+			make_max_orders:	Sample bot to make maximum sell orders.
 		*/
 
 		/*make_max_orders(	$Adapters, //Array of Adapters
 					array( 'SELL_AT_PERCENT_CHANGE' => "1.06" ) );	//Sell at X percent above asking price*/
 
 
-		//follow_walls( $Adapters );
+		/*
+			follow_walls:		Sample bot to place orders at walls.
+		*/
+
+		/*follow_walls( $Adapters );*/
+
+		/*
+			light_show:		Sample bot to jump in front of Highest BID and Lowest ASK orders.
+		*/
 
 		/*while( true ) {
 			cancel_oldest_orders( $Adapters );

@@ -44,10 +44,11 @@
 			
 			if( $res === false )
 				throw new Exception( 'Could not get reply: ' . curl_error( $ch ) );
-			
+
 			$dec = json_decode( $res, true );
+
 			if ( ! $dec )
-				throw new Exception( 'Invalid data: ' . $res );
+				$dec['ERROR'] = "GOT_EMPTY_RESPONSE";
 
 			curl_close($ch);
 			
