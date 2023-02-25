@@ -14,11 +14,13 @@
 	function cancel_oldest_orders( $Adapters, $_CONFIG = array() ) {
 		//_____get open orders, sort them by creation date:
 		foreach( $Adapters as $Adapter ) {
+			echo "*** cancel_oldest_orders: " . get_class( $Adapter ) . " ***\n";
+
 			$open_orders = $Adapter->get_open_orders( );
 
-			//print_r( $open_orders );
+			print_r( $open_orders );
 			echo " -> got " . count( $open_orders ) . " open orders \n";
-			//die( "TEST" );
+			die( "TEST" );
 
 			//Only close BUY orders:
 			if( $_CONFIG['direction'] == 'BUY' )

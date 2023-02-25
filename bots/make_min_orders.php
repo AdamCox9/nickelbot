@@ -15,7 +15,7 @@
 	function make_min_orders( $Adapters = array(), $_CONFIG = array() ) {
 
 		foreach( $Adapters as $Adapter ) {
-			echo "*** " . get_class( $Adapter ) . " ***\n";
+			echo "*** make_min_orders: " . get_class( $Adapter ) . " ***\n";
 
 			//_____get the markets to loop over:
 			echo " -> getting market summaries \n";
@@ -72,7 +72,7 @@
 			print_r( $market_summaries );
 
 			foreach( $market_summaries as $market_summary ) {
-				if( $market_summary['frozen'] ) { echo "\nfrozen\n"; continue; }
+				if( $market_summary['frozen'] ) { echo " -> market is frozen\n"; continue; }
 
 				//_____get currencies/balances:
 				$market = $market_summary['market'];
@@ -87,18 +87,14 @@
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
 				$precision = $market_summary['price_precision'] ? $market_summary['price_precision'] : 8;	//_____significant digits for base currency - "1.12" has 2 as precision //TODO: find precision for quote currency
 				$epsilon = 1 / pow( 10, $precision );								//_____smallest unit of base currency that exchange recognizes: if precision is 3, then it is 0.001.
-				$buy_price = bcmul( $bid, $_CONFIG['BUY_AT_PERCENT_CHANGE'], $precision-2);			//_____set order at X percent below bid
+				$buy_price = bcmul( $bid, $_CONFIG['BUY_ORDER_PERCENT_DIFF'], $precision-2);			//_____set order at X percent below bid
 				//$buy_price = $market_summary['bid'] + $epsilon;						//_____buy at one unit above highest bid.
-				$sell_price = $ask;										//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
+				$sell_price = bcmul( $ask, $_CONFIG['SELL_ORDER_PERCENT_DIFF'], $precision-2);			//$market_summary['ask'] - $epsilon;	//_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;								//_____difference between highest bid and lowest ask.
 
-				echo " -> " . get_class( $Adapter ) . " \n";
-				echo " -> $market \n";
-				echo " -> base currency: $base_cur \n";
-				echo " -> base currency balance: $base_bal \n";
-				echo " -> quote currency: $quote_cur \n";
-				echo " -> quote currency balance: $quote_bal \n";
-				
+				echo " -> " . get_class( $Adapter ) . ":$market \n";
+				echo " -> base currency: $base_cur, balance: $base_bal \n";
+				echo " -> quote currency: $quote_cur, balance: $quote_bal \n";
 				echo " -> bid: $bid \n";
 				echo " -> ask: $ask \n";
 				echo " -> min order size base: $min_order_base \n";
@@ -108,19 +104,17 @@
 				echo " -> buy price: $buy_price \n";
 				echo " -> sell price: $sell_price \n";
 				echo " -> spread: $spread \n";
-				echo "\n";
 
 				if( $buy_price < $sell_price ) { //just in case...
 
-					//_____Do the buy:
+					//_____Do the Buy:
 
 					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $buy_price, 8 );
-
 					echo " -> *** attempt to buy $order_size $base_cur in $market for $buy_price $quote_cur costing " . bcmul( $order_size, $buy_price, 8 ) . " $quote_cur with quote balance of $quote_bal \n";
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
-					else {
-						$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+					elseif( $_CONFIG['DIRECTION'] == "BUY" || $_CONFIG['DIRECTION'] == "BOTH" ) {
+						//$buy = $Adapter->buy( $market, $order_size, $buy_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
 						sleep(1);
 						if( isset( $buy['CODE'] ) || isset( $buy['message'] ) ) { //error codes
 							print_r( $buy );
@@ -128,16 +122,37 @@
 							echo " -> *** buy order appears to have been placed succesfully \n";
 							$balances[ $quote_cur ]['available'] = $balances[ $quote_cur ]['available'] - bcmul( $order_size, $buy_price, 8 );
 						}
+						echo " -> ### fininishing buy order attempt\n";
+					}
+
+					//_____Do the Sell:
+
+					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $sell_price, 8 );
+					echo " -> *** attempt to sell $order_size $base_cur in $market for $sell_price $quote_cur costing " . bcmul( $order_size, $sell_price, 8 ) . " $quote_cur with quote balance of $quote_bal \n";
+					if( $order_size * $sell_price > $base_bal )
+						echo " -> *** base balance of $base_bal $base_cur is too low for min sell order size of $order_size $base_cur at sell price of $sell_price $quote_cur \n";
+					elseif( $_CONFIG['DIRECTION'] == "SELL" || $_CONFIG['DIRECTION'] == "BOTH" ) {
+						//$sell = $Adapter->sell( $market, $order_size, $sell_price, 'limit', array( 'market_id' => $market_summary['market_id'] ) );
+						sleep(1);
+						if( isset( $sell['CODE'] ) || isset( $sell['message'] ) ) { //error codes
+							print_r( $sell );
+						} else {
+							echo " -> *** sell order appears to have been placed succesfully \n";
+							$balances[ $base_cur ]['available'] = $balances[ $base_cur ]['available'] - bcmul( $order_size, $sell_price, 8 );
+						}
+						echo " -> ### fininishing sell order attempt\n";
 					}
 
 				} else {
 					echo " -> cancelled because spread of $spread is too low\n";
 				}
-
-				echo "\n\n -> ### fininishing buy order\n\n";
+				
+				echo "\n";
 				sleep(1);
-
 			}
+
+				echo " -> finished executing " . get_class( $Adapter ) . "\n\n";
+			
 		}
 	}
 
