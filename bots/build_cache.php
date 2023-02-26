@@ -2,8 +2,9 @@
 
 	/*
 		This bot will save all the data from the REST API and save it to a cache folder followed by exchange name: cache/{exchange}/{file_name}
-		Need to create a cache folder and allow it write permissions.
-
+		Need to create a cache folder and allow it write permissions with chmod 755 cache command.
+		This is not to be confused with the caching mechanism built into the Adapter classes.
+		This is good to collect data and save it to disk for future usage.
 	*/
 
 	function build_cache( $Adapters ) 

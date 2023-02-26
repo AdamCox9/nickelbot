@@ -7,6 +7,11 @@
 		public function get_currency_summary( $currency = "BTC" ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_currency_summaries() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 
+
+		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function sell( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+
 		//Deposits & Withdrawals
 		public function get_deposits_withdrawals() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_deposits() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }

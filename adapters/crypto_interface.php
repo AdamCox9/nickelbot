@@ -13,7 +13,10 @@
 
 		//Make a sell order - $type: limit, market, stop, margin, trigger, etc...
 		public function sell( $pair='BTC-USD', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
-		
+
+		//Update existing order
+		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() );
+
 		//Private Orders
 		public function get_open_orders();
 		public function get_completed_orders();

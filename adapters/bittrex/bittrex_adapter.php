@@ -141,6 +141,10 @@
 			return $sell;
 		}
 
+		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		}
+		
 		//TESTED v3: works
 		public function get_open_orders() {
 			$m_open_orders = $this->exch->get_openorders();

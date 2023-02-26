@@ -21,6 +21,7 @@
 	require_once( "bots/run_tests.php" );
 	require_once( "bots/light_show.php" );
 	require_once( "bots/follow_walls.php" );	
+	require_once( "bots/update_orders.php" );	
 
 	//_____Wrapper libraries for native API's:
 

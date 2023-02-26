@@ -115,10 +115,6 @@ Note: Today's prices start at 00:00:00 UTC
 			return $market_summary;
 		}
 
-		private function get_min_order_size( $currency ) {
-			return "0.05";
-		}
-
 		public function get_market_summaries() {
 			$results = [];
 			$markets = $this->get_markets();
@@ -233,6 +229,10 @@ Note: Today's prices start at 00:00:00 UTC
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];
 			return $result;
+		}
+
+		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() ) {
+			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
 		}
 
 		public function cancel( $orderid="1", $opts = array() ) {
