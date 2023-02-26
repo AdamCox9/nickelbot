@@ -124,6 +124,11 @@
 			return $this->query( 'AddOrder', $out );
 		}
 
+		function EditOrder( $pair = "XLTCXXBT", $txid = "0", $price = "0.001", $volume = "10" ) {
+			$out = array( 'pair' => $pair, 'txid' => $order_id, 'price' => $price, 'volume' => $volume );
+			return $this->query( 'AddOrder', $out );
+		}
+
 		function OpenOrders() {
 			return $this->query( 'OpenOrders' );
 		}

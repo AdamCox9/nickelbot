@@ -43,7 +43,7 @@
 
 		 *****/
 
-		update_orders( $Adapters );
+		update_orders( array( 0=> $Adapters['Kraken'] ), array() );
 		die( "TEST" );
 
 		//build_cache( $Adapters );

@@ -231,8 +231,11 @@ Note: Today's prices start at 00:00:00 UTC
 			return $result;
 		}
 
-		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() ) {
-			return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' );
+		public function update_order( $pair = "", $order_id=0, $amount=0, $price=0, $opts=array() ) {
+			$result = $this->exch->EditOrder(  $this->unget_market_symbol( $pair ), $order_id, $amount, $price );
+			if( $result['error'] != false )
+				$result['message'] = $result['error'];
+			return $result ;
 		}
 
 		public function cancel( $orderid="1", $opts = array() ) {
@@ -249,13 +252,14 @@ Note: Today's prices start at 00:00:00 UTC
 			$open_orders = $this->exch->OpenOrders();
 			$results = [];
 			foreach( $open_orders['result']['open'] as $key => $open_order ) {
+			
 				$open_order['id'] = $key;
 
-				$open_order['market'] = $open_order['descr']['pair'];
+				$open_order['market'] = $this->get_market_symbol( $open_order['descr']['pair'] );
 				$open_order['timestamp_created'] = $open_order['opentm'];
 				$open_order['exchange'] = "Kraken";
 				$open_order['avg_execution_price'] = null;
-				$open_order['side'] = $open_order['descr']['type'];
+				$open_order['side'] = strtoupper( $open_order['descr']['type'] );
 				$open_order['type'] = $open_order['descr']['type'];
 				$open_order['is_live'] = true;
 				$open_order['is_cancelled'] = false;

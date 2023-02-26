@@ -8,7 +8,9 @@
 		It will set buy orders for every trading pair available for each adapter where balances permit meeting criteria below.
 
 		TODO
-		 - Allow to specify certain trading pairs instead of hitting all of them
+		 - There is a problem with the market names for Kraken. In Market Summaries, BTC is XXBT, but in Open Orders it is XBT. This bot won't work on Kraken until this is fixed.
+		 - Bittrex does not support updating orders.
+		 - Have not tried with any other exchanges.
 
 	*/
 
@@ -28,24 +30,42 @@
 			
 			foreach( $open_orders as $open_order ) {
 				print_r( $open_order );
+				//die( "TEST" );
+				
+				$order_id = $open_order['id'];
 				$market = $open_order['market'];
+				$price = $open_order['price'];
+				$amount = $open_order['amount'];
+				$side = $open_order['side'];
 				$market_summary = $Adapter->get_market_summary( $market );
 				
 				print_r( $market_summary );
-								
-				$order_id = $open_order['id'];
-				$amount = $market_summary['minimum_order_size_base'];
-				$price = $market_summary['ask'];
+				//die( "TEST" );
 
-				$results = $Adapter->update_order( $order_id, $amount, $price, array() );
-				
-				print_r( $results );
-				
-				//Get the market the order is in
-				//Update the price so it is 2% above ask if sell or 2% below bid if buy
-				//Next...
-				
+				if( $side == "SELL" ) {
+					$price = $market_summary['ask'] * 1.02;
+				} elseif( $side == "BUY" ) {
+					$price = $market_summary['bid'] * 0.98;
+				} else {
+					continue;
+				}
+
+				$min_order_base = $market_summary['minimum_order_size_base'];
+				$min_order_quote = $market_summary['minimum_order_size_quote'];
+				$curs_bq = explode( "-", $market );
+				$base_cur = $curs_bq[0];
+				$quote_cur = $curs_bq[1];
+				$amount = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $price, 8 );
+
+				echo " -> Updating $side order $order_id to price $price and amount $amount $base_cur totaling " . $price * $amount . " $quote_cur in ($market).\n";
+
 				die( "TEST" );
+
+				//$results = $Adapter->update_order( $market, $order_id, $amount, $price, array() );
+				
+				//print_r( $results );
+				
+				//die( "TEST" );
 			}
 
 			echo " -> finished executing " . get_class( $Adapter ) . "\n\n";
