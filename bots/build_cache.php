@@ -29,6 +29,12 @@
 			if( ! file_exists( $market_file ) )
 				file_put_contents( $market_file, json_encode( $markets ) );
 
+			//get all market summaries:
+			$market_summaries_file = $file . "/market_summaries.txt";
+			$market_summaries = $Adapter->get_market_summaries();
+			if( ! file_exists( $market_summaries_file ) )
+				file_put_contents( $market_summaries_file, json_encode( $market_summaries ) );
+
 			//get all balances:
 			$balances_file = $file . "/balances.txt";
 			if( ! file_exists( $balances_file ) ) {
