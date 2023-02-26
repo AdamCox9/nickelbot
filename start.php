@@ -43,7 +43,10 @@
 
 		 *****/
 
-		//build_cache( $Adapters );
+		build_cache( $Adapters );
+		
+		die("TEST");
+		
 		//run_tests( $Adapters, $Tester );
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
 		

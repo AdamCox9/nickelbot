@@ -17,14 +17,6 @@
 			if( ! file_exists( $file ) )
 				mkdir( $file, 0755 );
 
-			$open_orders_file = "cache/$exchange/open_orders";
-			if( ! file_exists( $open_orders_file ) )
-				mkdir( $open_orders_file, 0755 );
-
-			$completed_orders_file = "cache/$exchange/completed_orders";
-			if( ! file_exists( $completed_orders_file ) )
-				mkdir( $completed_orders_file, 0755 );
-
 			//get all currencies:
 			$currency_file = $file . "/currencies.txt";
 			$currencies = $Adapter->get_currencies();
@@ -44,19 +36,19 @@
 				file_put_contents( $balances_file, json_encode( $balances ) );
 			}
 
-			//get all open orders for each market:
-			foreach( $markets as $market )
-				if( ! file_exists( $open_orders_file . "/open_orders_$market.txt" ) ) {
-					$open_orders = $Adapter->get_open_orders( $market );
-					file_put_contents( $open_orders_file . "/open_orders_$market.txt", json_encode( $open_orders ) );
-				}
+			//get all open orders:
+			$open_orders_file = $file . "/open_orders.txt";
+			if( ! file_exists( $open_orders_file ) ) {
+				$open_orders = $Adapter->get_open_orders( );
+				file_put_contents( $open_orders_file, json_encode( $open_orders ) );
+			}
 
-			//get all completed orders for each market:
-			foreach( $markets as $market )
-				if( ! file_exists( $completed_orders_file . "/completed_orders_$market.txt" ) ) {
-					$completed_orders = $Adapter->get_completed_orders( $market );
-					file_put_contents( $completed_orders_file . "/completed_orders_$market.txt", json_encode( $completed_orders ) );
-				}
+			//get all completed orders:
+			$completed_orders_file = $file . "/completed_orders.txt";
+			if( ! file_exists( $completed_orders_file ) ) {
+				$completed_orders = $Adapter->get_completed_orders( );
+				file_put_contents( $completed_orders_file, json_encode( $completed_orders ) );
+			}
 
 		}
 	}

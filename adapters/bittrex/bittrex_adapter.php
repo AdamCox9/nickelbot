@@ -188,7 +188,7 @@
 		public function get_completed_orders( $market="BTC-USD", $limit = 100 ) {
 			if( isset( $this->completed_orders ) )
 				return $this->completed_orders;
-			$completed_orders = $this->exch->get_closedorders( );
+			$completed_orders = $this->exch->get_closedorders( $market, $limit );
 			$this->completed_orders = [];
 
 			foreach( $completed_orders as $completed_order ) {
