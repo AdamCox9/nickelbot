@@ -30,20 +30,17 @@
 			echo " -> getting markets\n";
 			$markets = $Adapter->get_markets();
 			//print_r( $markets );
-			$Tester->test( 'markets', array( $markets ) );
+			$Tester->test( 'markets', $markets );
 			//die( "TEST" );
 
 			echo " -> getting first market to test with\n";
 			$market = $markets[ rand( 0, sizeof( $markets ) - 1 ) ];//test a random market...
-			//print_r( $market );
-			$Tester->test( 'markets', array( array( $market ) ) );
-			//die( "TEST" );
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
-			//print_r( $market_summary );
-			$Tester->test( 'market_summaries', array( array( $market_summary ) ) );
-			//die( 'TEST' );
+			print_r( $market_summary );
+			$Tester->test( 'market_summaries', array( $market_summary ) );
+			die( 'TEST' );
 
 			echo " -> getting open orders for test market\n";
 			$open_orders = $Adapter->get_open_orders( $market );

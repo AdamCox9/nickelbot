@@ -7,33 +7,11 @@
 		}
 
 		private function get_market_symbol( $market ) {
-			if( strlen( $market ) == 6 )
-				return substr( $market, 0, 3 ) . '-' . substr( $market, 3, 3 );
-			if( strlen( $market ) == 7 )
-				return substr( $market, 0, 4 ) . '-' . substr( $market, 4, 3 );
-			if( strlen( $market ) == 8 )
-				return substr( $market, 0, 4 ) . '-' . substr( $market, 4, 4 );
-			if( strlen( $market ) == 10 )
-				return substr( $market, 0, 4 ) . '-' . substr( $market, 4, 6 );
+			return $market;
 		}
 
 		private function unget_market_symbol( $market ) {
-			return str_replace( '-', '', $market );
-		}
-
-		public function get_markets() {
-			if( isset( $this->markets ) )
-				return $this->markets;
-				
-			$market_summaries = $this->get_market_summaries();			
-			
-			$markets = [];
-			foreach( $market_summaries as $market_summary ) {
-				array_push( $markets, $market_summary['market'] );
-			}
-			
-			$this->markets = $markets;
-			return 	$this->markets;
+			return $market;
 		}
 
 		//Need to change currencies from array to array of arrays everywhere else also.
@@ -41,46 +19,94 @@
 			if( isset( $this->currencies ) )
 				return $this->currencies;
 				
-			$currencies = $this->exch->Assets();		
-			$results = [];
-			foreach( $currencies['result'] as $key => $currency ) {
+			if( isset( $this->Assets ) ) {
+				$Assets = $this->Assets;
+			} else {
+				$Assets = $this->exch->Assets();
+				if( $Assets['error'] )
+					return array( 'ERROR' => $Assets['error'] );
+				$this->Assets = $Assets;
+			}
+			
+			
+			$this->currencies = [];
+			foreach( $Assets['result'] as $key => $currency ) {
 				$currency['currency'] = $key;
 				$currency['collateral_value'] = isset( $currency['collateral_value'] ) ? $currency['collateral_value'] : null;
-				array_push( $results, $currency );
+				array_push( $this->currencies, $currency );
 			}
-			return $results;
+			return $this->currencies;
 		}
 
-/*****
+		public function get_markets() {
+			if( isset( $this->markets ) )
+				return $this->markets;
 
-<pair_name> = pair name
-    a = ask array(<price>, <whole lot volume>, <lot volume>),
-    b = bid array(<price>, <whole lot volume>, <lot volume>),
-    c = last trade closed array(<price>, <lot volume>),
-    v = volume array(<today>, <last 24 hours>),
-    p = volume weighted average price array(<today>, <last 24 hours>),
-    t = number of trades array(<today>, <last 24 hours>),
-    l = low array(<today>, <last 24 hours>),
-    h = high array(<today>, <last 24 hours>),
-    o = today's opening price
-Note: Today's prices start at 00:00:00 UTC
-
- *****/
-
-		public function get_market_summary( $market = "ETH-BTC" ) {
-			$market_summaries = $this->get_market_summaries();
-			foreach( $market_summaries as $market_summary ) {
-				if( $market_summary['market'] == $market )
-					return $market_summary;
+			$AssetPairs = $this->exch->AssetPairs( );
+			if( $AssetPairs['error'] ) {
+				return array( 'ERROR' => $AssetPairs['error'] );
 			}
-			/* 	It might be better to get Market Data for a specific Market rather than filling the
-				entire Market Summary at once since it hits the server for each pair.
-				Market Summary is cached in class variable to mitigate this. Fill the market summary data and reuse it.
-			*/
-
+			
+			$markets = $AssetPairs['result'];			
+			$this->markets = array_keys( $markets );
+				
+			return 	$this->markets;
 		}
+
+		public function get_market_summary( $market = null ) {
+			$market_summary = [];
+			
+			if( is_null( $market ) )
+				return array( 'ERROR' => 'Market can not be null' );
+
+			$AssetPairs = $this->exch->AssetPairs( $market );
+			
+			if( $AssetPairs['error'] ) {
+				return array( 'ERROR' => $AssetPairs['error'] );
+			}
+
+			$Ticker = $this->exch->Ticker( $market );
+			if( $Ticker['error'] ) {
+				return array( 'ERROR' => $Ticker['error'] );
+			}
+
+			$market_summary = array_merge( $AssetPairs['result'][$market], $Ticker['result'][$market] );
+			$market_summary['market'] = $market;
+
+			$OHLC = $this->exch->OHLC( $market );
+			if( $OHLC['error'] ) {
+				return array( 'ERROR' => $OHLC['error'] );
+			}
+			$market_summary['OHLC'] = $OHLC;
+
+			$Depth = $this->exch->Depth( $market );
+			if( $Depth['error'] ) {
+				return array( 'ERROR' => $Depth['error'] );
+			}
+			$market_summary['Depth'] = $Depth;
+
+			$Trades = $this->exch->Trades( $market );
+			if( $Trades['error'] ) {
+				return array( 'ERROR' => $Trades['error'] );
+			}
+			$market_summary['Trades'] = $Trades;
+
+			$Spread = $this->exch->Spread( $market );
+			if( $Spread['error'] ) {
+				return array( 'ERROR' => $Spread['error'] );
+			}
+			$market_summary['Spread'] = $Spread;
+
+			return $this->standardize_market_summary( $market_summary );
+		}
+
+
+
 
 		public function get_market_summaries( ) {
+			if( isset( $this->market_summaries ) )
+				return $this->market_summaries;
+				
 			$results = [];
 
 			$AssetPairs = $this->exch->AssetPairs( );
@@ -126,18 +152,61 @@ Note: Today's prices start at 00:00:00 UTC
 				}
 				$market_summary['Spread'] = $Spread;
 
-				array_push( $results, $this->standardize_market_summary( $market_summary ) );
+				array_push( $this->market_summaries, $this->standardize_market_summary( $market_summary ) );
 			}
 
-			return $results;
+			return $this->market_summaries;
 		}
+
+/*****
+
+<pair_name> = pair name
+    a = ask array(<price>, <whole lot volume>, <lot volume>),
+    b = bid array(<price>, <whole lot volume>, <lot volume>),
+    c = last trade closed array(<price>, <lot volume>),
+    v = volume array(<today>, <last 24 hours>),
+    p = volume weighted average price array(<today>, <last 24 hours>),
+    t = number of trades array(<today>, <last 24 hours>),
+    l = low array(<today>, <last 24 hours>),
+    h = high array(<today>, <last 24 hours>),
+    o = today's opening price
+Note: Today's prices start at 00:00:00 UTC
+
+altname	string Alternate pair name
+wsname string WebSocket pair name (if available)
+aclass_base string Asset class of base component
+base string Asset ID of base component
+aclass_quote string Asset class of quote component
+quote string Asset ID of quote component
+lot string Deprecated Volume lot size
+pair_decimals integer Scaling decimal places for pair
+cost_decimals integer Scaling decimal places for cost
+lot_decimals integer Scaling decimal places for volume
+lot_multiplier integer Amount to multiply lot volume by to get currency volume
+leverage_buy Array of integers Array of leverage amounts available when buying
+leverage_sell Array of integers Array of leverage amounts available when selling
+fees Array of numbers[ items ] Fee schedule array in [<volume>, <percent fee>] tuples
+fees_maker Array of numbers[ items ] Maker fee schedule array in [<volume>, <percent fee>] tuples (if on maker/taker)
+fee_volume_currency string Volume discount currency
+margin_call integer Margin call level
+margin_stop integer Stop-out/liquidation margin level
+ordermin string Minimum order size (in terms of base currency)
+costmin	string Minimum order cost (in terms of quote currency)
+tick_size string Minimum increment between valid price levels
+status string Status of asset. Possible values: online, cancel_only, post_only, limit_only, reduce_only.
+long_position_limit integer Maximum long margin position size (in terms of base currency)
+short_position_limit integer Maximum short margin position size (in terms of base currency)
+
+ *****/
+
 
 		private function standardize_market_summary( $market_summary ) {
 		
-			print_r( array_keys( $market_summary ) );
-			die( "TEST" );
+			//print_r( array_keys( $market_summary ) );
+			//die( "TEST" );
 		
 			$market_summary['exchange'] = "Kraken";
+			
 			$market_summary['ask'] = $market_summary['a'][0];
 			$market_summary['bid'] = $market_summary['b'][0];
 			$market_summary['high'] = $market_summary['h'][0];
@@ -154,8 +223,6 @@ Note: Today's prices start at 00:00:00 UTC
 			$market_summary['maximum_order_size'] = null;
 			$market_summary['mid'] = ( $market_summary['ask'] + $market_summary['bid'] ) / 2;
 			$market_summary['minimum_margin'] = null;
-			$curs_bq = explode( "-", $market_summary['market'] );
-			$base_cur = $curs_bq[0];
 			$market_summary['minimum_order_size_base'] = $market_summary[ 'ordermin' ];
 			$market_summary['minimum_order_size_quote'] = null;
 			$market_summary['open_buy_orders'] = null;

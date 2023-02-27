@@ -99,8 +99,11 @@
 			return $this->QueryPublic( 'Assets' );
 		}
 
-		function AssetPairs() {
-			return $this->QueryPublic( 'AssetPairs' );
+		function AssetPairs( $pair = null ) {
+			if( is_null( $pair ) )
+				return $this->QueryPublic( 'AssetPairs' );
+			else
+				return $this->QueryPublic( 'AssetPairs', array( 'pair' => $pair ) );
 		}
 
 		function Ticker( $pair = null ) {

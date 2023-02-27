@@ -47,25 +47,14 @@
 		}
 
 		private function test_markets( $markets ) {
-			foreach( $markets as $market_exchange ) {
-				foreach( $market_exchange as $market ) {
-					if( strtoupper( $market ) !== $market )
-						die( "Market must be uppercase: $market" );
-					$curs = explode( "-", $market );
-					if( sizeof( $curs ) !== 2 )
-						die( "Invalid market format: $market" );
-					if( strlen( $curs[0] ) < 1 || strlen( $curs[0] ) > 20 )
-						die( "Base Currency must be 1-20 characters: {$curs[0]}" );
-					if( strlen( $curs[1] ) < 1 || strlen( $curs[1] ) > 20 )
-						die( "Quote Currency must be 1-20 characters: {$curs[1]}" );
-				}
-			}
+			foreach( $markets as $market )
+				if( ! is_string( $market ) )
+					die( "Market must be a string: $market" );
 		}
 
 		private function test_market_summaries( $market_summaries ) {
-			foreach( $market_summaries as $market_summary_exchange )
-				foreach( $market_summary_exchange as $market_summary )
-					$this->test_market_summary( $market_summary );
+			foreach( $market_summaries as $market_summary )
+				$this->test_market_summary( $market_summary );
 		}
 
 		private function test_market_summary( $market_summary ) {
@@ -82,7 +71,6 @@
 			$not_null = array_merge( $numbers, $strings  );
 
 			//Tests:
-			$this->test_markets( array( array( $market_summary['market'] ) ) );
 			$this->equal_keys( $keys, $market_summary );
 			$this->numbers( $numbers, $market_summary );
 			$this->not_null( $not_null, $market_summary );
@@ -242,7 +230,7 @@
 				echo "\n shouldn't be there \n";
 				print_r( array_diff( $broken_keys, $keys ) );
 				echo "\n what is actually there \n";
-				print_r( $arr );
+				print_r( array_keys( $arr ) );
 				print_r( $keys );
 				die( "\n\nMismatched Array Keys" );
 			}
