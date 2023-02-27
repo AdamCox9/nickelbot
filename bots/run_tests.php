@@ -16,7 +16,7 @@
 			echo " -> getting currencies\n";
 			$currencies = $Adapter->get_currencies();
 			//print_r( $currencies );
-			$Tester->test( 'currencies', array( $currencies ) );
+			$Tester->test( 'currencies', $currencies );
 			//die( "TEST" );
 			
 			echo " -> getting balance for sample currency\n";

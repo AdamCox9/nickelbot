@@ -8,7 +8,8 @@
 		It will set buy orders for every trading pair available for each adapter where balances permit meeting criteria below.
 
 		TODO
-		 - There is a problem with the market names for Kraken. In Market Summaries, BTC is XXBT, but in Open Orders it is XBT. This bot won't work on Kraken until this is fixed.
+		 - There is a problem with the market names for Kraken. In Market Summaries, BTC is XXBT, but in Open Orders it is XBT. 
+		  - Is it just add X in front like XXBT-XETH? This bot won't work on Kraken until this is fixed.
 		 - Bittrex does not support updating orders.
 		 - Have not tried with any other exchanges.
 

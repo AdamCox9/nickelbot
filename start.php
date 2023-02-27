@@ -43,13 +43,15 @@
 
 		 *****/
 
-		update_orders( array( 0=> $Adapters['Kraken'] ), array() );
-		die( "TEST" );
+		//update_orders( array( 0=> $Adapters['Kraken'] ), array() );
+		//die( "TEST" );
 
 		//build_cache( $Adapters );
-				
-		//run_tests( $Adapters, $Tester );
+
+		//run_tests( $Adapters, $Tester ); //All exchanges
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
+		run_tests( array( 0 => $Adapters['Kraken'] ), $Tester );
+		die( "TEST" );
 		
 		/*
 			cancel_oldest_orders:	Sample bot to cancel oldest orders.

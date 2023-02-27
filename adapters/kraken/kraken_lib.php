@@ -32,6 +32,8 @@
 
 		function query($method, array $request = array())
 		{
+			sleep( 1 );
+		
 			$mt = explode( ' ', microtime() );
 			$request['nonce'] = $mt[1] . substr( $mt[0], 2, 6 );
 
@@ -64,6 +66,8 @@
 
 		function QueryPublic($method, array $request = array())
 		{
+			sleep( 1 );
+		
 			// build the POST data string
 			$postdata = http_build_query($request, '', '&');
 
@@ -86,11 +90,11 @@
 
 		/*
 			https://docs.kraken.com/rest/
-			TODO implement rest of API
+			TODO implement entirety of API
 		*/
 		
 		//_____Public Functions:
-		
+
 		function Assets() {
 			return $this->QueryPublic( 'Assets' );
 		}
@@ -99,8 +103,29 @@
 			return $this->QueryPublic( 'AssetPairs' );
 		}
 
-		function Ticker( $pair ) {
-			return $this->QueryPublic( 'Ticker', array( 'pair' => $pair ) );
+		function Ticker( $pair = null ) {
+			if( is_null( $pair ) )
+				return $this->QueryPublic( 'Ticker' );
+			else
+				return $this->QueryPublic( 'Ticker', array( 'pair' => $pair ) );
+		}
+
+		function OHLC( $pair ) {
+			return $this->QueryPublic( 'OHLC', array( 'pair' => $pair ) );
+		}
+
+		function Depth( $pair ) {
+			return $this->QueryPublic( 'Depth', array( 'pair' => $pair ) );
+		}
+
+		function Trades( $pair ) {
+			$since = time()-24*60*60;
+			return $this->QueryPublic( 'Trades', array( 'pair' => $pair, 'since' => $since ) );
+		}
+
+		function Spread( $pair ) {
+			$since = time()-24*60*60;
+			return $this->QueryPublic( 'Spread', array( 'pair' => $pair, 'since' => $since ) );
 		}
 
 

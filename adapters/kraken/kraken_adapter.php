@@ -22,25 +22,31 @@
 		}
 
 		public function get_markets() {
-			$markets = $this->exch->AssetPairs();			
-			$this->AssetPairs = $markets['result'];
+			if( isset( $this->markets ) )
+				return $this->markets;
+				
+			$market_summaries = $this->get_market_summaries();			
 			
-			$results = [];
-			foreach( $markets['result'] as $key => $market ) {
-				$market_key = $this->get_market_symbol( $key );
-				if( $market_key )
-					array_push( $results, $market_key );
+			$markets = [];
+			foreach( $market_summaries as $market_summary ) {
+				array_push( $markets, $market_summary['market'] );
 			}
 			
-			return $results;
+			$this->markets = $markets;
+			return 	$this->markets;
 		}
 
+		//Need to change currencies from array to array of arrays everywhere else also.
 		public function get_currencies() {
-			$currencies = $this->exch->Assets();
-			
+			if( isset( $this->currencies ) )
+				return $this->currencies;
+				
+			$currencies = $this->exch->Assets();		
 			$results = [];
 			foreach( $currencies['result'] as $key => $currency ) {
-				array_push( $results, $key );
+				$currency['currency'] = $key;
+				$currency['collateral_value'] = isset( $currency['collateral_value'] ) ? $currency['collateral_value'] : null;
+				array_push( $results, $currency );
 			}
 			return $results;
 		}
@@ -62,24 +68,84 @@ Note: Today's prices start at 00:00:00 UTC
  *****/
 
 		public function get_market_summary( $market = "ETH-BTC" ) {
-			$market_summary = $this->exch->Ticker( $this->unget_market_symbol( $market ) );
+			$market_summaries = $this->get_market_summaries();
+			foreach( $market_summaries as $market_summary ) {
+				if( $market_summary['market'] == $market )
+					return $market_summary;
+			}
+			/* 	It might be better to get Market Data for a specific Market rather than filling the
+				entire Market Summary at once since it hits the server for each pair.
+				Market Summary is cached in class variable to mitigate this. Fill the market summary data and reuse it.
+			*/
 
-			if( ! isset( $this->AssetPairs ) )
-				$this->get_markets();
+		}
 
-			$market_summary = $market_summary['result'];
-			$market_summary = array_pop( $market_summary );
-			$market_summary['market'] = $market;
+		public function get_market_summaries( ) {
+			$results = [];
+
+			$AssetPairs = $this->exch->AssetPairs( );
+			if( $AssetPairs['error'] ) {
+				return array( 'ERROR' => $AssetPairs['error'] );
+			}
+			
+			$Ticker = $this->exch->Ticker( );
+			if( $Ticker['error'] ) {
+				return array( 'ERROR' => $Ticker['error'] );
+			}
+
+			$market_summaries = array_merge_recursive( $AssetPairs['result'], $Ticker['result'] );
+			//print_r( array_keys( $market_summaries['ZRXXBT'] ) );
+			//die( "TEST" );
+
+			$results = [];
+			
+			foreach( $market_summaries as $key => $market_summary ) {
+				$market_summary['market'] = $key;
+
+				$OHLC = $this->exch->OHLC( $key );
+				if( $OHLC['error'] ) {
+					return array( 'ERROR' => $OHLC['error'] );
+				}
+				$market_summary['OHLC'] = $OHLC;
+	
+				$Depth = $this->exch->Depth( $key );
+				if( $Depth['error'] ) {
+					return array( 'ERROR' => $Depth['error'] );
+				}
+				$market_summary['Depth'] = $Depth;
+	
+				$Trades = $this->exch->Trades( $key );
+				if( $Trades['error'] ) {
+					return array( 'ERROR' => $Trades['error'] );
+				}
+				$market_summary['Trades'] = $Trades;
+	
+				$Spread = $this->exch->Spread( $key );
+				if( $Spread['error'] ) {
+					return array( 'ERROR' => $Spread['error'] );
+				}
+				$market_summary['Spread'] = $Spread;
+
+				array_push( $results, $this->standardize_market_summary( $market_summary ) );
+			}
+
+			return $results;
+		}
+
+		private function standardize_market_summary( $market_summary ) {
+		
+			print_r( array_keys( $market_summary ) );
+			die( "TEST" );
+		
+			$market_summary['exchange'] = "Kraken";
 			$market_summary['ask'] = $market_summary['a'][0];
 			$market_summary['bid'] = $market_summary['b'][0];
 			$market_summary['high'] = $market_summary['h'][0];
 			$market_summary['low'] = $market_summary['l'][0];
-
 			$market_summary['base_volume'] = $market_summary['v'][1];
 			$market_summary['btc_volume'] = null;
 			$market_summary['created'] = null;
-			$market_summary['display_name'] = null;
-			$market_summary['exchange'] = null;
+			$market_summary['display_name'] = $market_summary['market'];
 			$market_summary['expiration'] = null;
 			$market_summary['frozen'] = null;
 			$market_summary['initial_margin'] = null;
@@ -90,13 +156,13 @@ Note: Today's prices start at 00:00:00 UTC
 			$market_summary['minimum_margin'] = null;
 			$curs_bq = explode( "-", $market_summary['market'] );
 			$base_cur = $curs_bq[0];
-			$market_summary['minimum_order_size_base'] = $this->AssetPairs[ $this->unget_market_symbol( $market ) ]['ordermin'];
+			$market_summary['minimum_order_size_base'] = $market_summary[ 'ordermin' ];
 			$market_summary['minimum_order_size_quote'] = null;
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
-			$market_summary['price_precision'] = $this->AssetPairs[  $this->unget_market_symbol( $market ) ]['cost_decimals'];
-			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], $market_summary['mid'], 32 );;
+			$market_summary['price_precision'] = $this->AssetPairs[ $key ][ 'cost_decimals' ];
+			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 			$market_summary['result'] = null;
 			$market_summary['timestamp'] = null;
 			$market_summary['verified_only'] = null;
@@ -111,70 +177,9 @@ Note: Today's prices start at 00:00:00 UTC
 			unset( $market_summary['l'] );
 			unset( $market_summary['h'] );
 			unset( $market_summary['o'] );
-
+			
 			return $market_summary;
 		}
-
-		public function get_market_summaries() {
-			$results = [];
-			$markets = $this->get_markets();
-			$formatted_markets = '';
-			foreach( $markets as $market ) {
-				$formatted_markets .= $this->unget_market_symbol( $market ).',';
-			}
-
-			$market_summaries = $this->exch->Ticker( substr( $formatted_markets, 0, -1 ) );
-
-			$results = [];
-			foreach( $market_summaries['result'] as $key => $market_summary ) {
-				if( ! isset( $this->AssetPairs[ $key ][ 'ordermin' ] ) ) continue;
-				$market_summary['market'] = $this->get_market_symbol( $key );
-				$market_summary['ask'] = $market_summary['a'][0];
-				$market_summary['bid'] = $market_summary['b'][0];
-				$market_summary['high'] = $market_summary['h'][0];
-				$market_summary['low'] = $market_summary['l'][0];
-				$market_summary['base_volume'] = $market_summary['v'][1];
-				$market_summary['btc_volume'] = null;
-				$market_summary['created'] = null;
-				$market_summary['display_name'] = null;
-				$market_summary['exchange'] = null;
-				$market_summary['expiration'] = null;
-				$market_summary['frozen'] = null;
-				$market_summary['initial_margin'] = null;
-				$market_summary['last_price'] = $market_summary['c'][0];
-				$market_summary['market_id'] = null;
-				$market_summary['maximum_order_size'] = null;
-				$market_summary['mid'] = ( $market_summary['ask'] + $market_summary['bid'] ) / 2;
-				$market_summary['minimum_margin'] = null;
-				$curs_bq = explode( "-", $market_summary['market'] );
-				$base_cur = $curs_bq[0];
-				$market_summary['minimum_order_size_base'] = $this->AssetPairs[ $key ][ 'ordermin' ];
-				$market_summary['minimum_order_size_quote'] = null;
-				$market_summary['open_buy_orders'] = null;
-				$market_summary['open_sell_orders'] = null;
-				$market_summary['percent_change'] = null;
-				$market_summary['price_precision'] = $this->AssetPairs[ $key ][ 'cost_decimals' ];
-				$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
-				$market_summary['result'] = null;
-				$market_summary['timestamp'] = null;
-				$market_summary['verified_only'] = null;
-				$market_summary['vwap'] = null;
-
-				unset( $market_summary['a'] );
-				unset( $market_summary['b'] );
-				unset( $market_summary['c'] );
-				unset( $market_summary['v'] );
-				unset( $market_summary['p'] );
-				unset( $market_summary['t'] );
-				unset( $market_summary['l'] );
-				unset( $market_summary['h'] );
-				unset( $market_summary['o'] );
-				array_push( $results, $market_summary );
-			}
-
-			return $results;
-		}
-
 
 		public function get_balance( $currency="BTC", $opts = array() ) {
 			$balances = $this->get_balances();

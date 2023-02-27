@@ -28,14 +28,22 @@
 		}
 
 		private function test_currencies( $currencies ) {
-			foreach( $currencies as $currency_exchange ) {
-				foreach( $currency_exchange as $currency ) {
-					if( strtoupper( $currency ) !== $currency )
-						die( "Currency must be uppercase: $currency" );
-					if( strlen( $currency ) < 1 || strlen( $currency ) > 20 )
-						die( "Currency must be 1-20 characters: $currency" );
-				}
+			foreach( $currencies as $currency ) {
+				$keys = array( 'currency', 'aclass', 'altname', 'decimals', 'display_decimals', 'collateral_value', 'status' );
+				$numbers = array( 'decimals', 'display_decimals' );
+				$strings = array( 'currency', 'aclass', 'altname', 'status' );
+				$this->test_currency( $currency['currency'] );
+				$this->equal_keys( $keys, $currency );
+				$this->numbers( $numbers, $currency );
+				$this->strings( $strings, $currency );
 			}
+		}
+		
+		private function test_currency( $currency ) {
+			if( strtoupper( $currency ) !== $currency )
+				die( "Currency must be uppercase: $currency" );
+			if( strlen( $currency ) < 1 || strlen( $currency ) > 20 )
+				die( "Currency must be 1-20 characters: $currency" );
 		}
 
 		private function test_markets( $markets ) {
@@ -71,7 +79,7 @@
 			$numbers = array( 'ask', 'base_volume', 'bid', 'high', 'last_price', 'low', 'quote_volume' );
 			$strings = array( 'display_name', 'exchange' );
 			$above_zero = array( );
-			$not_null = array_merge( $numbers, $strings );
+			$not_null = array_merge( $numbers, $strings  );
 
 			//Tests:
 			$this->test_markets( array( array( $market_summary['market'] ) ) );
@@ -79,6 +87,7 @@
 			$this->numbers( $numbers, $market_summary );
 			$this->not_null( $not_null, $market_summary );
 			$this->above_zero( $above_zero, $market_summary );
+			$this->strings( $strings, $market_summary );
 
 			if(  is_null( $market_summary['minimum_order_size_base'] ) && is_null( $market_summary['minimum_order_size_quote'] ) ) {
 				print_r( $market_summary );
@@ -193,20 +202,32 @@
 
 		 ***********************/
 
-		private function not_null( $not_null, $market_summary ) {
+		private function not_null( $not_null, $arr ) {
 			foreach( $not_null as $field ) {
 				if( is_null( $field ) ) {
-					print_r( $market_summary );
+					print_r( $arr );
 					die( "\n\nRequired Not Null ($field)\n\n" );
 				}
 			}
 			return true;
 		}
 
-		private function above_zero( $above_zero, $market_summary ) {
+		private function strings( $strings, $arr ) {
+			foreach( $strings as $field ) {
+				if( ! is_string( $arr[$field] ) ) {
+					print_r( $arr );
+					print_r( $strings );
+					die( "\n\nRequired String ($field)\n\n" );
+				}
+			}
+			return true;
+		}
+
+		private function above_zero( $above_zero, $arr ) {
 			foreach( $above_zero as $field ) {
-				if( is_nan( $market_summary[$field] ) || is_null( $market_summary[$field] ) || ! is_numeric( $market_summary[$field] ) || $market_summary[$field] <= 0 ) {
-					print_r( $market_summary );
+				if( is_nan( $arr[$field] ) || is_null( $arr[$field] ) || ! is_numeric( $arr[$field] ) || $arr[$field] <= 0 ) {
+					print_r( $arr );
+					print_r( $above_zero );
 					die( "\n\nRequired Above Zero ($field)\n\n" );
 				}
 			}
@@ -222,6 +243,7 @@
 				print_r( array_diff( $broken_keys, $keys ) );
 				echo "\n what is actually there \n";
 				print_r( $arr );
+				print_r( $keys );
 				die( "\n\nMismatched Array Keys" );
 			}
 			return true;
@@ -231,6 +253,7 @@
 			foreach( $numbers as $number ) {
 				if( ! isset( $arr[$number] ) || is_null( $arr[$number] ) || ! is_numeric( $arr[$number] ) ) {
 					print_r( $arr );
+					print_r( $numbers );
 					die( "\n\nRequired Number ($number)\n\n" );
 				}
 			}
@@ -241,6 +264,7 @@
 			foreach( $capitals as $capital ) {
 				if( ! isset( $arr[$number] ) || is_null( $arr[$number] ) || ( ! strtoupper( $capital ) == $capital ) ) {
 					print_r( $arr );
+					print_r( $capitals );
 					die( "\n\nRequired Capital ($capital)\n\n" );
 				}
 			}
