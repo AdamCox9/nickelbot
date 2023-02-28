@@ -7,11 +7,11 @@
 
 	class Utilities {
 
-		public static function get_min_order_size( $min_order_size_base, $min_order_size_quote, $price, $precision ) {
+		public static function get_min_order_size( $min_order_size_base, $min_order_size_quote, $price, $price_precision ) {
 			if( $price == 0 )
 				return 0;
 			if( is_null( $min_order_size_base ) )
-				return bcdiv( $min_order_size_quote, $price, $precision );
+				return bcdiv( $min_order_size_quote, $price, $price_precision );
 			else
 				return $min_order_size_base;
 		}

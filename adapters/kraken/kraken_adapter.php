@@ -4,6 +4,7 @@
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;
+			$this->use_disk_cache = false; //Read market summaries from disk only
 		}
 
 		private function get_market_symbol( $market ) {
@@ -54,7 +55,8 @@
 		}
 
 		public function get_market_summary( $market = null ) {
-			$market_summary = [];
+			if( isset( $this->market_summaries[$market] ) )
+				return $this->market_summaries[$market];
 			
 			if( is_null( $market ) )
 				return array( 'ERROR' => 'Market can not be null' );
@@ -97,64 +99,26 @@
 			}
 			$market_summary['Spread'] = $Spread;
 
-			return $this->standardize_market_summary( $market_summary );
+			$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
+			return $this->market_summaries[$market];
 		}
 
-
-
-
 		public function get_market_summaries( ) {
-			if( isset( $this->market_summaries ) )
-				return $this->market_summaries;
-				
-			$results = [];
+			//Don't get from $this->market_summaries because it won't be full if get_market_summary stored a value in it.
+			$markets = $this->get_markets( );
+			
+			foreach( $markets as $market ) {
+				$exchange = strtolower( str_replace( "Adapter", "", get_class( $Adapter ) ) );
+				$market_summary_file = "cache/$exchange/market_summaries/$market.txt";
 
-			$AssetPairs = $this->exch->AssetPairs( );
-			if( $AssetPairs['error'] ) {
-				return array( 'ERROR' => $AssetPairs['error'] );
+				if( ! file_exists( $market_summary_file ) )
+					return array( 'ERROR' => "Cache file does not exist. Use 'build_cache' bot." );
+				else {
+					$this->market_summaries[$market] = json_decode( file_get_contents ( $market_summary_file ) );
+				}
 			}
 			
-			$Ticker = $this->exch->Ticker( );
-			if( $Ticker['error'] ) {
-				return array( 'ERROR' => $Ticker['error'] );
-			}
-
-			$market_summaries = array_merge_recursive( $AssetPairs['result'], $Ticker['result'] );
-			//print_r( array_keys( $market_summaries['ZRXXBT'] ) );
-			//die( "TEST" );
-
-			$results = [];
-			
-			foreach( $market_summaries as $key => $market_summary ) {
-				$market_summary['market'] = $key;
-
-				$OHLC = $this->exch->OHLC( $key );
-				if( $OHLC['error'] ) {
-					return array( 'ERROR' => $OHLC['error'] );
-				}
-				$market_summary['OHLC'] = $OHLC;
-	
-				$Depth = $this->exch->Depth( $key );
-				if( $Depth['error'] ) {
-					return array( 'ERROR' => $Depth['error'] );
-				}
-				$market_summary['Depth'] = $Depth;
-	
-				$Trades = $this->exch->Trades( $key );
-				if( $Trades['error'] ) {
-					return array( 'ERROR' => $Trades['error'] );
-				}
-				$market_summary['Trades'] = $Trades;
-	
-				$Spread = $this->exch->Spread( $key );
-				if( $Spread['error'] ) {
-					return array( 'ERROR' => $Spread['error'] );
-				}
-				$market_summary['Spread'] = $Spread;
-
-				array_push( $this->market_summaries, $this->standardize_market_summary( $market_summary ) );
-			}
-
+			//Save it in $this_market_summaries in case if get_market_summary needs it.
 			return $this->market_summaries;
 		}
 

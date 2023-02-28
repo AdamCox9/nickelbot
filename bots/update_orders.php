@@ -57,9 +57,7 @@
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
 				$base_cur = $market_summary['base'];
 				$quote_cur = $market_summary['quote'];
-
-				//What is 'cost_decimals' compared to 'pair_decimals'?
-				$price_precision = $market_summary['pair_decimals'];
+				$price_precision = $market_summary['price_precision'];
 				$amount = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $price, $price_precision );
 
 				echo " -> Updating $side order $order_id to price $price and amount $amount $base_cur totaling " . $price * $amount . " $quote_cur in ($market).\n";
