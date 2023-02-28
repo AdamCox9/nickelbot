@@ -122,12 +122,12 @@
 		}
 
 		function Trades( $pair ) {
-			$since = time()-24*60*60;
+			$since = time()-60*60;
 			return $this->QueryPublic( 'Trades', array( 'pair' => $pair, 'since' => $since ) );
 		}
 
 		function Spread( $pair ) {
-			$since = time()-24*60*60;
+			$since = time()-60*60;
 			return $this->QueryPublic( 'Spread', array( 'pair' => $pair, 'since' => $since ) );
 		}
 
@@ -147,14 +147,14 @@
 			return $this->query( 'DepositAddresses', array( 'method' => $method ) );
 		}
 
-		function AddOrder( $pair = "XLTCXXBT", $type = "buy", $ordertype = "limit", $price = "0.001", $volume = "10" ) {
+		function AddOrder( $pair = "LTCXBT", $type = "buy", $ordertype = "limit", $price = "0.001", $volume = "10" ) {
 			$out = array( 'pair' => $pair, 'type' => $type, 'ordertype' => $ordertype, 'price' => $price, 'volume' => $volume );
 			return $this->query( 'AddOrder', $out );
 		}
 
-		function EditOrder( $pair = "XLTCXXBT", $txid = "0", $price = "0.001", $volume = "10" ) {
-			$out = array( 'pair' => $pair, 'txid' => $order_id, 'price' => $price, 'volume' => $volume );
-			return $this->query( 'AddOrder', $out );
+		function EditOrder( $pair = "LTCXBT", $txid = "0", $price = "0.001", $volume = "10" ) {
+			$out = array( 'pair' => $pair, 'txid' => $txid, 'price' => $price, 'volume' => $volume );
+			return $this->query( 'EditOrder', $out );
 		}
 
 		function OpenOrders() {

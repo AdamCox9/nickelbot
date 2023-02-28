@@ -11,7 +11,7 @@
 	function run_tests( $Adapters, $Tester )
 	{
 		foreach( $Adapters as $Adapter ) {
-			echo "******* " . get_class( $Adapter ) . " ******\n";
+			echo "*** run_tests: " . get_class( $Adapter ) . " ***\n";
 
 			echo " -> getting currencies\n";
 			$currencies = $Adapter->get_currencies();

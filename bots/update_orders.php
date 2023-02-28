@@ -4,22 +4,17 @@
 
 		@Author Adam Cox
 
-		This is a simple example of a bot that will make minimum buy orders on the spread.
-		It will set buy orders for every trading pair available for each adapter where balances permit meeting criteria below.
-
-		TODO
-		 - There is a problem with the market names for Kraken. In Market Summaries, BTC is XXBT, but in Open Orders it is XBT. 
-		  - Is it just add X in front like XXBT-XETH? This bot won't work on Kraken until this is fixed.
-		 - Bittrex does not support updating orders.
-		 - Have not tried with any other exchanges.
+		This is a bot that will update the current open orders according to data in the $_CONFIG array.
+		The bot can be run every 15 minutes on a cron and it will update the orders to +/- X% of bid/ask.
+		This is better than deleting and creating orders on Kraken since they provide the update functionality and show cancelled orders in the history.
+		Bittrex does not allow update functionality. They do not show cancelled orders in history... even if partially executed???
 
 	*/
 
 	function update_orders( $Adapters = array(), $_CONFIG = array() ) {
 
 		foreach( $Adapters as $Adapter ) {
-			echo "*** make_min_orders: " . get_class( $Adapter ) . " ***\n";
-
+			echo "*** update_orders: " . get_class( $Adapter ) . " ***\n";
 
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances( );
@@ -30,7 +25,7 @@
 			$open_orders = $Adapter->get_open_orders();
 			
 			foreach( $open_orders as $open_order ) {
-				print_r( $open_order );
+				//print_r( $open_order );
 				//die( "TEST" );
 				
 				$order_id = $open_order['id'];
@@ -40,6 +35,13 @@
 				$side = $open_order['side'];
 				$market_summary = $Adapter->get_market_summary( $market );
 				
+				//print_r( array_keys( $market_summary ) );
+				$market_summary['OHLC'] = null;
+				$market_summary['Depth'] = null;
+				$market_summary['Trades'] = null;
+				$market_summary['Spread'] = null;
+				$market_summary['fees'] = null;
+				$market_summary['fees_maker'] = null;
 				print_r( $market_summary );
 				//die( "TEST" );
 
@@ -53,19 +55,19 @@
 
 				$min_order_base = $market_summary['minimum_order_size_base'];
 				$min_order_quote = $market_summary['minimum_order_size_quote'];
-				$curs_bq = explode( "-", $market );
-				$base_cur = $curs_bq[0];
-				$quote_cur = $curs_bq[1];
-				$amount = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $price, 8 );
+				$base_cur = $market_summary['base'];
+				$quote_cur = $market_summary['quote'];
+
+				//What is 'cost_decimals' compared to 'pair_decimals'?
+				$price_precision = $market_summary['pair_decimals'];
+				$amount = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $price, $price_precision );
 
 				echo " -> Updating $side order $order_id to price $price and amount $amount $base_cur totaling " . $price * $amount . " $quote_cur in ($market).\n";
+				//die( "TEST" );
 
-				die( "TEST" );
-
-				//$results = $Adapter->update_order( $market, $order_id, $amount, $price, array() );
+				$results = $Adapter->update_order( $market, $order_id, $amount, number_format( $price, $price_precision ), array() );
 				
-				//print_r( $results );
-				
+				print_r( $results );				
 				//die( "TEST" );
 			}
 

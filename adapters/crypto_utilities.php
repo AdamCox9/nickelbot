@@ -11,7 +11,7 @@
 			if( $price == 0 )
 				return 0;
 			if( is_null( $min_order_size_base ) )
-				return bcdiv( $min_order_size_quote, $price, 10 ); //fixes rounding error: 0.00000999999 ~> 0.00001000
+				return bcdiv( $min_order_size_quote, $price, $precision );
 			else
 				return $min_order_size_base;
 		}

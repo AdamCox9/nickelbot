@@ -60,7 +60,7 @@
 				return array( 'ERROR' => 'Market can not be null' );
 
 			$AssetPairs = $this->exch->AssetPairs( $market );
-			
+
 			if( $AssetPairs['error'] ) {
 				return array( 'ERROR' => $AssetPairs['error'] );
 			}
@@ -70,7 +70,7 @@
 				return array( 'ERROR' => $Ticker['error'] );
 			}
 
-			$market_summary = array_merge( $AssetPairs['result'][$market], $Ticker['result'][$market] );
+			$market_summary = array_merge( array_pop( $AssetPairs['result'] ), array_pop( $Ticker['result'] ) );
 			$market_summary['market'] = $market;
 
 			$OHLC = $this->exch->OHLC( $market );
@@ -228,7 +228,7 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
-			$market_summary['price_precision'] = $market_summary[ 'cost_decimals' ];
+			$market_summary['price_precision'] = $market_summary[ 'pair_decimals' ];
 			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 			$market_summary['result'] = null;
 			$market_summary['timestamp'] = null;
@@ -281,30 +281,26 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 		}
 
 		public function buy( $pair="ETH-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-		
-			$pair = $this->unget_market_symbol( $pair );
-			
 			/*echo "pair: $pair\n";
 			echo "type: $type\n";
 			echo "price: $price\n";
 			echo "amount: $amount\n";*/
 			
 			$result = $this->exch->AddOrder( $pair , "buy", strtolower( $type ), $price, $amount );
-
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];
 			return $result;
 		}
 		
 		public function sell( $pair="BTC-USD", $amount=0, $price=0, $type="LIMIT", $opts=array() ) {
-			$result = $this->exch->AddOrder( $this->unget_market_symbol( $pair ), "sell", strtolower( $type ), $price, $amount );
+			$result = $this->exch->AddOrder( $pair, "sell", strtolower( $type ), $price, $amount );
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];
 			return $result;
 		}
 
 		public function update_order( $pair = "", $order_id=0, $amount=0, $price=0, $opts=array() ) {
-			$result = $this->exch->EditOrder(  $this->unget_market_symbol( $pair ), $order_id, $amount, $price );
+			$result = $this->exch->EditOrder( $pair, $order_id, $price, $amount );
 			if( $result['error'] != false )
 				$result['message'] = $result['error'];
 			return $result ;
@@ -322,12 +318,13 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 
 		public function get_open_orders( $market="BTC-USD", $limit=100 ) {
 			$open_orders = $this->exch->OpenOrders();
+			
 			$results = [];
-			foreach( $open_orders['result']['open'] as $key => $open_order ) {
+			foreach( $open_orders['result']['open'] as $key => $open_order ) {			
 			
 				$open_order['id'] = $key;
 
-				$open_order['market'] = $this->get_market_symbol( $open_order['descr']['pair'] );
+				$open_order['market'] = $open_order['descr']['pair'];
 				$open_order['timestamp_created'] = $open_order['opentm'];
 				$open_order['exchange'] = "Kraken";
 				$open_order['avg_execution_price'] = null;
