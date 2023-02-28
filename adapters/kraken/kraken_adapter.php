@@ -228,7 +228,7 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
 			$market_summary['percent_change'] = null;
-			$market_summary['price_precision'] = $this->AssetPairs[ $key ][ 'cost_decimals' ];
+			$market_summary['price_precision'] = $market_summary[ 'cost_decimals' ];
 			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 			$market_summary['result'] = null;
 			$market_summary['timestamp'] = null;

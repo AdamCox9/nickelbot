@@ -38,7 +38,7 @@
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
-			print_r( $market_summary );
+			//print_r( $market_summary );
 			$Tester->test( 'market_summaries', array( $market_summary ) );
 			die( 'TEST' );
 
