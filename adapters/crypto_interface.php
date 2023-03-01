@@ -8,14 +8,10 @@
 		//Withdraw funds to $address
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 );
 
-		//Make a buy order - $type: limit, market, stop, margin, trigger, etc...
-		public function buy( $pair='BTC-USD', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
-
-		//Make a sell order - $type: limit, market, stop, margin, trigger, etc...
-		public function sell( $pair='BTC-USD', $amount="0.01", $price="0.01", $type="LIMIT", $opts=array() );
-
-		//Update existing order
-		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() );
+		//Make orders - $type: limit, market, stop, margin, trigger, etc...
+		public function buy( $pair = 'BTC-USD', $amount = "0.01", $price = "0.01", $type = "LIMIT", $opts = array() );
+		public function sell( $pair = 'BTC-USD', $amount = "0.01", $price = "0.01", $type = "LIMIT", $opts = array() );
+		public function update_order( $order_id = 0, $amount = 0, $price = 0, $opts = array() );
 
 		//Private Orders
 		public function get_open_orders();
@@ -23,16 +19,10 @@
 		public function get_order( $order_id );
 
 		//Cancel one or many orders: TODO accept array of orderid's
-		public function cancel( $orderid="1", $opts = array() );
+		public function cancel( $orderid = "1", $opts = array() );
 
 		//Cancel all orders:
 		public function cancel_all();
-
-		//Public Current Order Book
-		public function get_orderbook( $market = "BTC-USD", $depth = 20 );
-
-		//Public Trade History
-		public function get_trades( $market = "BTC-USD", $opts = array() );
 
 		//Get a deposit address for a currency
 		public function deposit_address( $currency = "BTC" );
@@ -47,6 +37,10 @@
 		public function get_markets();
 		public function get_market_summary( $market = "BTC-USD" );
 		public function get_market_summaries();
+		public function get_ohlc();
+		public function get_orderbook( $market = "BTC-USD", $depth = 25 );
+		public function get_trades( $market = "BTC-USD", $opts = array() );
+		public function get_spread();
 
 		//Balances: confirmed, reserved, available, pending, total
 		public function get_balance( $currency = "BTC" );
@@ -56,7 +50,7 @@
 		//Get deposits to and from the exchange:
 		public function get_deposits_withdrawals();
 		public function get_deposits();
-		public function get_deposit( $deposit_id="1", $opts = array() );
+		public function get_deposit( $deposit_id = "1", $opts = array() );
 		public function get_withdrawals();
 
 		//Return trollbox data from the exchange, otherwise get forum posts or twitter feed if must...

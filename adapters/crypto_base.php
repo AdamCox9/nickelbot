@@ -6,11 +6,15 @@
 		public function get_info() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_currency_summary( $currency = "BTC" ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_currency_summaries() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_ohlc( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_orderbook( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_trades( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_spread( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 
-
-		public function buy( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
-		public function sell( $pair="LTC-BTC", $amount=0, $price=0, $type="LIMIT", $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
-		public function update_order( $order_id=0, $amount=0, $price=0, $opts=array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		//Order functions
+		public function buy( $pair = "LTC-BTC", $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function sell( $pair = "LTC-BTC", $amount = 0, $price = 0, $type = "LIMIT", $opts = array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function update_order( $order_id = 0, $amount = 0, $price = 0, $opts = array() ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 
 		//Deposits & Withdrawals
 		public function get_deposits_withdrawals() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }

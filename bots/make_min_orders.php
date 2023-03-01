@@ -22,6 +22,7 @@
 			$market_summaries = $Adapter->get_market_summaries();
 
 			echo " -> got " . count( $market_summaries ) . " markets \n";
+			die( "TEST" );
 
 			//Print random sample market for debugging:
 			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );

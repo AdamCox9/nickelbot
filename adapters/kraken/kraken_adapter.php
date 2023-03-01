@@ -7,23 +7,15 @@
 			$this->use_disk_cache = false; //Read market summaries from disk only
 		}
 
-		private function get_market_symbol( $market ) {
-			return $market;
-		}
-
-		private function unget_market_symbol( $market ) {
-			return $market;
-		}
-
 		//Need to change currencies from array to array of arrays everywhere else also.
-		public function get_currencies() {
+		public function get_currencies( ) {
 			if( isset( $this->currencies ) )
 				return $this->currencies;
 				
 			if( isset( $this->Assets ) ) {
 				$Assets = $this->Assets;
 			} else {
-				$Assets = $this->exch->Assets();
+				$Assets = $this->exch->Assets( );
 				if( $Assets['error'] )
 					return array( 'ERROR' => $Assets['error'] );
 				$this->Assets = $Assets;
@@ -39,7 +31,7 @@
 			return $this->currencies;
 		}
 
-		public function get_markets() {
+		public function get_markets( ) {
 			if( isset( $this->markets ) )
 				return $this->markets;
 
@@ -47,10 +39,8 @@
 			if( $AssetPairs['error'] ) {
 				return array( 'ERROR' => $AssetPairs['error'] );
 			}
-			
-			$markets = $AssetPairs['result'];			
-			$this->markets = array_keys( $markets );
-				
+
+			$this->markets = array_keys( $AssetPairs['result'] );
 			return 	$this->markets;
 		}
 
@@ -75,41 +65,61 @@
 			$market_summary = array_merge( array_pop( $AssetPairs['result'] ), array_pop( $Ticker['result'] ) );
 			$market_summary['market'] = $market;
 
+			$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
+			return $this->market_summaries[$market];
+		}
+
+
+		public function get_ohlc( $market = null ) {
+			if( is_null( $market ) )
+				return array( 'ERROR' => 'Market can not be null' );
+
 			$OHLC = $this->exch->OHLC( $market );
 			if( $OHLC['error'] ) {
 				return array( 'ERROR' => $OHLC['error'] );
 			}
-			$market_summary['OHLC'] = $OHLC;
+			return $OHLC;
+		}
+
+		public function get_orderbook( $market = null, $depth = 25 ) {
+			if( is_null( $market ) )
+				return array( 'ERROR' => 'Market can not be null' );
 
 			$Depth = $this->exch->Depth( $market );
 			if( $Depth['error'] ) {
 				return array( 'ERROR' => $Depth['error'] );
 			}
-			$market_summary['Depth'] = $Depth;
+			return $Depth;
+		}
+
+		public function get_trades( $market = null, $opts = array( ) ) {
+			if( is_null( $market ) )
+				return array( 'ERROR' => 'Market can not be null' );
 
 			$Trades = $this->exch->Trades( $market );
 			if( $Trades['error'] ) {
 				return array( 'ERROR' => $Trades['error'] );
 			}
-			$market_summary['Trades'] = $Trades;
+			return $Trades;
+		}
+
+		public function get_spread( $market = null ) {
+			if( is_null( $market ) )
+				return array( 'ERROR' => 'Market can not be null' );
 
 			$Spread = $this->exch->Spread( $market );
 			if( $Spread['error'] ) {
 				return array( 'ERROR' => $Spread['error'] );
 			}
-			$market_summary['Spread'] = $Spread;
-
-			$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
-			return $this->market_summaries[$market];
+			return $Spread;
 		}
 
 		public function get_market_summaries( ) {
 			//Don't get from $this->market_summaries because it won't be full if get_market_summary stored a value in it.
 			$markets = $this->get_markets( );
-			
+
 			foreach( $markets as $market ) {
-				$exchange = strtolower( str_replace( "Adapter", "", get_class( $Adapter ) ) );
-				$market_summary_file = "cache/$exchange/market_summaries/$market.txt";
+				$market_summary_file = "cache/kraken/market_summaries/$market.txt";
 
 				if( ! file_exists( $market_summary_file ) )
 					return array( 'ERROR' => "Cache file does not exist. Use 'build_cache' bot." );
@@ -117,7 +127,7 @@
 					$this->market_summaries[$market] = json_decode( file_get_contents ( $market_summary_file ) );
 				}
 			}
-			
+
 			//Save it in $this_market_summaries in case if get_market_summary needs it.
 			return $this->market_summaries;
 		}
@@ -395,20 +405,5 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
 		}
 		
-		public function get_trades( $market = "BTC-USD", $time = 0 ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
-
-		public function get_all_trades( $time = 0 ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
-
-		public function get_orderbooks( $depth = 20 ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
-
-		public function get_orderbook( $market = 'BTC-USD', $depth = 20 ) {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
-		}
 	}
 ?>
