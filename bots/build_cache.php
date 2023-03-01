@@ -36,9 +36,9 @@
 				file_put_contents( $market_file, json_encode( $markets ) );
 
 			//_____make dir for market_summaries if not there already
-			$ms_file = "$file/market_summaries";
-			if( ! file_exists( $ms_file ) )
-				mkdir( $ms_file, 0755 );
+			$market_summary_file = "$file/market_summaries";
+			if( ! file_exists( $market_summary_file ) )
+				mkdir( $market_summary_file, 0755 );
 
 			//get all market summaries:
 			foreach( $markets as $market ) {
@@ -46,6 +46,62 @@
 				if( ! file_exists( $market_summary_file ) ) {
 					$market_summary = $Adapter->get_market_summary( $market );
 					file_put_contents( $market_summary_file, json_encode( $market_summary ) );
+				}
+			}
+
+			//_____make dir for ohlc if not there already
+			$ohlc_file = "$file/ohlc";
+			if( ! file_exists( $ohlc_file ) )
+				mkdir( $ohlc_file, 0755 );
+
+			//get all OHLC:
+			foreach( $markets as $market ) {
+				$ohlc_file = $file . "/ohlc/$market.txt";
+				if( ! file_exists( $ohlc_file ) ) {
+					$ohlc = $Adapter->get_ohlc( $market );
+					file_put_contents( $ohlc_file, json_encode( $ohlc ) );
+				}
+			}
+			
+			//_____make dir for ohlc if not there already
+			$orderbook_file = "$file/orderbook";
+			if( ! file_exists( $orderbook_file ) )
+				mkdir( $orderbook_file, 0755 );
+
+			//get all orderbooks:
+			foreach( $markets as $market ) {
+				$orderbook_file = $file . "/orderbook/$market.txt";
+				if( ! file_exists( $orderbook_file ) ) {
+					$orderbook = $Adapter->get_orderbook( $market );
+					file_put_contents( $orderbook_file, json_encode( $orderbook ) );
+				}
+			}
+			
+			//_____make dir for trades if not there already
+			$trades_file = "$file/trades";
+			if( ! file_exists( $trades_file ) )
+				mkdir( $trades_file, 0755 );
+
+			//get all trades:
+			foreach( $markets as $market ) {
+				$trades_file = $file . "/trades/$market.txt";
+				if( ! file_exists( $trades_file ) ) {
+					$trades = $Adapter->get_trades( $market );
+					file_put_contents( $trades_file, json_encode( $trades ) );
+				}
+			}
+			
+			//_____make dir for ohlc if not there already
+			$spreads_file = "$file/spreads";
+			if( ! file_exists( $spreads_file ) )
+				mkdir( $spreads_file, 0755 );
+
+			//get all spreads:
+			foreach( $markets as $market ) {
+				$spread_file = $file . "/spread/$market.txt";
+				if( ! file_exists( $spread_file ) ) {
+					$spread = $Adapter->get_spread( $market );
+					file_put_contents( $spread_file, json_encode( $spread ) );
 				}
 			}
 			
