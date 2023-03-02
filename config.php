@@ -15,8 +15,7 @@
 	require_once( "bots/human_readable_summary.php" );
 	require_once( "bots/disperse_funds.php" );
 	require_once( "bots/make_deposit_addresses.php" );
-	require_once( "bots/make_max_orders.php" );
-	require_once( "bots/make_min_orders.php" );
+	require_once( "bots/make_orders.php" );
 	require_once( "bots/cancel_oldest_orders.php" );
 	require_once( "bots/run_tests.php" );
 	require_once( "bots/light_show.php" );

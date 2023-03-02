@@ -50,8 +50,8 @@
 		//run_tests( $Adapters, $Tester ); //All exchanges
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
 		
-		run_tests( array( 0 => $Adapters['Kraken'] ), $Tester );
-		die( "TEST" );
+		//run_tests( array( 0 => $Adapters['Kraken'] ), $Tester );
+		//die( "TEST" );
 		
 		/*
 			cancel_oldest_orders:	Sample bot to cancel oldest orders.
@@ -82,7 +82,7 @@
 		*/
 		
 		//Create BUY orders on Bittrex:
-		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+		/*make_orders(		array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
 					array(	'DIRECTION' => "BUY",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.97,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
 						'SELL_ORDER_PERCENT_DIFF' => 2,		//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
@@ -90,21 +90,22 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 25,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "BTC",		//TODO Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 1.2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
 
 		//Create SELL orders on Bittrex:
-		make_min_orders(	array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+		make_orders(		array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
 					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.5,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
-						'SELL_ORDER_PERCENT_DIFF' => 1.03,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
+						'SELL_ORDER_PERCENT_DIFF' => 1.1,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
 						'PRICE_CHANGE_DIRECTION' => "DESC",	//[ASC|DESC] to filter markets by price change
 						'FILTER_BY_TOP_PRICE_CHANGE' => 500,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 500,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "BTC",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 1000 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+											//Set ORDER_SIZE_MULTIPLIER to a large number to auto make max size sell orders*/
 
 		//Create BUY orders on Kraken:
-		/*make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
+		/*make_orders(		array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
 					array(	'DIRECTION' => "BUY",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.97,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
 						'SELL_ORDER_PERCENT_DIFF' => 2,		//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
@@ -112,10 +113,10 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume (filter by volume happens before filter by price change)
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
 
 		//Create SELL orders on Kraken:
-		make_min_orders(	array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
+		make_orders(		array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
 					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.5,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
 						'SELL_ORDER_PERCENT_DIFF' => 1.03,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
@@ -123,15 +124,7 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
-
-		/*
-			make_max_orders:	Sample bot to make maximum sell orders.
-		*/
-
-		/*make_max_orders(	$Adapters, //Array of Adapters
-					array( 'SELL_AT_PERCENT_CHANGE' => "1.06" ) );	//Sell at X percent above asking price*/
-
+						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
 
 		/*
 			follow_walls:		Sample bot to place orders at walls.
