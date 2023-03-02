@@ -23,13 +23,13 @@
 			if( ! file_exists( $file ) )
 				mkdir( $file, 0755 );
 
-			//get all currencies:
+			//get currencies:
 			$currency_file = $file . "/currencies.txt";
 			$currencies = $Adapter->get_currencies();
 			if( ! file_exists( $currency_file ) )
 				file_put_contents( $currency_file, json_encode( $currencies ) );
 
-			//get all markets:
+			//get markets:
 			$market_file = $file . "/markets.txt";
 			$markets = $Adapter->get_markets();
 			if( ! file_exists( $market_file ) )
@@ -40,7 +40,7 @@
 			if( ! file_exists( $market_summary_file ) )
 				mkdir( $market_summary_file, 0755 );
 
-			//get all market summaries:
+			//get market summaries:
 			foreach( $markets as $market ) {
 				$market_summary_file = $file . "/market_summaries/$market.txt";
 				if( ! file_exists( $market_summary_file ) ) {
@@ -54,7 +54,7 @@
 			if( ! file_exists( $ohlc_file ) )
 				mkdir( $ohlc_file, 0755 );
 
-			//get all OHLC:
+			//get OHLC:
 			foreach( $markets as $market ) {
 				$ohlc_file = $file . "/ohlc/$market.txt";
 				if( ! file_exists( $ohlc_file ) ) {
@@ -68,7 +68,7 @@
 			if( ! file_exists( $orderbook_file ) )
 				mkdir( $orderbook_file, 0755 );
 
-			//get all orderbooks:
+			//get orderbooks:
 			foreach( $markets as $market ) {
 				$orderbook_file = $file . "/orderbook/$market.txt";
 				if( ! file_exists( $orderbook_file ) ) {
@@ -82,7 +82,7 @@
 			if( ! file_exists( $trades_file ) )
 				mkdir( $trades_file, 0755 );
 
-			//get all trades:
+			//get trades:
 			foreach( $markets as $market ) {
 				$trades_file = $file . "/trades/$market.txt";
 				if( ! file_exists( $trades_file ) ) {
@@ -91,12 +91,12 @@
 				}
 			}
 			
-			//_____make dir for ohlc if not there already
-			$spreads_file = "$file/spreads";
-			if( ! file_exists( $spreads_file ) )
-				mkdir( $spreads_file, 0755 );
+			//_____make dir for spread if not there already
+			$spread_file = "$file/spread";
+			if( ! file_exists( $spread_file ) )
+				mkdir( $spread_file, 0755 );
 
-			//get all spreads:
+			//get spread:
 			foreach( $markets as $market ) {
 				$spread_file = $file . "/spread/$market.txt";
 				if( ! file_exists( $spread_file ) ) {
@@ -105,14 +105,14 @@
 				}
 			}
 			
-			//get all balances:
+			//get balances:
 			$balances_file = $file . "/balances.txt";
 			if( ! file_exists( $balances_file ) ) {
 				$balances = $Adapter->get_balances();
 				file_put_contents( $balances_file, json_encode( $balances ) );
 			}
 
-			//get all open orders:
+			//get open orders:
 			$open_orders_file = $file . "/open_orders.txt";
 			if( ! file_exists( $open_orders_file ) ) {
 				$open_orders = $Adapter->get_open_orders( );
