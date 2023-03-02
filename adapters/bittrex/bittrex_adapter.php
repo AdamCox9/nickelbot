@@ -442,6 +442,8 @@
 			$market_summary['price_precision'] = 8;
 			$market_summary['vwap'] = null;
 			$market_summary['market_id'] = null;
+			$market_summary['base'] = $market_summary['baseCurrencySymbol'];
+			$market_summary['quote'] = $market_summary['quoteCurrencySymbol'];
 
 			unset( $market_summary['symbol'] );
 			unset( $market_summary['baseCurrencySymbol'] );
