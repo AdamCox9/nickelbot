@@ -22,10 +22,10 @@
 			$market_summaries = $Adapter->get_market_summaries();
 
 			echo " -> got " . count( $market_summaries ) . " markets \n";
-			die( "TEST" );
 
 			//Print random sample market for debugging:
-			//print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+			print_r( $market_summaries[ array_rand( $market_summaries ) ] );
+			//die( "TEST" );
 
 			echo " -> getting balances \n";
 			$balances = $Adapter->get_balances( );
@@ -36,11 +36,7 @@
 			//Only use $_CONFIG['QUOTE_CURRENCY'] pairs:
 			$filtered_market_summaries_by_btc = [];
 			foreach( $market_summaries as $market_summary ) {
-				$market = $market_summary['market'];
-				$curs_bq = explode( "-", $market );
-				$base_cur = $curs_bq[0];
-				$quote_cur = $curs_bq[1];
-				if( $quote_cur != $_CONFIG['QUOTE_CURRENCY'] ) continue;
+				if( $market_summary['quote'] != $_CONFIG['QUOTE_CURRENCY'] ) continue;
 				array_push( $filtered_market_summaries_by_btc, $market_summary );
 			}
 
@@ -108,6 +104,7 @@
 					//_____Do the Buy:
 
 					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $buy_price, 8 );
+					$order_size = bcmul( $order_size, $_CONFIG['ORDER_SIZE_MULTIPLIER'], 8 );
 					echo " -> *** attempt to buy $order_size $base_cur in $market for $buy_price $quote_cur costing " . bcmul( $order_size, $buy_price, 8 ) . " $quote_cur with quote balance of $quote_bal \n";
 					if( $order_size * $buy_price > $quote_bal )
 						echo " -> *** quote balance of $quote_bal $quote_cur is too low for min buy order size of $order_size $base_cur at buy price of $buy_price $quote_cur \n";
@@ -127,7 +124,8 @@
 					//_____Do the Sell:
 
 					$order_size = Utilities::get_min_order_size( $min_order_base, $min_order_quote, $sell_price, 8 );
-					echo " -> *** attempt to sell $order_size $base_cur in $market for $sell_price $quote_cur costing " . bcmul( $order_size, $sell_price, 8 ) . " $quote_cur with quote balance of $quote_bal \n";
+					$order_size = bcmul( $order_size, $_CONFIG['ORDER_SIZE_MULTIPLIER'], 8 );
+					echo " -> *** attempt to sell $order_size $base_cur in $market for $sell_price $quote_cur costing " . bcmul( $order_size, $sell_price, 8 ) . " $base_cur with base balance of $base_bal \n";
 					if( $order_size * $sell_price > $base_bal )
 						echo " -> *** base balance of $base_bal $base_cur is too low for min sell order size of $order_size $base_cur at sell price of $sell_price $quote_cur \n";
 					elseif( $_CONFIG['DIRECTION'] == "SELL" || $_CONFIG['DIRECTION'] == "BOTH" ) {

@@ -32,7 +32,7 @@
 
 		function query($method, array $request = array())
 		{
-			usleep( 1000 );
+			usleep( 1000000 ); //1000000 = 1 Second
 
 			$mt = explode( ' ', microtime() );
 			$request['nonce'] = $mt[1] . substr( $mt[0], 2, 6 );
@@ -66,7 +66,7 @@
 
 		function QueryPublic($method, array $request = array())
 		{
-			usleep( 1000 );
+			usleep( 1000000 ); //1000000 = 1 Second
 		
 			// build the POST data string
 			$postdata = http_build_query($request, '', '&');

@@ -4,7 +4,8 @@
 
 		public function __construct( $Exch ) {
 			$this->exch = $Exch;
-			$this->use_disk_cache = false; //Read market summaries from disk only
+			$this->use_disk_cache = false; //Read market summaries from disk only.
+			$this->market_summaries = []; //Save values locally instead of making an addition HTTP request.
 		}
 
 		//Need to change currencies from array to array of arrays everywhere else also.
@@ -115,20 +116,29 @@
 		}
 
 		public function get_market_summaries( ) {
-			//Don't get from $this->market_summaries because it won't be full if get_market_summary stored a value in it.
-			$markets = $this->get_markets( );
+			$AssetPairs = $this->exch->AssetPairs( null );
 
-			foreach( $markets as $market ) {
-				$market_summary_file = "cache/kraken/market_summaries/$market.txt";
-
-				if( ! file_exists( $market_summary_file ) )
-					return array( 'ERROR' => "Cache file does not exist. Use 'build_cache' bot." );
-				else {
-					$this->market_summaries[$market] = json_decode( file_get_contents ( $market_summary_file ) );
-				}
+			if( $AssetPairs['error'] ) {
+				return array( 'ERROR' => $AssetPairs['error'] );
 			}
 
-			//Save it in $this_market_summaries in case if get_market_summary needs it.
+			$Ticker = $this->exch->Ticker( null );
+			if( $Ticker['error'] ) {
+				return array( 'ERROR' => $Ticker['error'] );
+			} else {
+				$Ticker = $Ticker['result'];
+			}
+
+			$market_summaries = $AssetPairs['result'];
+
+			foreach( $market_summaries as $market => $market_summary ) {
+				if( isset( $Ticker[$market] ) ) {
+					$market_summary = array_merge( $market_summary, $Ticker[$market] );
+					$market_summary['market'] = $market;
+					$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
+				}
+			}
+				
 			return $this->market_summaries;
 		}
 
