@@ -6,7 +6,7 @@
 		public function get_info() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_currency_summary( $currency = "BTC" ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_currency_summaries() { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
-		public function get_ohlc( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
+		public function get_ohlc( $pair = null, $interval = null, $since = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_orderbook( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_trades( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }
 		public function get_spread( $pair = null ) { return array( 'ERROR' => 'METHOD_NOT_AVAILABLE' ); }

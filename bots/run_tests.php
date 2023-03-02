@@ -38,9 +38,11 @@
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
-			//print_r( $market_summary );
+			print_r( $market_summary );
 			$Tester->test( 'market_summaries', array( $market_summary ) );
 			die( 'TEST' );
+
+			//TODO run test on get_ohlc, get_trades, get_orderbook, get_spread
 
 			echo " -> getting open orders for test market\n";
 			$open_orders = $Adapter->get_open_orders( $market );

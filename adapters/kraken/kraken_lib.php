@@ -113,8 +113,8 @@
 				return $this->QueryPublic( 'Ticker', array( 'pair' => $pair ) );
 		}
 
-		function OHLC( $pair ) {
-			return $this->QueryPublic( 'OHLC', array( 'pair' => $pair ) );
+		function OHLC( $pair, $interval, $since ) {
+			return $this->QueryPublic( 'OHLC', array( 'pair' => $pair, 'interval' => $interval, 'since' => $since ) );
 		}
 
 		function Depth( $pair ) {

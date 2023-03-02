@@ -59,15 +59,15 @@
 
 		private function test_market_summary( $market_summary ) {
 			$keys = array(	'ask', 'base_volume', 'bid', 'btc_volume', 'created', 'display_name', 'exchange', 
-							'expiration', 'frozen', 'high', 'initial_margin', 'last_price', 
-							'low', 'market', 'market_id', 'maximum_order_size', 'mid', 'minimum_margin', 
-							'minimum_order_size_base', 'minimum_order_size_quote', 'open_buy_orders',
-							'open_sell_orders', 'percent_change', 'price_precision', 
-							'quote_volume', 'result', 'timestamp', 'verified_only', 'vwap',
-							'altname', 'wsname', 'aclass_base', 'base', 'aclass_quote', 'quote', 'lot', 
-							'cost_decimals', 'pair_decimals', 'lot_decimals', 'lot_multiplier',
-							'leverage_buy', 'leverage_sell', 'fees', 'fees_maker', 'fee_volume_currency', 'margin_call', 'margin_stop', 
-							'ordermin', 'costmin', 'tick_size', 'status', 'OHLC', 'Depth', 'Trades', 'Spread' );
+					'expiration', 'frozen', 'high', 'initial_margin', 'last_price', 
+					'low', 'market', 'market_id', 'maximum_order_size', 'mid', 'minimum_margin', 
+					'minimum_order_size_base', 'minimum_order_size_quote', 'open_buy_orders',
+					'open_sell_orders', 'percent_change', 'price_precision', 
+					'quote_volume', 'result', 'timestamp', 'verified_only', 'vwap',
+					'altname', 'wsname', 'aclass_base', 'base', 'aclass_quote', 'quote', 'lot', 
+					'cost_decimals', 'pair_decimals', 'lot_decimals', 'lot_multiplier',
+					'leverage_buy', 'leverage_sell', 'fees', 'fees_maker', 'fee_volume_currency', 'margin_call', 'margin_stop', 
+					'ordermin', 'costmin', 'tick_size', 'status', 'long_position_limit', 'short_position_limit' );
 
 			$numbers = array( 'ask', 'base_volume', 'bid', 'high', 'last_price', 'low', 'quote_volume' );
 			$strings = array( 'display_name', 'exchange' );

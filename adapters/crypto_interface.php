@@ -37,7 +37,7 @@
 		public function get_markets();
 		public function get_market_summary( $market = "BTC-USD" );
 		public function get_market_summaries();
-		public function get_ohlc();
+		public function get_ohlc( $market = null, $interval = null, $since = null );
 		public function get_orderbook( $market = "BTC-USD", $depth = 25 );
 		public function get_trades( $market = "BTC-USD", $opts = array() );
 		public function get_spread();

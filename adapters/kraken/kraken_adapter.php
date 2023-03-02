@@ -45,6 +45,48 @@
 			return 	$this->markets;
 		}
 
+		/*****
+			Market Summary(ies) is these two arrays merged together: (AssetPairs, Ticker)
+
+			<pair_name> = pair name
+			    a = ask array(<price>, <whole lot volume>, <lot volume>),
+			    b = bid array(<price>, <whole lot volume>, <lot volume>),
+			    c = last trade closed array(<price>, <lot volume>),
+			    v = volume array(<today>, <last 24 hours>),
+			    p = volume weighted average price array(<today>, <last 24 hours>),
+			    t = number of trades array(<today>, <last 24 hours>),
+			    l = low array(<today>, <last 24 hours>),
+			    h = high array(<today>, <last 24 hours>),
+			    o = today's opening price
+			Note: Today's prices start at 00:00:00 UTC
+
+			altname	string Alternate pair name
+			wsname string WebSocket pair name (if available)
+			aclass_base string Asset class of base component
+			base string Asset ID of base component
+			aclass_quote string Asset class of quote component
+			quote string Asset ID of quote component
+			lot string Deprecated Volume lot size
+			pair_decimals integer Scaling decimal places for pair
+			cost_decimals integer Scaling decimal places for cost
+			lot_decimals integer Scaling decimal places for volume
+			lot_multiplier integer Amount to multiply lot volume by to get currency volume
+			leverage_buy Array of integers Array of leverage amounts available when buying
+			leverage_sell Array of integers Array of leverage amounts available when selling
+			fees Array of numbers[ items ] Fee schedule array in [<volume>, <percent fee>] tuples
+			fees_maker Array of numbers[ items ] Maker fee schedule array in [<volume>, <percent fee>] tuples (if on maker/taker)
+			fee_volume_currency string Volume discount currency
+			margin_call integer Margin call level
+			margin_stop integer Stop-out/liquidation margin level
+			ordermin string Minimum order size (in terms of base currency)
+			costmin	string Minimum order cost (in terms of quote currency)
+			tick_size string Minimum increment between valid price levels
+			status string Status of asset. Possible values: online, cancel_only, post_only, limit_only, reduce_only.
+			long_position_limit integer Maximum long margin position size (in terms of base currency)
+			short_position_limit integer Maximum short margin position size (in terms of base currency)
+
+		 *****/
+
 		public function get_market_summary( $market = null ) {
 			if( isset( $this->market_summaries[$market] ) )
 				return $this->market_summaries[$market];
@@ -63,19 +105,60 @@
 				return array( 'ERROR' => $Ticker['error'] );
 			}
 
+			$OHLC = $this->get_ohlc( $market, 1440, time() - 24*60*60 );
+			if( $OHLC['error'] ) {
+				return array( 'ERROR' => $Ticker['OHLC'] );
+			}
+
 			$market_summary = array_merge( array_pop( $AssetPairs['result'] ), array_pop( $Ticker['result'] ) );
 			$market_summary['market'] = $market;
+
+			$hour24_price = $OHLC['result'][$market][0][1];
+			$current_price = $market_summary['c'][0];
+			$price_change = $current_price / ( $current_price - abs( $hour24_price - $current_price ) );
+			if( $current_price > $hour24_price )
+				$price_change = -1 * $price_change;
+			$market_summary['percent_change'] = $price_change;
 
 			$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
 			return $this->market_summaries[$market];
 		}
 
+		public function get_market_summaries( ) {
+			$AssetPairs = $this->exch->AssetPairs( null );
 
-		public function get_ohlc( $market = null ) {
+			if( $AssetPairs['error'] ) {
+				return array( 'ERROR' => $AssetPairs['error'] );
+			}
+
+			$Ticker = $this->exch->Ticker( null );
+			if( $Ticker['error'] ) {
+				return array( 'ERROR' => $Ticker['error'] );
+			} else {
+				$Ticker = $Ticker['result'];
+			}
+
+			$market_summaries = $AssetPairs['result'];
+
+			foreach( $market_summaries as $market => $market_summary ) {
+				if( isset( $Ticker[$market] ) ) {
+					$market_summary = array_merge( $market_summary, $Ticker[$market] );
+					$market_summary['market'] = $market;
+					$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
+				}
+			}
+				
+			return $this->market_summaries;
+		}
+
+		public function get_ohlc( $market = null, $interval = 60, $since = null ) {
 			if( is_null( $market ) )
 				return array( 'ERROR' => 'Market can not be null' );
 
-			$OHLC = $this->exch->OHLC( $market );
+			if( is_null( $since ) )
+				$since = time() - 24*60*60;
+
+			$OHLC = $this->exch->OHLC( $market, $interval, $since );
 			if( $OHLC['error'] ) {
 				return array( 'ERROR' => $OHLC['error'] );
 			}
@@ -115,75 +198,7 @@
 			return $Spread;
 		}
 
-		public function get_market_summaries( ) {
-			$AssetPairs = $this->exch->AssetPairs( null );
-
-			if( $AssetPairs['error'] ) {
-				return array( 'ERROR' => $AssetPairs['error'] );
-			}
-
-			$Ticker = $this->exch->Ticker( null );
-			if( $Ticker['error'] ) {
-				return array( 'ERROR' => $Ticker['error'] );
-			} else {
-				$Ticker = $Ticker['result'];
-			}
-
-			$market_summaries = $AssetPairs['result'];
-
-			foreach( $market_summaries as $market => $market_summary ) {
-				if( isset( $Ticker[$market] ) ) {
-					$market_summary = array_merge( $market_summary, $Ticker[$market] );
-					$market_summary['market'] = $market;
-					$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
-				}
-			}
-				
-			return $this->market_summaries;
-		}
-
-/*****
-
-<pair_name> = pair name
-    a = ask array(<price>, <whole lot volume>, <lot volume>),
-    b = bid array(<price>, <whole lot volume>, <lot volume>),
-    c = last trade closed array(<price>, <lot volume>),
-    v = volume array(<today>, <last 24 hours>),
-    p = volume weighted average price array(<today>, <last 24 hours>),
-    t = number of trades array(<today>, <last 24 hours>),
-    l = low array(<today>, <last 24 hours>),
-    h = high array(<today>, <last 24 hours>),
-    o = today's opening price
-Note: Today's prices start at 00:00:00 UTC
-
-altname	string Alternate pair name
-wsname string WebSocket pair name (if available)
-aclass_base string Asset class of base component
-base string Asset ID of base component
-aclass_quote string Asset class of quote component
-quote string Asset ID of quote component
-lot string Deprecated Volume lot size
-pair_decimals integer Scaling decimal places for pair
-cost_decimals integer Scaling decimal places for cost
-lot_decimals integer Scaling decimal places for volume
-lot_multiplier integer Amount to multiply lot volume by to get currency volume
-leverage_buy Array of integers Array of leverage amounts available when buying
-leverage_sell Array of integers Array of leverage amounts available when selling
-fees Array of numbers[ items ] Fee schedule array in [<volume>, <percent fee>] tuples
-fees_maker Array of numbers[ items ] Maker fee schedule array in [<volume>, <percent fee>] tuples (if on maker/taker)
-fee_volume_currency string Volume discount currency
-margin_call integer Margin call level
-margin_stop integer Stop-out/liquidation margin level
-ordermin string Minimum order size (in terms of base currency)
-costmin	string Minimum order cost (in terms of quote currency)
-tick_size string Minimum increment between valid price levels
-status string Status of asset. Possible values: online, cancel_only, post_only, limit_only, reduce_only.
-long_position_limit integer Maximum long margin position size (in terms of base currency)
-short_position_limit integer Maximum short margin position size (in terms of base currency)
-
- *****/
-
-
+		//For market summary(ies)
 		private function standardize_market_summary( $market_summary ) {
 		
 			//print_r( array_keys( $market_summary ) );
@@ -211,13 +226,14 @@ short_position_limit integer Maximum short margin position size (in terms of bas
 			$market_summary['minimum_order_size_quote'] = null;
 			$market_summary['open_buy_orders'] = null;
 			$market_summary['open_sell_orders'] = null;
-			$market_summary['percent_change'] = null;
 			$market_summary['price_precision'] = $market_summary[ 'pair_decimals' ];
 			$market_summary['quote_volume'] = bcmul( $market_summary['base_volume'], number_format( $market_summary['mid'], 8, ".", "" ), 32 );;
 			$market_summary['result'] = null;
 			$market_summary['timestamp'] = null;
 			$market_summary['verified_only'] = null;
 			$market_summary['vwap'] = null;
+			$market_summary['long_position_limit'] = isset( $market_summary['long_position_limit'] ) ? $market_summary['long_position_limit'] : null;
+			$market_summary['short_position_limit'] = isset( $market_summary['short_position_limit'] ) ? $market_summary['short_position_limit'] : null;
 
 			unset( $market_summary['a'] );
 			unset( $market_summary['b'] );
