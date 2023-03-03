@@ -43,7 +43,13 @@
 
 		 *****/
 
-		//update_orders( array( 0=> $Adapters['Kraken'] ), array() );
+		//make_deposit_addresses( $Adapters );
+
+		human_readable_summary( array( 0 => $Adapters['Bittrex'] ), array( ) );
+
+		//disperse_funds( $Adapters );
+
+		//update_orders( array( 0=> $Adapters['Kraken'] ), array( ) );
 
 		//build_cache( array( 0 => $Adapters['Kraken'] ) );
 
@@ -90,10 +96,10 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 25,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "BTC",		//TODO Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 1.2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 1.2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
 
 		//Create SELL orders on Bittrex:
-		make_orders(		array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
+		/*make_orders(		array(	0 => $Adapters['Bittrex'] ),		//Array of Adapters
 					array(	'DIRECTION' => "SELL",			//[BUY|SELL|BOTH] Requires BUY_ORDER_PERCENT_DIFF & SELL_ORDER_PERCENT_DIFF to be set
 						'BUY_ORDER_PERCENT_DIFF' => 0.5,	//PRICE=BID*BUY_ORDER_PERCENT_DIFF
 						'SELL_ORDER_PERCENT_DIFF' => 1.1,	//PRICE=ASK*SELL_ORDER_PERCENT_DIFF
@@ -113,7 +119,7 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume (filter by volume happens before filter by price change)
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
+						'ORDER_SIZE_MULTIPLIER' => 2 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
 
 		//Create SELL orders on Kraken:
 		make_orders(		array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
@@ -124,7 +130,7 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
 
 		/*
 			follow_walls:		Sample bot to place orders at walls.
@@ -142,9 +148,6 @@
 			sleep( 60 );
 		}*/
 
-		//make_deposit_addresses( $Adapters );
-		//human_readable_summary( $Adapters );
-		//disperse_funds( $Adapters );
 
 	} catch( Exception $e ){
 		echo $e->getMessage() . "\n";

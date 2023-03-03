@@ -6,46 +6,33 @@
 
 	function human_readable_summary( $Adapters ) {
 
-		die( 'Needs to be updated for $Adapters below' );
+		echo "\n\nAll Exchanges(" . sizeof( $Adapters ) . ")\n";
+		foreach( $Adapters as $Adapter ) {
 
-		sort( $exchanges );
+			echo "*** human_readable_summary: " . get_class( $Adapter ) . " ***\n";
 
-		echo "\n\nAll Exchanges(".sizeof($exchanges).")\n";
-		foreach( $exchanges as $exchange) {
-			echo $exchange . ", ";
-		}
+			$currencies		= $Adapter->get_currencies( );
+			$markets		= $Adapter->get_markets( );
+			$market_summaries	= $Adapter->get_market_summaries( );
+			$balances		= $Adapter->get_balances( );
 
-		echo "\n\nAll Currencies(".sizeof($currencies).")\n";
-		foreach( $currencies as $key => $currency_exchange) {
-			echo "\n\n ***$key*** \n\n";
-			foreach( $currency_exchange as $currency ) {
+			echo "\n\nAll Currencies(" . sizeof( $currencies ) . ")\n";
+			foreach( $currencies as $currency ) {
 				echo $currency . ", ";
 			}
-		}
 
-		echo "\n\n***All Markets(".sizeof($markets).")***\n";
-		foreach( $markets as $key => $market_exchange ) {
-			echo "\n\n ***$key*** \n\n";
-			foreach( $market_exchange as $market ) {
+			echo "\n\n***All Markets(" . sizeof( $markets ) . ")***\n";
+			foreach( $markets as $market ) {
 				echo $market . ", ";
 			}
-		}
 
-		echo "\n\n***All Worths***\n";
-		$total_worth = 0;
-		foreach( $worths as $key => $worth) {
-			echo "$key BTC Balance: " . $worth['btc_worth'] . "\n";
-			$total_worth += $worth['btc_worth'];
-		}
-		echo "\n\n#####Total Worth: $total_worth#####\n\n";
+			echo "\n\n***All Balances***\n";
+			foreach( $balances as $market => $balance ) {
+				if( $balance['total'] > 0 )
+					echo "$market Balance: " . $balance['total'] . "\n";
+			}
 
-		echo "\n\n***All Volumes***\n";
-		$total_volume = 0;
-		foreach( $volumes as $key => $volume) {
-			echo "$key BTC Volume: " . $volume['total_volume'] . "\n";
-			$total_volume += $volume['total_volume'];
 		}
-		echo "\n\n#####Total Volume: $total_volume#####\n\n";
 
 	}
 
