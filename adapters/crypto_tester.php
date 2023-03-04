@@ -27,6 +27,11 @@
 
 		}
 
+		private function test_info( $info ) {
+			if( is_null( $info ) )
+				die( "info mustn't be null" );
+		}
+
 		private function test_currencies( $currencies ) {
 			foreach( $currencies as $currency ) {
 				$keys = array( 'currency', 'aclass', 'altname', 'decimals', 'display_decimals', 'collateral_value', 'status' );

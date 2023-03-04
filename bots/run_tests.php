@@ -13,6 +13,12 @@
 		foreach( $Adapters as $Adapter ) {
 			echo "*** run_tests: " . get_class( $Adapter ) . " ***\n";
 
+			echo " -> getting info\n";
+			$info = $Adapter->get_info();
+			print_r( $info );
+			$Tester->test( 'info', $info );
+			die( "TEST" );
+			
 			echo " -> getting currencies\n";
 			$currencies = $Adapter->get_currencies();
 			//print_r( $currencies );
@@ -38,9 +44,9 @@
 
 			echo " -> getting market summary for random market to test with\n";
 			$market_summary = $Adapter->get_market_summary( $market );
-			print_r( $market_summary );
+			//print_r( $market_summary );
 			$Tester->test( 'market_summaries', array( $market_summary ) );
-			die( 'TEST' );
+			//die( 'TEST' );
 
 			//TODO run test on get_ohlc, get_trades, get_orderbook, get_spread
 

@@ -2,8 +2,7 @@
 
 	/*****
 		TODO
-			- the next most popular exchange and create an adapter for it.
-			- make sure to create an issue and mention that you are working on it so no wasted effort
+			- an adapter for Gemini exchange
 	 *****/
 
 	class GeminiAdapter extends CryptoBase implements CryptoExchange {
@@ -12,18 +11,9 @@
 			$this->exch = $Exch;
 		}
 
-		private function get_market_symbol( $market )
-		{
-			return 'METHOD_NOT_IMPLEMENTED';
-		}
-
-		private function unget_market_symbol( $market )
-		{
-			return 'METHOD_NOT_IMPLEMENTED';
-		}
-
 		public function get_info() {
-			return array( 'ERROR' => 'METHOD_NOT_IMPLEMENTED' );
+			$info = $this->exch->get_info();
+			return $info;
 		}
 
 		public function withdraw( $account = "exchange", $currency = "BTC", $address = "1fsdaa...dsadf", $amount = 1 ) {
