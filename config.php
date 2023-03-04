@@ -59,7 +59,6 @@
 
 	$coinbase_api_key = "INSERT_API_KEY_HERE";
 	$coinbase_api_secret = "INSERT_API_SECRET_HERE";
-	$coinbase_api_passphrase = 'INSERT_API_PASSPHRASE_HERE';
 
 	$kraken_api_key = "INSERT_API_KEY_HERE";
 	$kraken_api_secret = "INSERT_API_SECRET_HERE";
@@ -76,7 +75,7 @@
 	//$Adapters['Bitstamp']	= new BitstampAdapter( new Bitstamp( $bitstamp_api_key, $bitstamp_api_secret, $bitstamp_api_number ) );
 	//$Adapters['Bittrex']	= new BittrexAdapter( new Bittrex( $bittrex_api_key, $bittrex_api_secret ) );
 	//$Adapters['Bter']	= new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
-	//$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret, $coinbase_api_passphrase ) );
+	//$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret ) );
 	//$Adapters['Kraken']	= new KrakenAdapter( new Kraken( $kraken_api_key, $kraken_api_secret ) );
 	//$Adapters['Poloniex']	= new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
 

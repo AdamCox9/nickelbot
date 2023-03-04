@@ -45,7 +45,7 @@
 
 		//make_deposit_addresses( $Adapters );
 
-		//human_readable_summary( array( 0 => $Adapters['Bittrex'] ), array( ) );
+		//human_readable_summary( array( 0 => $Adapters['Coinbase'] ), array( ) );
 
 		//disperse_funds( $Adapters );
 
@@ -55,7 +55,7 @@
 
 		//run_tests( $Adapters, $Tester ); //All exchanges
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
-		
+		run_tests( array( 0 => $Adapters['Coinbase'] ), $Tester );
 		//run_tests( array( 0 => $Adapters['Kraken'] ), $Tester );
 		//die( "TEST" );
 		
@@ -120,7 +120,7 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 5,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 50,		//Top X Volume to filter markets by highest volume (filter by volume happens before filter by price change)
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 5 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
+						'ORDER_SIZE_MULTIPLIER' => 5 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
 
 		//Create SELL orders on Kraken:
 		make_orders(		array(	0 => $Adapters['Kraken'] ),		//Array of Adapters
@@ -131,7 +131,7 @@
 						'FILTER_BY_TOP_PRICE_CHANGE' => 200,	//X Largest Price Change based on PRICE_CHANGE_DIRECTION
 						'FILTER_BY_TOP_VOLUME' => 200,		//Top X Volume to filter markets by highest volume
 						'QUOTE_CURRENCY' => "XXBT",		//Could be list of quote currencies [BTC,ETH,USD,ETC...]
-						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance
+						'ORDER_SIZE_MULTIPLIER' => 10 ) );	//Multiply the MIN_ORDER_SIZE by this variable. 100% if > balance*/
 
 		/*
 			follow_walls:		Sample bot to place orders at walls.

@@ -5,13 +5,12 @@
 	class coinbase {
 		protected $api_key;
 		protected $api_secret;
-		protected $trading_url = "https://api.exchange.coinbase.com";
+		protected $trading_url = "https://api.coinbase.com/api/v3/brokerage";
 		
-		public function __construct($api_key, $api_secret,$passphrase) 
+		public function __construct( $api_key, $api_secret )
 		{
 			$this->api_key = $api_key;
 			$this->api_secret = $api_secret;
-			$this->passphrase = $passphrase;
 		}
 			
 		public function query( $method, $params = array(), $type = "GET" ) 
@@ -19,7 +18,6 @@
 
 			$key = $this->api_key;
 			$secret = $this->api_secret;
-			$passphrase = $this->passphrase;
 
 			$time = time();
 			$url = $this->trading_url . $method;
@@ -30,13 +28,20 @@
 
 			$sign = base64_encode( hash_hmac("sha256", $data, base64_decode( $secret ), true ) );                
 
+/*
+
+--header "CB-ACCESS-KEY: Sd55555555555tP3"
+--header "CB-ACCESS-SIGN: 35f238402bb2400aeb0a048dab64d6cd82d99590da255bd9afe1c1f37fd1686d"
+--header "CB-ACCESS-TIMESTAMP: 1667500462"
+*/
+
+
 			$headers = array(
 				'User-Agent: Coinbase Compatible PHP',
 				'Content-Type: application/json',
 				'CB-ACCESS-KEY: '.$key,
 				'CB-ACCESS-SIGN: '.$sign,
-				'CB-ACCESS-TIMESTAMP: '.$time,
-				'CB-ACCESS-PASSPHRASE: '.$passphrase
+				'CB-ACCESS-TIMESTAMP: '.$time
 			);
 
 			static $ch = null;
@@ -123,7 +128,10 @@
 		}
 
 		public function products() {
-			return $this->query('/products');
+			$products = $this->query('/products');
+			print_r( $products );
+			die( "TEST" );
+			return $products;
 		}
 
 		public function products_book( $product_id ) {
@@ -148,7 +156,7 @@
 		}
 
 		public function currencies() {
-			return $this->query('/currencies');
+			return $this->products();
 		}
 
 		public function get_time() {
