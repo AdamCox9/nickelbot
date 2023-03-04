@@ -55,8 +55,9 @@
 
 		//run_tests( $Adapters, $Tester ); //All exchanges
 		//run_tests( array( 0 => $Adapters['Bittrex'] ), $Tester );
-		run_tests( array( 0 => $Adapters['Coinbase'] ), $Tester );
+		//run_tests( array( 0 => $Adapters['Coinbase'] ), $Tester );
 		//run_tests( array( 0 => $Adapters['Kraken'] ), $Tester );
+		run_tests( array( 0 => $Adapters['Gemini'] ), $Tester );
 		//die( "TEST" );
 		
 		/*

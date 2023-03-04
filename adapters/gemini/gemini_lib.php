@@ -1,10 +1,8 @@
 <?php
 	
 	//implements yet another exchange
-	//copy template directory to exchangename directory
-	//change class name to exchangename
 
-	class template {
+	class gemini {
 		protected $api_key;
 		protected $api_secret;
 		protected $trading_url = "";

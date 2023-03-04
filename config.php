@@ -29,6 +29,7 @@
 	require_once( "adapters/bittrex/bittrex_lib.php" );
 	require_once( "adapters/bter/bter_lib.php" );
 	require_once( "adapters/coinbase/coinbase_lib.php" );
+	require_once( "adapters/gemini/gemini_lib.php" );
 	require_once( "adapters/kraken/kraken_lib.php" );
 	require_once( "adapters/poloniex/poloniex_lib.php" );
 
@@ -39,6 +40,7 @@
 	require_once( "adapters/bittrex/bittrex_adapter.php" );
 	require_once( "adapters/bter/bter_adapter.php" );
 	require_once( "adapters/coinbase/coinbase_adapter.php" );
+	require_once( "adapters/gemini/gemini_adapter.php" );
 	require_once( "adapters/kraken/kraken_adapter.php" );
 	require_once( "adapters/poloniex/poloniex_adapter.php" );
 
@@ -60,6 +62,9 @@
 	$coinbase_api_key = "INSERT_API_KEY_HERE";
 	$coinbase_api_secret = "INSERT_API_SECRET_HERE";
 
+	$gemini_api_key = "INSERT_API_KEY_HERE";
+	$gemini_api_secret = "INSERT_API_SECRET_HERE";
+
 	$kraken_api_key = "INSERT_API_KEY_HERE";
 	$kraken_api_secret = "INSERT_API_SECRET_HERE";
 
@@ -76,6 +81,7 @@
 	//$Adapters['Bittrex']	= new BittrexAdapter( new Bittrex( $bittrex_api_key, $bittrex_api_secret ) );
 	//$Adapters['Bter']	= new BterAdapter( new Bter( $bter_api_key, $bter_api_secret ) );
 	//$Adapters['Coinbase']	= new CoinbaseAdapter( new Coinbase( $coinbase_api_key, $coinbase_api_secret ) );
+	//$Adapters['Gemini']	= new GeminiAdapter( new Gemini( $gemini_api_key, $gemini_api_secret ) );
 	//$Adapters['Kraken']	= new KrakenAdapter( new Kraken( $kraken_api_key, $kraken_api_secret ) );
 	//$Adapters['Poloniex']	= new PoloniexAdapter( new Poloniex( $poloniex_api_key, $poloniex_api_secret ) );
 
