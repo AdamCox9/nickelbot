@@ -55,7 +55,7 @@
 			//Sort by percent change as specified by $_CONFIG['PRICE_CHANGE_DIRECTION']:
 			if( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
 				usort( $market_summaries, fn( $a, $b ) => $b['percent_change'] <=> $a['percent_change'] );
-			elseif( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "ASC" )
+			elseif( $_CONFIG['PRICE_CHANGE_DIRECTION'] == "DESC" )
 				usort( $market_summaries, fn( $a, $b ) => $a['percent_change'] <=> $b['percent_change'] );
 
 			//Get top markets by percent_change as specified by $_CONFIG['FILTER_BY_TOP_PRICE_CHANGE']:
@@ -85,9 +85,10 @@
 				$buy_price = bcmul( $bid, $_CONFIG['BUY_ORDER_PERCENT_DIFF'], $precision);			//_____set order at X percent below bid //$buy_price = $market_summary['bid'] + $epsilon; //_____buy at one unit above highest bid.
 				$sell_price = bcmul( $ask, $_CONFIG['SELL_ORDER_PERCENT_DIFF'], $precision);			//$market_summary['ask'] - $epsilon; //_____sell at one unit below lowest ask.
 				$spread = $sell_price - $buy_price;								//_____difference between highest bid and lowest ask.
+				$percent_change = $market_summary['percent_change'];
 
 				echo " -> " . get_class( $Adapter ) . ":$market \n";
-				echo " -> base currency: $base_cur, balance: $base_bal \n";
+				echo " -> base currency: $base_cur($percent_change%), balance: $base_bal \n";
 				echo " -> quote currency: $quote_cur, balance: $quote_bal \n";
 				echo " -> bid: $bid \n";
 				echo " -> ask: $ask \n";

@@ -105,20 +105,12 @@
 				return array( 'ERROR' => $Ticker['error'] );
 			}
 
-			$OHLC = $this->get_ohlc( $market, 1440, time() - 24*60*60 );
-			if( $OHLC['error'] ) {
-				return array( 'ERROR' => $Ticker['OHLC'] );
-			}
-
 			$market_summary = array_merge( array_pop( $AssetPairs['result'] ), array_pop( $Ticker['result'] ) );
 			$market_summary['market'] = $market;
 
-			$hour24_price = $OHLC['result'][$market][0][1];
-			$current_price = $market_summary['c'][0];
-			$price_change = $current_price / ( $current_price - abs( $hour24_price - $current_price ) );
-			if( $current_price > $hour24_price )
-				$price_change = -1 * $price_change;
-			$market_summary['percent_change'] = $price_change;
+
+//percent change
+
 
 			$this->market_summaries[$market] = $this->standardize_market_summary( $market_summary );
 			return $this->market_summaries[$market];
@@ -140,6 +132,8 @@
 
 			$market_summaries = $AssetPairs['result'];
 
+			unset( $market_summaries['1INCHEUR'] );
+			
 			foreach( $market_summaries as $market => $market_summary ) {
 				if( isset( $Ticker[$market] ) ) {
 					$market_summary = array_merge( $market_summary, $Ticker[$market] );
@@ -205,6 +199,10 @@
 			//die( "TEST" );
 		
 			$market_summary['exchange'] = "Kraken";
+
+			$hour24_price = $market_summary['p'][1]; //volume weighted avg price 24 hours...close enough...
+			$current_price = $market_summary['c'][0];
+			$market_summary['percent_change'] = $hour24_price * ( $current_price - $hour24_price ) * 100;
 			
 			$market_summary['ask'] = $market_summary['a'][0];
 			$market_summary['bid'] = $market_summary['b'][0];

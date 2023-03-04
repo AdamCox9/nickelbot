@@ -13,7 +13,7 @@
 
 			$currencies		= $Adapter->get_currencies( );
 			$markets		= $Adapter->get_markets( );
-			$market_summaries	= $Adapter->get_market_summaries( );
+			//$market_summaries	= $Adapter->get_market_summaries( );
 			$balances		= $Adapter->get_balances( );
 
 			echo "\n\nAll Currencies(" . sizeof( $currencies ) . ")\n";
@@ -27,9 +27,15 @@
 			}
 
 			echo "\n\n***All Balances***\n";
-			foreach( $balances as $market => $balance ) {
-				if( $balance['total'] > 0 )
-					echo "$market Balance: " . $balance['total'] . "\n";
+			foreach( $balances as $currency => $balance ) {
+				if( $balance['total'] > 0 ) {
+					echo "$currency Balance: " . $balance['total'] . "\n";
+
+					//How to accurately get BTC market across all Adapters? 
+					//$market_summary = $Adapter->get_market_summary( $market );
+					//echo "Last Price: " . $market_summary['last'] . "\n";
+					//echo "Bitcoin Value: " . $market_summary['last']
+				}
 			}
 
 		}
